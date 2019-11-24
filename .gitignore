@@ -1,8 +1,9 @@
 # API Keys
 creds.py
 
-# Folders
-Ignore/
+# Folders and history
+ignore/
+data/chipmaligno.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
