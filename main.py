@@ -13,13 +13,16 @@
 # Load libraries
 import aux
 import creds
+import ignoredArtists as ign
 import pandas as pd
 
 ##############################################################################
 # Setup PATHs
 ##############################################################################
-# Working directory
-BASE_PATH = '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/'
+# Working directories
+(BASE_PATH, OUT_PATH) = (
+        '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/', 'out'
+    )
 
 # Load CSV with history data
 (HIST_PATH, HIST_NAME) = (
@@ -30,7 +33,17 @@ BASE_PATH = '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/'
 ##############################################################################
 # Read and shape CSV
 ##############################################################################
-pd.read_csv(
+data = pd.read_csv(
         HIST_PATH + HIST_NAME,
-        header=None, names=['Artist', 'Album', 'Song', 'Date']
+        header=None, parse_dates=[3],
+        names=['Artist', 'Album', 'Song', 'Date']
     )
+
+##############################################################################
+# Process artists
+##############################################################################
+artists = sorted(data.get('Artist').unique())
+# Export artists list
+with open(BASE_PATH + OUT_PATH + '/artists.txt', "w") as output:
+    output.write(str(artists))
+ign.BAN
