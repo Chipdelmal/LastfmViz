@@ -7,6 +7,7 @@ creds.py
 # Folders and history
 ignore/
 data/chipmaligno.csv
+data/chipmaligno_artists.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
