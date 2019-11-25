@@ -1,8 +1,10 @@
-# lastfm Visualizer
+# [Last.fm](https://www.last.fm/) dataViz
 
-1. Download your [lastfm](https://www.last.fm/) history with: https://benjaminbenben.com/lastfm-to-csv/.
+**[Under development]**
+
+1. Download your [Last.fm](https://www.last.fm/) history with: https://benjaminbenben.com/lastfm-to-csv/
 2. Place your CSV file in the [data](./data) folder.
-3. Change your paths and directories in [setup](./setup.py).
+3. Change your paths and username in [setup](./setup.py).
 
 ##  Files
 
