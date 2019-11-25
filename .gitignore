@@ -8,6 +8,7 @@ creds.py
 ignore/
 data/chipmaligno.csv
 data/chipmaligno_artists.csv
+stats/artistsPlaycount.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
