@@ -10,10 +10,8 @@
 # Lastfm scrobbles visualizer
 ##############################################################################
 
-# Load libraries
 import aux
-import creds
-import ignoredArtists as ign
+# import creds
 import pandas as pd
 
 ##############################################################################
@@ -33,7 +31,7 @@ import pandas as pd
 ##############################################################################
 # Read and shape CSV
 ##############################################################################
-data = pd.read_csv(
+dataRaw = pd.read_csv(
         HIST_PATH + HIST_NAME,
         header=None, parse_dates=[3],
         names=['Artist', 'Album', 'Song', 'Date']
@@ -42,8 +40,12 @@ data = pd.read_csv(
 ##############################################################################
 # Process artists
 ##############################################################################
-artists = sorted(data.get('Artist').unique())
-# Export artists list
-with open(BASE_PATH + OUT_PATH + '/artists.txt', "w") as output:
-    output.write(str(artists))
-ign.BAN
+artistsRaw = sorted(dataRaw.get('Artist').unique())
+# Remove artists present in the BAN list
+data = dataRaw[~dataRaw['Artist'].isin(aux.BAN)]
+artists= sorted(data.get('Artist').unique())
+artistCount = data.groupby('Artist').size().sort_values(ascending=False)
+artistCount.to_csv(
+        BASE_PATH + OUT_PATH + '/artistsPlaycount.csv',
+        header=False
+    )
