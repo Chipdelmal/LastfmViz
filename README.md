@@ -9,3 +9,9 @@
 * [setup.py](./setup.py): Paths, username, and 'banned list' settings.
 * [clean.py](./clean.py): Routines to clean up the database.
 * [artistFreq.py](./artistFreq): Artists frequencies plots and analyses.
+
+## Author
+
+<img src="./media/pusheen.jpg" height="130px" align="middle"><br>
+
+[Héctor M. Sánchez C.](https://chipdelmal.github.io/)
