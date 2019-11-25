@@ -11,7 +11,6 @@
 ##############################################################################
 
 import aux
-# import creds
 import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS
@@ -26,9 +25,9 @@ from wordcloud import WordCloud, STOPWORDS
     )
 
 # Load CSV with history data
-(HIST_PATH, HIST_NAME) = (
+(HIST_PATH, USR_NAME) = (
         '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/data/',
-        'chipmaligno.csv'
+        'chipmaligno'
     )
 
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
@@ -37,7 +36,7 @@ from wordcloud import WordCloud, STOPWORDS
 # Read and shape CSV
 ##############################################################################
 dataRaw = pd.read_csv(
-        HIST_PATH + HIST_NAME,
+        HIST_PATH + USR_NAME + '.csv',
         header=None, parse_dates=[3],
         names=['Artist', 'Album', 'Song', 'Date']
     )
@@ -61,7 +60,7 @@ artistCount[0:30].plot.bar()
 plt.xticks(rotation=90)
 plt.xlabel("")
 plt.ylabel("Play Count")
-plt.show()
+
 
 # Wordcloud
 wordcloudDef = WordCloud(
