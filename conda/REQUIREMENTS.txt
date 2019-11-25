@@ -42,11 +42,13 @@ pandocfilters=1.4.2=pypi_0
 parso=0.5.1=pypi_0
 pexpect=4.7.0=pypi_0
 pickleshare=0.7.5=pypi_0
+pillow=6.2.1=pypi_0
 pip=19.3.1=py37_0
 prometheus-client=0.7.1=pypi_0
 prompt-toolkit=2.0.10=pypi_0
 ptyprocess=0.6.0=pypi_0
 pygments=2.4.2=pypi_0
+pylast=3.1.0=pypi_0
 pyparsing=2.4.5=pypi_0
 pyrsistent=0.15.6=pypi_0
 python=3.7.3=h93065d6_1
@@ -68,6 +70,7 @@ wcwidth=0.1.7=pypi_0
 webencodings=0.5.1=pypi_0
 wheel=0.33.6=py37_0
 widgetsnbextension=3.5.1=pypi_0
+wordcloud=1.6.0=pypi_0
 xz=5.2.4=h1de35cc_1001
 zipp=0.6.0=pypi_0
 zlib=1.2.11=h0b31af3_1006

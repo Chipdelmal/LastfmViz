@@ -21,7 +21,7 @@ from wordcloud import WordCloud, STOPWORDS
 ##############################################################################
 # Working directories
 (BASE_PATH, OUT_PATH, IMG_PATH) = (
-        '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/', 'out', 'img'
+        '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/', 'stats', 'img'
     )
 
 # Load CSV with history data
