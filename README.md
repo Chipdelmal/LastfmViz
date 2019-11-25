@@ -6,6 +6,8 @@
 2. Place your CSV file in the [data](./data) folder.
 3. Change your paths and username in [setup](./setup.py).
 
+Inspired by: [Analyzing Last.fm Listening History](https://geoffboeing.com/2016/05/analyzing-lastfm-history/) by [gboeing](https://geoffboeing.com/author/geoff/).
+
 ##  Files
 
 * [setup.py](./setup.py): Paths, username, and 'banned list' settings.
