@@ -14,5 +14,5 @@ BAN = set([
         'Rock En Tu Idioma', 'SGU Productions', 'Startalk radio',
         "The Skeptics' Guide to the Universe", '[unknown]', 'chipdelmal',
         'dawsons creek', 'iHeartRadio & HowStuffWorks', 'XTC',
-        'Fraser Cain & Dr. Pamela Gay'
+        'Fraser Cain & Dr. Pamela Gay', 'Hombres G', 'Mecano'
     ])

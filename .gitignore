@@ -1,3 +1,6 @@
+# Media
+*.png
+
 # API Keys
 creds.py
 
