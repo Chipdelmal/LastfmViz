@@ -1,8 +1,6 @@
 # Media and Fonts
 *.png
-*.TTF
 *.html
-*.otf
 fonts/*.txt
 fonts/*.pdf
 

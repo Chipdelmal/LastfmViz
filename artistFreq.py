@@ -12,15 +12,10 @@
 
 import setup as stp
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 # %matplotlib inline
-
-##############################################################################
-# Aesthetics parameters
-##############################################################################
-(WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
-font = 'Prompt-Thin.ttf'
 
 ##############################################################################
 # Read artists file
@@ -39,24 +34,19 @@ artistCount.to_csv(stp.STAT_PATH + '/artistsPlaycount.csv', header=False)
 ##############################################################################
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-<<<<<<< HEAD
-        relative_scaling=1, min_font_size=8,
-        background_color='Black', colormap='bwr'
-=======
         relative_scaling=1, min_font_size=12,
-        background_color='Black', colormap='Purples',
-        font_path=stp.FONT_PATH + font
->>>>>>> 710f4e0d652a98a3e6dbe67f0877e634a2c03004
+        background_color='White', colormap=stp.dark_blue1,
+        font_path=stp.FONT
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 # ax1 = plt.axes(frameon=False)
 plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='k')
-plt.imshow(wordcloud, interpolation='bilinear')
+# plt.imshow(wordcloud, interpolation='bilinear')
 plt.tight_layout(pad=0)
 plt.axis("off")
 plt.savefig(
         stp.IMG_PATH + '/artistWordcloud.png',
-        dpi=RESOLUTION, facecolor='k', edgecolor='w',
+        dpi=RESOLUTION, facecolor='White', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches=None, pad_inches='tight',
         metadata=None

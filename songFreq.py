@@ -20,7 +20,6 @@ from wordcloud import WordCloud
 # Aesthetics parameters
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
-font = 'Prompt-Thin.ttf'
 
 ##############################################################################
 # Read artists file
@@ -38,7 +37,7 @@ wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
         relative_scaling=1, min_font_size=12,
         background_color='Black', colormap='Purples',
-        font_path=stp.FONT_PATH + font
+        font_path=stp.FONT
     )
 wordcloud = wordcloudDef.generate_from_frequencies(songCount)
 ax1 = plt.axes(frameon=False)
