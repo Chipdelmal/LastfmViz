@@ -1,3 +1,21 @@
+import musicbrainzngs as mb
+
+def getArtistInfo(artist, top=5):
+    srch = mb.search_artists(artist=artist).get('artist-list')
+    if len(srch) > 0:
+        info = mb.search_artists(artist=artist).get('artist-list')[0]
+        (id, name, country, city, genre) = (
+                info.get('id'), info.get('name'), info.get('country'),
+                getArea(info), getTopGenres(info, top=top)
+            )
+        tmp = [name, country, city, id]
+        tmp.extend(genre)
+        return tmp
+    else:
+        tmp = [artist, None, None, None]
+        tmp.extend(top * [None])
+        return tmp
+
 
 def padList(l, n):
     l.extend([None] * n)

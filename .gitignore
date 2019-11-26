@@ -11,6 +11,7 @@ keys.py
 ignore/
 data/chipmaligno.csv
 data/chipmaligno_artists.csv
+data/chipmaligno_mb.csv
 stats/artistsPlaycount.csv
 stats/songsPlaycount.csv
 
