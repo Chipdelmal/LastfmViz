@@ -1,4 +1,4 @@
-# import aux
+import aux
 import keys
 import musicbrainzngs as mb
 
@@ -9,10 +9,12 @@ mb.set_useragent("lastfm", "0.1", "http://chipdelmal.github.io")
 # artist_id = "c5c2ea1c-4bde-4f4d-bd0b-47b200bf99d6"
 # result = mb.get_artist_by_id(artist_id)
 
-artist = 'Radiohead'
+artist = 'Lucky Soul'
 info = mb.search_artists(artist=artist).get('artist-list')[0]
-(id, name, country, genre) = (
+(id, name, country, city, genre) = (
         info.get('id'), info.get('name'), info.get('country'),
-        aux.getTopGenres(info, top=3)
+        aux.getArea(info), aux.getTopGenres(info, top=5)
     )
-print('{0}, {1}, {2}, {3}'.format(id, name, country, genre))
+tmp = [name, country, city, id]
+tmp.extend(genre)
+tmp

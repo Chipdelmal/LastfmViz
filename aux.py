@@ -1,6 +1,6 @@
 
 def padList(l, n):
-    l.extend([0] * n)
+    l.extend([None] * n)
     l = l[:n]
     return l
 
@@ -20,4 +20,14 @@ def getTopGenres(info, top=3):
             tmp = [i[1] for i in lst[0:len(lst)]]
             return padList(tmp, top)
     else:
-        return [None, None, None]
+        return [None] * top
+
+
+def getArea(info):
+    area = info.get('begin-area')
+    if area is not None:
+        city = area.get('name')
+        if city is not None:
+            return city
+    else:
+        return None
