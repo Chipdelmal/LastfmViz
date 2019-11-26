@@ -38,11 +38,11 @@ artistCount.to_csv(stp.STAT_PATH + '/artistsPlaycount.csv', header=False)
 ##############################################################################
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-        relative_scaling=1, min_font_size=12,
-        background_color='Black', colormap='Purples'
+        relative_scaling=1, min_font_size=8,
+        background_color='Black', colormap='bwr'
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
-ax1 = plt.axes(frameon=False)
+# ax1 = plt.axes(frameon=False)
 plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='k')
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.tight_layout(pad=0)
