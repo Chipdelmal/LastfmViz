@@ -1,5 +1,10 @@
-# Media
+# Media and Fonts
 *.png
+*.TTF
+*.html
+*.otf
+fonts/*.txt
+fonts/*.pdf
 
 # API Keys
 creds.py

@@ -15,10 +15,11 @@
 ##############################################################################
 USR = 'chipmaligno'
 BASE_PATH = '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/'
-(DATA_PATH, STAT_PATH, IMG_PATH) = (
+(DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH) = (
         BASE_PATH + 'data/',
         BASE_PATH + 'stats/',
-        BASE_PATH + 'img/'
+        BASE_PATH + 'img/',
+        BASE_PATH + 'fonts/'
     )
 
 ##############################################################################
