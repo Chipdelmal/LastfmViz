@@ -28,7 +28,7 @@ data = pd.read_csv(stp.DATA_PATH + stp.USR + '_artists.csv', parse_dates=[3])
 
 songs = sorted(data.get('Song').unique())
 songCount = data.groupby('Song').size().sort_values(ascending=False)
-songCount.to_csv(stp.STAT_PATH + '/songPlaycount.csv', header=False)
+songCount.to_csv(stp.STAT_PATH + '/songsPlaycount.csv', header=False)
 
 ##############################################################################
 # Wordcloud

@@ -5,13 +5,14 @@ fonts/*.txt
 fonts/*.pdf
 
 # API Keys
-creds.py
+keys.py
 
 # Folders and history
 ignore/
 data/chipmaligno.csv
 data/chipmaligno_artists.csv
 stats/artistsPlaycount.csv
+stats/songsPlaycount.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
