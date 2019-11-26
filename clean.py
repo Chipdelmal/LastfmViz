@@ -28,3 +28,17 @@ dataRaw = pd.read_csv(
 artistsRaw = sorted(dataRaw.get('Artist').unique())
 data = dataRaw[~dataRaw['Artist'].isin(stp.BAN)]
 data.to_csv(stp.DATA_PATH + 'chipmaligno_artists.csv', index=False)
+
+##############################################################################
+# Process artists: Counts Ranking
+##############################################################################
+artists = sorted(data.get('Artist').unique())
+artistCount = data.groupby('Artist').size().sort_values(ascending=False)
+artistCount.to_csv(stp.STAT_PATH + '/artistsPlaycount.csv', header=False)
+
+##############################################################################
+# Process songs: Counts Ranking
+##############################################################################
+songs = sorted(data.get('Song').unique())
+songCount = data.groupby('Song').size().sort_values(ascending=False)
+songCount.to_csv(stp.STAT_PATH + '/songsPlaycount.csv', header=False)

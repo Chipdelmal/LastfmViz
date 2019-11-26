@@ -22,13 +22,8 @@ from wordcloud import WordCloud
 # Read artists file
 ##############################################################################
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_artists.csv', parse_dates=[3])
-
-##############################################################################
-# Process artists
-##############################################################################
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
-artistCount.to_csv(stp.STAT_PATH + '/artistsPlaycount.csv', header=False)
 
 ##############################################################################
 # Wordcloud
