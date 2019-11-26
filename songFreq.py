@@ -27,45 +27,29 @@ font = 'Prompt-Thin.ttf'
 ##############################################################################
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_artists.csv', parse_dates=[3])
 
-##############################################################################
-# Process artists
-##############################################################################
-artists = sorted(data.get('Artist').unique())
-artistCount = data.groupby('Artist').size().sort_values(ascending=False)
-artistCount.to_csv(stp.STAT_PATH + '/artistsPlaycount.csv', header=False)
+songs = sorted(data.get('Song').unique())
+songCount = data.groupby('Song').size().sort_values(ascending=False)
+songCount.to_csv(stp.STAT_PATH + '/songPlaycount.csv', header=False)
 
 ##############################################################################
 # Wordcloud
 ##############################################################################
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-<<<<<<< HEAD
-        relative_scaling=1, min_font_size=8,
-        background_color='Black', colormap='bwr'
-=======
         relative_scaling=1, min_font_size=12,
         background_color='Black', colormap='Purples',
         font_path=stp.FONT_PATH + font
->>>>>>> 710f4e0d652a98a3e6dbe67f0877e634a2c03004
     )
-wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
-# ax1 = plt.axes(frameon=False)
+wordcloud = wordcloudDef.generate_from_frequencies(songCount)
+ax1 = plt.axes(frameon=False)
 plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='k')
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.tight_layout(pad=0)
 plt.axis("off")
 plt.savefig(
-        stp.IMG_PATH + '/artistWordcloud.png',
+        stp.IMG_PATH + '/songWordcloud.png',
         dpi=RESOLUTION, facecolor='k', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches=None, pad_inches='tight',
         metadata=None
     )
-
-##############################################################################
-# Barchart
-##############################################################################
-# artistCount[0:30].plot.bar()
-# plt.xticks(rotation=90)
-# plt.xlabel("")
-# plt.ylabel("Play Count")
