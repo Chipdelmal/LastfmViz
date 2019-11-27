@@ -53,7 +53,7 @@ BAN = set([
         'dawsons creek', 'iHeartRadio & HowStuffWorks', 'XTC',
         'Fraser Cain & Dr. Pamela Gay', 'Hombres G', 'Mecano',
         'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
-        'Desiree Schell & K.O. Myers', 'Rebecca Watson'. 'Mägo de Oz',
+        'Desiree Schell & K.O. Myers', 'Rebecca Watson', 'Mägo de Oz',
         'David Summers', 'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
         'Rata Blanca'
     ])

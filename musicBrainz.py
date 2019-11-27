@@ -16,7 +16,7 @@ import setup as stp
 import pandas as pd
 import musicbrainzngs as mb
 
-FILE_PATH = stp.DATA_PATH + 'chipmaligno_mb.csv'
+FILE_PATH = stp.DATA_PATH + stp.USR + '_mb.csv'
 # Logging in
 mb.auth(keys.MB_USR, keys.MB_PSW)
 mb.set_useragent("lastfm", "0.1", "http://chipdelmal.github.io")
