@@ -30,12 +30,13 @@ data = data.fillna('NA')
 # Setup Style #################################################################
 PAD = 25
 COLORS = [
-        aux.rescaleRGBA((0, 76, 255, 255/2.5)),    # 0: Faded navy blue
-        aux.rescaleRGBA((255, 0, 152, 255/1)),      # 1: Magenta
+        aux.rescaleRGBA((0, 76, 255, 255/2.5)),     # 0: Faded navy blue
+        aux.rescaleRGBA((217, 3, 104, 255/1)),      # 1: Magenta
         aux.rescaleRGBA((37, 216, 17, 255/6)),      # 2: Bright green
-        aux.rescaleRGBA((255, 255, 255, 255/1)),    # 3: White
+        aux.rescaleRGBA((255, 255, 255, 255/5)),    # 3: White
         aux.rescaleRGBA((0, 169, 255, 255/7.5)),    # 4: Cyan
-        aux.rescaleRGBA((0, 0, 0, 255/1))           # 5: Black
+        aux.rescaleRGBA((0, 0, 0, 255/1)),          # 5: Black
+        aux.rescaleRGBA((135, 147, 255, 255/1))
     ]
 # Filter NA ###################################################################
 coordinates = []
@@ -60,8 +61,8 @@ map.drawmapboundary(fill_color=COLORS[5])
 # map.drawcountries(color=COLORS[0], linewidth=2)
 map.scatter(
         [i[0] for i in coordinates], [i[1] for i in coordinates],
-        s=.25, alpha=.1, marker="1",
-        edgecolors=COLORS[1], color=COLORS[1], zorder=2
+        s=.01, alpha=.5, marker=".",
+        edgecolors=COLORS[6], color=COLORS[6], zorder=2
     )
 plt.savefig(
         stp.IMG_PATH + "Map.png",

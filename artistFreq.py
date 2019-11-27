@@ -31,8 +31,8 @@ artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
         relative_scaling=1, min_font_size=15,
-        background_color='Black', colormap='Purples',
-        font_path=stp.FONT
+        background_color='rgba(0, 0, 0, 1)', mode='RGBA',
+        colormap='Purples', font_path=stp.FONT
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 # ax1 = plt.axes(frameon=False)
