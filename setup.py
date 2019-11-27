@@ -25,6 +25,7 @@ BASE_PATH = '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/'
         BASE_PATH + 'fonts/'
     )
 FONT = FONT_PATH + 'Prompt/Prompt-Thin.ttf'
+TOP_GENRES = 3
 ##############################################################################
 # Ban list: Artists excluded from the analyses
 ##############################################################################
