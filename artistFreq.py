@@ -21,7 +21,7 @@ from wordcloud import WordCloud
 ##############################################################################
 # Read artists file
 ##############################################################################
-data = pd.read_csv(stp.DATA_PATH + stp.USR + '_artists.csv', parse_dates=[3])
+data = pd.read_csv(stp.DATA_PATH + stp.USR + '_art.csv', parse_dates=[3])
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 

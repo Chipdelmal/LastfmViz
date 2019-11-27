@@ -25,7 +25,7 @@ BASE_PATH = '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/'
         BASE_PATH + 'fonts/'
     )
 FONT = FONT_PATH + 'Prompt/Prompt-Thin.ttf'
-TOP_GENRES = 3
+(TOP_GENRES, GEO_SIZE) = (3, 6)
 ##############################################################################
 # Ban list: Artists excluded from the analyses
 ##############################################################################
@@ -56,5 +56,5 @@ BAN = set([
         'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
         'Desiree Schell & K.O. Myers', 'Rebecca Watson', 'Mägo de Oz',
         'David Summers', 'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
-        'Rata Blanca'
+        'Rata Blanca', 'Starcraft'
     ])

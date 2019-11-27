@@ -9,9 +9,10 @@
 # ----------------------------------------------------------------------------
 # Functions definitions
 ##############################################################################
-
+import setup as stp
 import musicbrainzngs as mb
 from geopy.geocoders import Nominatim
+from mpl_toolkits.basemap import Basemap
 geolocator = Nominatim(user_agent="lastfm")
 
 
@@ -67,16 +68,40 @@ def getArea(info):
 
 
 def geocodeEntries(info):
-    GEO_SIZE = 6
     (tmp, p1, p2) = (info, info[1], info[2])
     if p1 is None: p1 = '';
     if p2 is None: p2 = '';
     location = geolocator.geocode(p1 + ' ' + p2)
     if location is None:
-        tmp.extend(GEO_SIZE * [None])
+        tmp.extend(stp.GEO_SIZE * [None])
     else:
         tmp.extend([location.latitude, location.longitude])
         gcList = [i.strip() for i in location.address.split(',')]
         gcList.reverse()
-        tmp.extend(padList(gcList, GEO_SIZE))
+        tmp.extend(padList(gcList, stp.GEO_SIZE))
     return tmp
+
+
+def generateMBHeader(topGenres, geoSize):
+    partA = ['Artist', 'MB_Geo1', 'MB_Geo2', 'MB_Hash']
+    gnrPad = ['Gen_' + str(i) for i in range(1, topGenres + 1)]
+    geoPad = ['Geo_' + str(i) for i in range(1, geoSize + 1)]
+    partA.extend(gnrPad)
+    partA.extend(['Lat', 'Lon'])
+    partA.extend(geoPad)
+    return partA
+
+
+def createBasemapInstance(minLat, maxLat, minLon, maxLon, pad=1.5):
+    base = Basemap(projection='merc',
+        lat_0=(maxLat - minLat)/2, lon_0=(maxLon - minLon)/2,
+        resolution='l', area_thresh=0.1,
+        llcrnrlon=minLon - pad, llcrnrlat=minLat - pad,
+        urcrnrlon=maxLon + pad, urcrnrlat=maxLat + pad,
+        epsg=4269
+    )
+    return base
+
+
+def rescaleRGBA(colorsTuple, colors=255):
+    return [i/colors for i in colorsTuple]
