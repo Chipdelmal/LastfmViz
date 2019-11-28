@@ -3,6 +3,7 @@
 *.html
 fonts/*.txt
 fonts/*.pdf
+fonts/other/
 
 # API Keys
 keys.py
