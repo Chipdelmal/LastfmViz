@@ -11,11 +11,10 @@
 ##############################################################################
 import setup as stp
 import musicbrainzngs as mb
-import geopy
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 from mpl_toolkits.basemap import Basemap
-geolocator = Nominatim(user_agent="lastmg")
+geolocator = Nominatim(user_agent="lastfm")
 
 
 def do_geocode(address):
