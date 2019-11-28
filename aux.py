@@ -11,9 +11,18 @@
 ##############################################################################
 import setup as stp
 import musicbrainzngs as mb
+import geopy
 from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut
 from mpl_toolkits.basemap import Basemap
-geolocator = Nominatim(user_agent="lastfm")
+geolocator = Nominatim(user_agent="lastmg")
+
+
+def do_geocode(address):
+    try:
+        return geolocator.geocode(address)
+    except GeocoderTimedOut:
+        return do_geocode(address)
 
 
 def getArtistInfo(artist, topGenres=3):
@@ -33,17 +42,17 @@ def getArtistInfo(artist, topGenres=3):
         return tmp
 
 
-def padList(l, n):
-    l.extend([None] * n)
-    l = l[:n]
-    return l
+def padList(lst, n):
+    lst.extend([None] * n)
+    lst = lst[:n]
+    return lst
 
 
 def getTopGenres(info, topGenres=3):
     tags = info.get('tag-list')
     # Check that genres are available
     if tags is not None:
-        lst=[]
+        lst = []
         for i in info.get('tag-list'):
             lst.append((int(i.get('count')), i.get('name')))
         lst.sort(reverse=True)
@@ -69,9 +78,11 @@ def getArea(info):
 
 def geocodeEntries(info):
     (tmp, p1, p2) = (info, info[1], info[2])
-    if p1 is None: p1 = '';
-    if p2 is None: p2 = '';
-    location = geolocator.geocode(p1 + ' ' + p2)
+    if p1 is None:
+        p1 = ''
+    if p2 is None:
+        p2 = ''
+    location = do_geocode(p1 + ' ' + p2)
     if location is None:
         tmp.extend(stp.GEO_SIZE * [None])
     else:
@@ -94,12 +105,12 @@ def generateMBHeader(topGenres, geoSize):
 
 def createBasemapInstance(minLat, maxLat, minLon, maxLon, pad=1.5):
     base = Basemap(projection='merc',
-        lat_0=(maxLat - minLat)/2, lon_0=(maxLon - minLon)/2,
-        resolution='l', area_thresh=0.1,
-        llcrnrlon=minLon - pad, llcrnrlat=minLat - pad,
-        urcrnrlon=maxLon + pad, urcrnrlat=maxLat + pad,
-        epsg=4269
-    )
+                   lat_0=(maxLat - minLat)/2, lon_0=(maxLon - minLon)/2,
+                   resolution='l', area_thresh=0.1,
+                   llcrnrlon=minLon - pad, llcrnrlat=minLat - pad,
+                   urcrnrlon=maxLon + pad, urcrnrlat=maxLat + pad,
+                   epsg=4269
+                   )
     return base
 
 

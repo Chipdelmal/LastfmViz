@@ -143,3 +143,5 @@ dmypy.json
 .pyre/
 data/chipmaligno_art.csv
 data/chipmaligno_mbz.csv
+data/vferman.csv
+data/vferman_art.csv
