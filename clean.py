@@ -27,7 +27,7 @@ dataRaw = pd.read_csv(
 ##############################################################################
 artistsRaw = sorted(dataRaw.get('Artist').unique())
 data = dataRaw[~dataRaw['Artist'].isin(stp.BAN)]
-data.to_csv(stp.DATA_PATH + 'chipmaligno_artists.csv', index=False)
+data.to_csv(stp.DATA_PATH + stp.USR + '_art.csv', index=False)
 
 ##############################################################################
 # Process artists: Counts Ranking

@@ -25,6 +25,7 @@ BASE_PATH = '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/'
         BASE_PATH + 'fonts/'
     )
 FONT = FONT_PATH + 'Prompt/Prompt-Thin.ttf'
+(TOP_GENRES, GEO_SIZE) = (3, 6)
 ##############################################################################
 # Ban list: Artists excluded from the analyses
 ##############################################################################
@@ -51,9 +52,9 @@ BAN = set([
         'Rock En Tu Idioma', 'SGU Productions', 'Startalk radio',
         "The Skeptics' Guide to the Universe", '[unknown]', 'chipdelmal',
         'dawsons creek', 'iHeartRadio & HowStuffWorks', 'XTC',
-        'Fraser Cain & Dr. Pamela Gay', 'Hombres G', 'Mecano',
+        'Fraser Cain & Dr. Pamela Gay', 'Mychael Danna & Rob Simonsen'
         'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
-        'Desiree Schell & K.O. Myers', 'Rebecca Watson'. 'Mägo de Oz',
+        'Desiree Schell & K.O. Myers', 'Rebecca Watson', 'Mägo de Oz',
         'David Summers', 'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
-        'Rata Blanca'
+        'Rata Blanca', 'Starcraft'
     ])

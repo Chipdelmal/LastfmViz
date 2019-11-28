@@ -141,3 +141,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+data/chipmaligno_art.csv
+data/chipmaligno_mbz.csv
