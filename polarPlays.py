@@ -37,8 +37,6 @@ data = pd.read_csv(
     )
 msk = data['Date'] > '2000-01-01'
 dates = data.loc[msk]["Date"]
-fxDate = pd.to_datetime(dates, unit='ms').dt.tz_localize('UTC').dt.tz_convert('US/Pacific')
-data["Date"] = fxDate
 hoursPlays = [i.hour for i in data["Date"]]
 
 ####
