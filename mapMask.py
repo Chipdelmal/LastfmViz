@@ -89,3 +89,5 @@ plt.savefig(
         dpi=1000, bbox_inches='tight', pad_inches=0.0, frameon=None
     )
 plt.close()
+
+data[2]
