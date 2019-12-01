@@ -9,10 +9,10 @@
 # ----------------------------------------------------------------------------
 # Artists frequencies routines
 ##############################################################################
-import math
+# import math
 import setup as stp
 import pandas as pd
-import matplotlib
+# import matplotlib
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 # %matplotlib inline
