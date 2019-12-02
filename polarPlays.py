@@ -10,6 +10,7 @@
 # Polar plot routines
 ##############################################################################
 
+import datetime
 import setup as stp
 import numpy as np
 import pandas as pd
@@ -32,18 +33,11 @@ data = pd.read_csv(
         stp.DATA_PATH + stp.USR + '_art.csv',
         parse_dates=[3]
     )
-msk = data['Date'] > '2000-01-01'
+msk = [i.date() > datetime.date(2017, 6, 1) for i in data['Date']]
 dates = data.loc[msk]["Date"]
 hoursPlays = sorted([i.hour for i in data["Date"] if str(i.hour) != 'nan'])
 hoursFreq = [len(list(group)) for key, group in groupby(hoursPlays)]
 hoursFreq.reverse()
-
-#############################################################################
-# Histogram
-#############################################################################
-fig, axs = plt.subplots(1, sharey=True, tight_layout=True)
-axs.hist(hoursPlays, bins=24)
-
 
 #############################################################################
 # Polar
@@ -53,7 +47,7 @@ fig = figure(figsize=(8, 8), dpi=RESOLUTION)
 ax = fig.add_axes([0.2, 0.1, 0.8, 0.8], polar=True)
 (theta, radii, width) = (
         np.arange(0.0, 2*np.pi, 2*np.pi/N),
-         hoursFreq,
+        hoursFreq,
         2 * np.pi/24 - .01
     )
 bars = ax.bar(theta, radii, width=width, bottom=0.0)
@@ -73,6 +67,11 @@ fig.savefig(
         metadata=None
     )
 
+#############################################################################
+# Histogram
+#############################################################################
+fig, axs = plt.subplots(1, sharey=True, tight_layout=True)
+axs.hist(hoursPlays, bins=24)
 
 ##############################################################################
 # Read artists file
