@@ -3,6 +3,7 @@
 *.html
 fonts/*.txt
 fonts/*.pdf
+fonts/other/
 
 # API Keys
 keys.py
@@ -14,6 +15,8 @@ data/chipmaligno_artists.csv
 data/chipmaligno_mb.csv
 stats/artistsPlaycount.csv
 stats/songsPlaycount.csv
+gis/GBR_adm
+*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -142,3 +145,5 @@ dmypy.json
 .pyre/
 data/chipmaligno_art.csv
 data/chipmaligno_mbz.csv
+data/vferman.csv
+data/vferman_art.csv

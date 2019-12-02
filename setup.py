@@ -11,7 +11,7 @@
 ##############################################################################
 
 from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.colors import ListedColormap
+# from matplotlib.colors import ListedColormap
 
 ##############################################################################
 # Setup PATHs
@@ -25,16 +25,16 @@ BASE_PATH = '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/'
         BASE_PATH + 'fonts/'
     )
 FONT = FONT_PATH + 'Prompt/Prompt-Thin.ttf'
-(TOP_GENRES, GEO_SIZE) = (3, 6)
+(TOP_GENRES, GEO_SIZE, TIMEZONE) = (3, 6, 'US/Pacific')
 ##############################################################################
 # Ban list: Artists excluded from the analyses
 ##############################################################################
 cdict5 = {
-    'red':   ((0.0, 0.0, 0.0), (1.0, 0.0, 0.0)),
-    'green': ((0.0, 0.25, 0.25), (1.0, 0.25, 0.25)),
-    'blue':  ((0.0, 0.75, 0.75), (1.0, 0.75, 0.75)),
-    'alpha': ((0.0, 0.0, 0.0), (1.0, 1.0, 1.0)),
-}
+        'red':   ((0.0, 0.0, 0.0), (1.0, 0.0, 0.0)),
+        'green': ((0.0, 0.25, 0.25), (1.0, 0.25, 0.25)),
+        'blue':  ((0.0, 0.75, 0.75), (1.0, 0.75, 0.75)),
+        'alpha': ((0.0, 0.0, 0.0), (1.0, 1.0, 1.0))
+    }
 dark_blue1 = LinearSegmentedColormap('DarkBlue1', cdict5, N=256)
 ##############################################################################
 # Ban list: Artists excluded from the analyses

@@ -27,6 +27,10 @@ dataRaw = pd.read_csv(
 ##############################################################################
 artistsRaw = sorted(dataRaw.get('Artist').unique())
 data = dataRaw[~dataRaw['Artist'].isin(stp.BAN)]
+fixedTime = pd.to_datetime(
+            data["Date"],
+            unit='ms').dt.tz_localize('UTC').dt.tz_convert(stp.TIMEZONE)
+data = data.assign(Date=fixedTime)
 data.to_csv(stp.DATA_PATH + stp.USR + '_art.csv', index=False)
 
 ##############################################################################

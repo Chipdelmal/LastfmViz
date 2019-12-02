@@ -15,7 +15,7 @@ import keys
 import setup as stp
 import pandas as pd
 import musicbrainzngs as mb
-from geopy.geocoders import Nominatim
+# from geopy.geocoders import Nominatim
 
 FILE_PATH = stp.DATA_PATH + stp.USR + '_mbz.csv'
 # Logging in
