@@ -25,7 +25,7 @@ BASE_PATH = '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/'
         BASE_PATH + 'fonts/'
     )
 FONT = FONT_PATH + 'Prompt/Prompt-Thin.ttf'
-(TOP_GENRES, GEO_SIZE) = (3, 6)
+(TOP_GENRES, GEO_SIZE, TIMEZONE) = (3, 6, 'US/Pacific')
 ##############################################################################
 # Ban list: Artists excluded from the analyses
 ##############################################################################
