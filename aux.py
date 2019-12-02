@@ -93,7 +93,7 @@ def generateMBHeader(topGenres, geoSize):
 
 
 def createBasemapInstance(minLat, maxLat, minLon, maxLon, pad=1.5):
-    base = Basemap(projection='merc',
+    base = Basemap(projection='aeqd',
         lat_0=(maxLat - minLat)/2, lon_0=(maxLon - minLon)/2,
         resolution='l', area_thresh=0.1,
         llcrnrlon=minLon - pad, llcrnrlat=minLat - pad,
