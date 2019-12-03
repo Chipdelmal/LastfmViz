@@ -44,7 +44,7 @@ plt.imshow(wordcloud, interpolation='bilinear')
 plt.tight_layout(pad=0)
 plt.axis("off")
 plt.savefig(
-        stp.IMG_PATH + '/songWordcloud.png',
+        stp.IMG_PATH + '/SNG_WDC.png',
         dpi=RESOLUTION, facecolor='k', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches=None, pad_inches='tight',
