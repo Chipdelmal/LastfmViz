@@ -10,6 +10,10 @@
 # Data cleaning routines
 ##############################################################################
 
+from pytz import timezone
+import pytz
+from datetime import datetime, timedelta
+
 import setup as stp
 import pandas as pd
 
@@ -38,11 +42,15 @@ data.to_csv(stp.DATA_PATH + stp.USR + '_art.csv', index=False)
 ##############################################################################
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
-artistCount.to_csv(stp.STAT_PATH + '/artistsPlaycount.csv', header=False)
+artistCount.to_csv(stp.STAT_PATH + '/ART_PLC.csv', header=False)
 
 ##############################################################################
 # Process songs: Counts Ranking
 ##############################################################################
 songs = sorted(data.get('Song').unique())
 songCount = data.groupby('Song').size().sort_values(ascending=False)
-songCount.to_csv(stp.STAT_PATH + '/songsPlaycount.csv', header=False)
+songCount.to_csv(stp.STAT_PATH + '/SNG_PLC.csv', header=False)
+
+
+now = pytz.utc.localize(datetime.utcnow())
+now

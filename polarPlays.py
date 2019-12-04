@@ -33,11 +33,10 @@ data = pd.read_csv(
         stp.DATA_PATH + stp.USR + '_art.csv',
         parse_dates=[3]
     )
-msk = [i.date() > datetime.date(2017, 6, 1) for i in data['Date']]
+msk = [(i.date() > datetime.date(2010, 1, 1)) if (type(i) is not float) else (False) for i in data['Date']]
 dates = data.loc[msk]["Date"]
-hoursPlays = sorted([i.hour for i in data["Date"] if str(i.hour) != 'nan'])
+hoursPlays = sorted([i.hour for i in data["Date"] if (type(i) is not float)], reverse=True)
 hoursFreq = [len(list(group)) for key, group in groupby(hoursPlays)]
-hoursFreq.reverse()
 
 #############################################################################
 # Polar
@@ -60,7 +59,7 @@ for r, bar in zip(radii, bars):
     bar.set_facecolor(cm.RdPu(r/np.max(hoursFreq)))
     bar.set_alpha(0.75)
 fig.savefig(
-        stp.IMG_PATH + '/playcountHour.png',
+        stp.IMG_PATH + '/PLC_HRL.png',
         dpi=RESOLUTION, facecolor='White', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches='tight', pad_inches=.5,

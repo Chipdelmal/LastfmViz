@@ -10,6 +10,7 @@
 # Setting up paths and other globals
 ##############################################################################
 
+
 from matplotlib.colors import LinearSegmentedColormap
 # from matplotlib.colors import ListedColormap
 
@@ -17,7 +18,7 @@ from matplotlib.colors import LinearSegmentedColormap
 # Setup PATHs
 ##############################################################################
 USR = 'chipmaligno'
-BASE_PATH = '/Users/sanchez.hmsc/Documents/GitHub/lastfmViz/'
+BASE_PATH = '/Users/sanchez.hmsc/odrive/sanchez.hmsc@berkeley.edu/lastfmViz/'
 (DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH) = (
         BASE_PATH + 'data/',
         BASE_PATH + 'stats/',
