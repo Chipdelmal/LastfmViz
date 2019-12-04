@@ -15,9 +15,20 @@ import pandas as pd
 # import matplotlib
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+import matplotlib.cm as cm
 # %matplotlib inline
+import matplotlib as mpl
+from matplotlib.colors import LinearSegmentedColormap
 
-(WIDTH, HEIGHT, RESOLUTION) = (851*4, 315*4, 500)
+
+cdict5 = {
+        'red':   [(0.0, 1, 1), (0.5,  .50, .50), (1.0,  0.0, 0.0)],
+        'green': [(0.0,  1, 1), (0.5, 0.5, 0.5), (1.0,  0.0, 0.0)],
+        'blue':  [(0.0, 1, 1), (0.5,  0.750, .750), (1.0,  .90, .90)]
+    }
+dark_blue1 = LinearSegmentedColormap('DarkBlue1', cdict5, N=126)
+
+(WIDTH, HEIGHT, RESOLUTION) = (851*4, 315*4, 750)
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -30,9 +41,9 @@ artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 ##############################################################################
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-        relative_scaling=1, min_font_size=15,
+        relative_scaling=.5, min_font_size=15,
         background_color='rgba(0, 0, 0, 1)', mode='RGBA',
-        colormap='Purples', font_path=stp.FONT
+        colormap=dark_blue1, font_path=stp.FONT
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 # ax1 = plt.axes(frameon=False)
@@ -47,6 +58,7 @@ plt.savefig(
         transparent=False, bbox_inches=None, pad_inches='tight',
         metadata=None
     )
+
 
 ##############################################################################
 # Barchart
