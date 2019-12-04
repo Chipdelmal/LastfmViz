@@ -25,7 +25,7 @@ BASE_PATH = '/Users/sanchez.hmsc/odrive/sanchez.hmsc@berkeley.edu/lastfmViz/'
         BASE_PATH + 'img/',
         BASE_PATH + 'fonts/'
     )
-FONT = FONT_PATH + 'other/BAUERG.ttf'
+FONT = FONT_PATH + 'other/EarthKid.ttf'
 (TOP_GENRES, GEO_SIZE, TIMEZONE) = (3, 6, 'US/Pacific')
 ##############################################################################
 # Ban list: Artists excluded from the analyses
