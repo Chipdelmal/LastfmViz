@@ -27,8 +27,8 @@ import numpy as np
 # Read artists file
 ##############################################################################
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_art.csv', parse_dates=[3])
-songs = sorted(data.get('Song').unique())
-songCount = data.groupby('Song').size().sort_values(ascending=False)
+artists = sorted(data.get('Artist').unique())
+artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 mask = np.array(Image.open(stp.IMG_PATH + "MapGBMask.png"))
 
 ##############################################################################
@@ -36,20 +36,20 @@ mask = np.array(Image.open(stp.IMG_PATH + "MapGBMask.png"))
 ##############################################################################
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-        relative_scaling=1, min_font_size=20,
+        relative_scaling=1, min_font_size=6,
         background_color='Black', colormap='Purples',
         font_path=stp.FONT, mask=mask
     )
-wordcloud = wordcloudDef.generate_from_frequencies(songCount)
+wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 ax1 = plt.axes(frameon=False)
 plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='k')
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.tight_layout(pad=0)
 plt.axis("off")
 plt.savefig(
-        stp.IMG_PATH + '/MapWordcloud.png',
+        stp.IMG_PATH + 'ART_WMP.png',
         dpi=RESOLUTION, facecolor='k', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
-        transparent=False, bbox_inches=None, pad_inches='tight',
+        transparent=False, bbox_inches='tight', pad_inches=.1,
         metadata=None
     )

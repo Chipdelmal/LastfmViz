@@ -15,16 +15,16 @@ import pandas as pd
 # import matplotlib
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-import matplotlib.cm as cm
+# import matplotlib.cm as cm
 # %matplotlib inline
-import matplotlib as mpl
+# import matplotlib as mpl
 from matplotlib.colors import LinearSegmentedColormap
 
 
 cdict5 = {
-        'red':   [(0.0, 1, 1), (0.5,  0.8, 0.8), (1.0,  0.6, 0.6)],
-        'green': [(0.0,  1, 1), (0.5, 0.8, 0.8), (1.0,  0.6, 0.6)],
-        'blue':  [(0.0, 1, 1), (0.5,  0.8, 0.8), (1.0,  .75, .75)]
+        'red':   [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  0.5, 0.5)],
+        'green': [(0.0,  1, 1), (0.5, 0.85, 0.85), (1.0,  0.5, 0.5)],
+        'blue':  [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  .9, .9)]
     }
 dark_blue1 = LinearSegmentedColormap('DarkBlue1', cdict5, N=126)
 
@@ -42,7 +42,7 @@ artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
         relative_scaling=.5, min_font_size=15,
-        background_color='rgba(0, 0, 0, 1)', mode='RGBA',
+        background_color='rgba(0, 0, 0, 0)', mode='RGBA',
         colormap=dark_blue1, font_path=stp.FONT
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
@@ -55,7 +55,7 @@ plt.savefig(
         stp.IMG_PATH + '/ART_WDC.png',
         dpi=RESOLUTION, facecolor='Black', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
-        transparent=False, bbox_inches=None, pad_inches='tight',
+        transparent=True, bbox_inches=None, pad_inches='tight',
         metadata=None
     )
 
