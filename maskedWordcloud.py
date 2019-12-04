@@ -36,7 +36,7 @@ mask = np.array(Image.open(stp.IMG_PATH + "MapGBMask.png"))
 ##############################################################################
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-        relative_scaling=1, min_font_size=6,
+        relative_scaling=1, min_font_size=3,
         background_color='Black', colormap='Purples',
         font_path=stp.FONT, mask=mask
     )
