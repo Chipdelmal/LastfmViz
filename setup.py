@@ -19,11 +19,12 @@ from matplotlib.colors import LinearSegmentedColormap
 ##############################################################################
 USR = 'chipmaligno'
 BASE_PATH = '/Users/sanchez.hmsc/odrive/sanchez.hmsc@berkeley.edu/lastfmViz/'
-(DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH) = (
+(DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH, GIS_PATH) = (
         BASE_PATH + 'data/',
         BASE_PATH + 'stats/',
         BASE_PATH + 'img/',
-        BASE_PATH + 'fonts/'
+        BASE_PATH + 'fonts/',
+        BASE_PATH + 'gis/'
     )
 FONT = FONT_PATH + 'other/EarthKid.ttf'
 (TOP_GENRES, GEO_SIZE, TIMEZONE) = (3, 6, 'US/Pacific')
