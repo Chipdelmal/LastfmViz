@@ -15,12 +15,12 @@ import keys
 import setup as stp
 import pandas as pd
 import musicbrainzngs as mb
-from geopy.geocoders import Nominatim
+# from geopy.geocoders import Nominatim
 
 FILE_PATH = stp.DATA_PATH + stp.USR + '_mbz.csv'
 # Logging in
 mb.auth(keys.MB_USR, keys.MB_PSW)
-mb.set_useragent("lastfm", "0.1", "http://chipdelmal.github.io")
+mb.set_useragent(keys.MB_NM, keys.MB_V, keys.MB_URL)
 # Read artists list
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_art.csv', parse_dates=[3])
 artists = data['Artist'].unique()[0:]

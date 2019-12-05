@@ -29,7 +29,7 @@ COLORS = [
 # Read MusicBrainz data #######################################################
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_mbz.csv')
 entries = data.shape[0]
-data.get('Geo_2').value_counts()
+# data.get('Geo_2').value_counts()
 data = data.fillna('NA')
 # Filter NA ###################################################################
 coordinates = []

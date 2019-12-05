@@ -50,7 +50,3 @@ artistCount.to_csv(stp.STAT_PATH + '/ART_PLC.csv', header=False)
 songs = sorted(data.get('Song').unique())
 songCount = data.groupby('Song').size().sort_values(ascending=False)
 songCount.to_csv(stp.STAT_PATH + '/SNG_PLC.csv', header=False)
-
-
-# now = pytz.utc.localize(datetime.utcnow())
-# now
