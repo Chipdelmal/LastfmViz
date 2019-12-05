@@ -30,5 +30,10 @@ aux.writeFrequencyDictToCSV(stp.STAT_PATH + 'CTR_FRQ.csv', cntryFreq)
 # Explore
 ##############################################################################
 set(cntry)
-filter = (data['Geo_1'] == "France")
+filter = (data['Geo_1'] == "Argentina")
 data[filter]
+
+# MB Country codes
+cntry = [x for x in list(data['MB_Geo1']) if str(x) != 'nan']
+cntryClean = [stp.CNTRY_FIX.get(n, n) for n in cntry]
+set(cntryClean)
