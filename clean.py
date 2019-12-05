@@ -10,9 +10,9 @@
 # Data cleaning routines
 ##############################################################################
 
-from pytz import timezone
-import pytz
-from datetime import datetime, timedelta
+# from pytz import timezone
+# import pytz
+# from datetime import datetime, timedelta
 
 import setup as stp
 import pandas as pd
@@ -52,5 +52,5 @@ songCount = data.groupby('Song').size().sort_values(ascending=False)
 songCount.to_csv(stp.STAT_PATH + '/SNG_PLC.csv', header=False)
 
 
-now = pytz.utc.localize(datetime.utcnow())
-now
+# now = pytz.utc.localize(datetime.utcnow())
+# now

@@ -57,5 +57,5 @@ BAN = set([
         'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
         'Desiree Schell & K.O. Myers', 'Rebecca Watson', 'Mägo de Oz',
         'David Summers', 'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
-        'Rata Blanca', 'Starcraft'
+        'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano'
     ])

@@ -15,13 +15,16 @@ import pandas as pd
 # import matplotlib
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+# import matplotlib.cm as cm
+# %matplotlib inline
+# import matplotlib as mpl
 from matplotlib.colors import LinearSegmentedColormap
 
 
-cdict = {
-        'red':   [(0.0, 1, 1), (0.5,  0.8, 0.8), (1.0,  0.6, 0.6)],
-        'green': [(0.0,  1, 1), (0.5, 0.8, 0.8), (1.0,  0.6, 0.6)],
-        'blue':  [(0.0, 1, 1), (0.5,  0.8, 0.8), (1.0,  .75, .75)]
+cdict5 = {
+        'red':   [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  0.5, 0.5)],
+        'green': [(0.0,  1, 1), (0.5, 0.85, 0.85), (1.0,  0.5, 0.5)],
+        'blue':  [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  .9, .9)]
     }
 cpalette = LinearSegmentedColormap('DarkBlue1', cdict, N=126)
 
@@ -52,6 +55,6 @@ plt.savefig(
         stp.IMG_PATH + '/ART_WDC.png',
         dpi=RESOLUTION, facecolor='Black', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
-        transparent=False, bbox_inches=None, pad_inches='tight',
+        transparent=True, bbox_inches=None, pad_inches='tight',
         metadata=None
     )
