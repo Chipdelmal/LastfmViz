@@ -12,7 +12,7 @@ Inspired by: [Analyzing Last.fm Listening History](https://geoffboeing.com/2016/
 
 * [setup.py](./setup.py): Paths, username, and 'banned list' settings.
 * [clean.py](./clean.py): Routines to clean up the database.
-* [artistFreq.py](./artistFreq): Artists frequencies plots and analyses.
+* [musicBrainz.py](./musicBrainz): Mixes the database with MB information on genres and geographies.
 
 ## Author
 

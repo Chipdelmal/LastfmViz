@@ -67,20 +67,21 @@ plt.close()
 ###############################################################################
 # Country Mask GIS
 ###############################################################################
-# https://www.diva-gis.org/gdata
+
 fig = plt.gcf()
 ax = fig.add_subplot(111, label="1")
 ax.axis('off')
 map = Basemap(
-            llcrnrlon=-3.8955253-10, llcrnrlat=53.8710916-10,
-            urcrnrlon=-3.8955253+10., urcrnrlat=53.8710916+10,
-            resolution='i', projection='merc',
-            lat_0=54.8710916, lon_0=10.8955253)
+        llcrnrlon=-3.8955253-10, llcrnrlat=53.8710916-10,
+        urcrnrlon=-3.8955253+10., urcrnrlat=53.8710916+10,
+        resolution='i', projection='merc',
+        lat_0=54.8710916, lon_0=10.8955253
+    )
 map.drawcoastlines(color=COLORS[3], linewidth=.25, zorder=1)
 map.fillcontinents(color=COLORS[3], lake_color=COLORS[3])
 map.drawmapboundary(fill_color=COLORS[3])
 # map.drawcoastlines()
-data = map.readshapefile(stp.BASE_PATH + 'gis/GBR_adm/GBR_adm0', 'GB')
+data = map.readshapefile(stp.BASE_PATH + 'gis/GBR/GBR_adm0', 'GB')
 italy = data[4]
 italy.set_facecolors('black')
 italy.set_alpha(1)

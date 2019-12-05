@@ -21,12 +21,12 @@ from wordcloud import WordCloud
 from matplotlib.colors import LinearSegmentedColormap
 
 
-cdict5 = {
+cdict = {
         'red':   [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  0.5, 0.5)],
         'green': [(0.0,  1, 1), (0.5, 0.85, 0.85), (1.0,  0.5, 0.5)],
         'blue':  [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  .9, .9)]
     }
-cpalette = LinearSegmentedColormap('DarkBlue1', cdict, N=126)
+cpalette = LinearSegmentedColormap('WB', cdict, N=256)
 
 (WIDTH, HEIGHT, RESOLUTION) = (851*4, 315*4, 750)
 ##############################################################################
@@ -46,7 +46,6 @@ wordcloudDef = WordCloud(
         colormap=cpalette, font_path=stp.FONT
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
-# ax1 = plt.axes(frameon=False)
 plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='k')
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.tight_layout(pad=0)
@@ -55,6 +54,6 @@ plt.savefig(
         stp.IMG_PATH + '/ART_WDC.png',
         dpi=RESOLUTION, facecolor='Black', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
-        transparent=True, bbox_inches=None, pad_inches='tight',
+        transparent=True, bbox_inches='tight', pad_inches=.1,
         metadata=None
     )
