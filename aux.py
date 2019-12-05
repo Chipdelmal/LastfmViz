@@ -103,15 +103,22 @@ def generateMBHeader(topGenres, geoSize):
 
 
 def createBasemapInstance(minLat, maxLat, minLon, maxLon, pad=1.5):
-    base = Basemap(projection='merc',
-                   lat_0=(maxLat - minLat)/2, lon_0=(maxLon - minLon)/2,
-                   resolution='l', area_thresh=0.1,
-                   llcrnrlon=minLon - pad, llcrnrlat=minLat - pad,
-                   urcrnrlon=maxLon + pad, urcrnrlat=maxLat + pad,
-                   epsg=4269
-                   )
+    base = Basemap(
+            projection='merc',
+            lat_0=(maxLat - minLat)/2, lon_0=(maxLon - minLon)/2,
+            resolution='l', area_thresh=0.1,
+            llcrnrlon=minLon - pad, llcrnrlat=minLat - pad,
+            urcrnrlon=maxLon + pad, urcrnrlat=maxLat + pad,
+            epsg=4269
+        )
     return base
 
 
 def rescaleRGBA(colorsTuple, colors=255):
     return [i/colors for i in colorsTuple]
+
+
+def writeFrequencyDictToCSV(path, countryDict):
+    with open(path, 'w') as f:
+        for key in countryDict.keys():
+            f.write("%s,%s\n" % (key, countryDict[key]))

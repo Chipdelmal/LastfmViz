@@ -36,7 +36,6 @@ cdict5 = {
         'blue':  ((0.0, 0.75, 0.75), (1.0, 0.75, 0.75))
     }
 dark_blue1 = LinearSegmentedColormap('DarkBlue1', cdict5, N=126)
-
 ##############################################################################
 # Ban list: Artists excluded from the analyses
 ##############################################################################
@@ -57,5 +56,14 @@ BAN = set([
         'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
         'Desiree Schell & K.O. Myers', 'Rebecca Watson', 'Mägo de Oz',
         'David Summers', 'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
-        'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano'
+        'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano', 'Ramon Mirabet',
+        'Pereza', 'Ana Carolina', 'Seu Jorge', 'Hello Seahorse!',
+        'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann'
     ])
+##############################################################################
+# Countries corrections
+##############################################################################
+CNTRY_FIX = {
+        'United States of America': 'United States',
+        'New Zealand / Aotearoa': 'New Zealand'
+    }

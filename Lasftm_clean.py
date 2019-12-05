@@ -25,7 +25,6 @@ dataRaw = pd.read_csv(
         header=None, parse_dates=[3],
         names=['Artist', 'Album', 'Song', 'Date']
     )
-
 ##############################################################################
 # Process artists: remove artists present in the BAN list
 ##############################################################################
