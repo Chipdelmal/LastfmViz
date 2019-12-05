@@ -26,7 +26,7 @@ from mpl_toolkits.basemap import Basemap
 # %matplotlib inline
 
 
-CTRY_CODE = 'USA'
+(CTRY_CODE, AUTO_BBOX) = ('UK', True)
 # Setup Style #################################################################
 PAD = 25
 COLORS = [
@@ -52,12 +52,15 @@ for i in range(0, entries):
 ###############################################################################
 # Country Mask GIS
 ###############################################################################
-ix = 1
+ix = 0
 filesSHP = sorted(glob.glob(stp.GIS_PATH + CTRY_CODE + '_adm/' + '*.shp'))[ix]
 fileID = filesSHP.split("/")[-1].split('.')[0]
-# Load GIS data
-sf = shapefile.Reader(stp.GIS_PATH + CTRY_CODE + '_adm/' + fileID + '.dbf')
-bbox = sf.bbox
+if AUTO_BBOX:
+    sf = shapefile.Reader(stp.GIS_PATH + CTRY_CODE + '_adm/' + fileID + '.dbf')
+    bbox = sf.bbox
+else:
+    bbox = stp.CNTRY_BOX[CTRY_CODE]
+print(bbox)
 # Plot GIS
 fig = plt.gcf()
 ax = fig.add_subplot(111, label="1")
@@ -66,7 +69,6 @@ map = Basemap(
         llcrnrlon=bbox[0], llcrnrlat=bbox[1],
         urcrnrlon=bbox[2], urcrnrlat=bbox[3],
         resolution='i', projection='merc'
-        # lat_0=54.8710916, lon_0=10.8955253
     )
 gisData = map.readshapefile(os.path.splitext(filesSHP)[0], CTRY_CODE)
 map.drawcoastlines(color=COLORS[3], linewidth=.25, zorder=1)
@@ -80,3 +82,4 @@ plt.savefig(
         dpi=1000, bbox_inches='tight', pad_inches=0.0, frameon=None
     )
 plt.close()
+print("Finished!")

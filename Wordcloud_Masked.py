@@ -21,7 +21,7 @@ from itertools import compress
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################
-(WIDTH, HEIGHT, RESOLUTION) = (3840/2, 2160/2, 750)
+(WIDTH, HEIGHT, RESOLUTION) = (3840/2, 2160/2, 500)
 (CTRY_CODE, CTRY_NAME) = ('UK', 'United Kingdom')
 
 ##############################################################################
@@ -53,7 +53,7 @@ artistCountFinal = dict(compress(pairedCounts, geoFilter))
 mask = np.array(Image.open(stp.GIS_PATH + 'MSK_' + CTRY_CODE + '.png'))
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=5000,
-        relative_scaling=.5, min_font_size=5,
+        relative_scaling=.75, min_font_size=5,
         background_color='Black', colormap=stp.cMap,
         font_path=stp.FONT, mask=mask
     )

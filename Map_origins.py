@@ -55,7 +55,7 @@ map.scatter(
         edgecolors=COLORS[6], color=COLORS[6], zorder=2
     )
 plt.savefig(
-        stp.IMG_PATH + "ART_MAP.png",
+        stp.IMG_PATH + "MAP_ORG.png",
         dpi=1000, bbox_inches='tight', pad_inches=0.0, frameon=None
     )
 plt.close()
