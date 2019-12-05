@@ -31,6 +31,12 @@ data = pd.read_csv(stp.DATA_PATH + stp.USR + '_art.csv', parse_dates=[3])
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 ##############################################################################
+# Read artists file
+##############################################################################
+data = pd.read_csv(stp.DATA_PATH + stp.USR + '_art.csv', parse_dates=[3])
+artists = sorted(data.get('Song').unique())
+artistCount = data.groupby('Song').size().sort_values(ascending=False)
+##############################################################################
 # Read geo file and filter artists by geography
 ##############################################################################
 dataG = pd.read_csv(stp.DATA_PATH + stp.USR + '_mbz.csv')
@@ -53,7 +59,7 @@ artistCountFinal = dict(compress(pairedCounts, geoFilter))
 mask = np.array(Image.open(stp.GIS_PATH + 'MSK_' + CTRY_CODE + '.png'))
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=5000,
-        relative_scaling=.75, min_font_size=5,
+        relative_scaling=.5, min_font_size=10,
         background_color='Black', colormap=stp.cMap,
         font_path=stp.FONT, mask=mask
     )
@@ -70,3 +76,4 @@ plt.savefig(
         transparent=False, bbox_inches='tight', pad_inches=.1,
         metadata=None
     )
+plt.close('all')

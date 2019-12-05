@@ -29,14 +29,14 @@ BASE_PATH = '/Users/sanchez.hmsc/odrive/sanchez.hmsc@berkeley.edu/lastfmViz/'
 FONT = FONT_PATH + 'other/EarthKid.ttf'
 (TOP_GENRES, GEO_SIZE, TIMEZONE) = (3, 6, 'US/Pacific')
 ##############################################################################
-# Ban list: Artists excluded from the analyses
+# Color palette
 ##############################################################################
-cdict5 = {
-        'red':   ((0.0, 0.0, 0.0), (1.0, 0.0, 0.0)),
-        'green': ((0.0, 0.25, 0.25), (1.0, 0.25, 0.25)),
-        'blue':  ((0.0, 0.75, 0.75), (1.0, 0.75, 0.75))
+cdict = {
+        'red':   [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  0.5, 0.5)],
+        'green': [(0.0,  1, 1), (0.5, 0.85, 0.85), (1.0,  0.5, 0.5)],
+        'blue':  [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  .9, .9)]
     }
-dark_blue1 = LinearSegmentedColormap('DarkBlue1', cdict5, N=126)
+cMap = LinearSegmentedColormap('WB', cdict, N=256)
 ##############################################################################
 # Ban list: Artists excluded from the analyses
 ##############################################################################
@@ -59,25 +59,24 @@ BAN = set([
         'David Summers', 'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
         'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano', 'Ramon Mirabet',
         'Pereza', 'Ana Carolina', 'Seu Jorge', 'Hello Seahorse!',
-        'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann'
+        'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
+        'Charles Darwin'
     ])
 ##############################################################################
 # Countries corrections
 ##############################################################################
 CNTRY_FIX = {
         'United States of America': 'United States',
-        'New Zealand / Aotearoa': 'New Zealand'
+        'New Zealand / Aotearoa': 'New Zealand',
+        'Ireland': 'United Kingdom'
     }
 CNTRY_BOX = {
         'US': [-126, 24, -65, 50],
         'UK': [-8.6500072, 49.863187, 1.7632199, 60.8458677]
     }
-##############################################################################
-# Color palette
-##############################################################################
-cdict = {
-        'red':   [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  0.5, 0.5)],
-        'green': [(0.0,  1, 1), (0.5, 0.85, 0.85), (1.0,  0.5, 0.5)],
-        'blue':  [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  .9, .9)]
+CNTRY_CODE = {
+        'DNK': 'Danmark',
+        'US': 'United States',
+        'CAN': 'Canada',
+        'SWE': 'Sverige'
     }
-cMap = LinearSegmentedColormap('WB', cdict, N=256)

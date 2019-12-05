@@ -14,14 +14,58 @@ import musicbrainzngs as mb
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 from mpl_toolkits.basemap import Basemap
-geolocator = Nominatim(user_agent="lastfm")
+geolocator = Nominatim(user_agent=stp.GEO_USR)
 
 
-def do_geocode(address):
+def doGeocode(address):
+    """Recursive function to geocode whilst handling timeout exception.
+
+    Parameters
+    ----------
+    address : string
+        String of the address that needs to be geocoded.
+
+    Returns
+    -------
+    type
+        Geocode information.
+
+    """
     try:
         return geolocator.geocode(address)
     except GeocoderTimedOut:
-        return do_geocode(address)
+        return doGeocode(address)
+
+
+def geocodeEntries(info):
+    """Handles the geocoding info from the MusicBrainz database.
+
+    Parameters
+    ----------
+    info : tuple
+        Lastfm geocode triplet: (_, country, city)
+
+    Returns
+    -------
+    list
+        Returns the list of the geocoded entry (lat, long, address), and pads
+        entries with no available information.
+
+    """
+    (tmp, p1, p2) = (info, info[1], info[2])
+    if p1 is None:
+        p1 = ''
+    if p2 is None:
+        p2 = ''
+    location = doGeocode(p1 + ' ' + p2)
+    if location is None:
+        tmp.extend(stp.GEO_SIZE * [None])
+    else:
+        tmp.extend([location.latitude, location.longitude])
+        gcList = [i.strip() for i in location.address.split(',')]
+        gcList.reverse()
+        tmp.extend(padList(gcList, stp.GEO_SIZE))
+    return tmp
 
 
 def getArtistInfo(artist, topGenres=3):
@@ -73,23 +117,6 @@ def getArea(info):
             return city
     else:
         return None
-
-
-def geocodeEntries(info):
-    (tmp, p1, p2) = (info, info[1], info[2])
-    if p1 is None:
-        p1 = ''
-    if p2 is None:
-        p2 = ''
-    location = do_geocode(p1 + ' ' + p2)
-    if location is None:
-        tmp.extend(stp.GEO_SIZE * [None])
-    else:
-        tmp.extend([location.latitude, location.longitude])
-        gcList = [i.strip() for i in location.address.split(',')]
-        gcList.reverse()
-        tmp.extend(padList(gcList, stp.GEO_SIZE))
-    return tmp
 
 
 def generateMBHeader(topGenres, geoSize):

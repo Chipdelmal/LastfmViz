@@ -26,7 +26,7 @@ from mpl_toolkits.basemap import Basemap
 # %matplotlib inline
 
 
-(CTRY_CODE, AUTO_BBOX) = ('UK', True)
+(CTRY_CODE, AUTO_BBOX) = ('SWE', True)
 # Setup Style #################################################################
 PAD = 25
 COLORS = [
