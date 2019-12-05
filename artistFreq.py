@@ -15,18 +15,15 @@ import pandas as pd
 # import matplotlib
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-import matplotlib.cm as cm
-# %matplotlib inline
-import matplotlib as mpl
 from matplotlib.colors import LinearSegmentedColormap
 
 
-cdict5 = {
+cdict = {
         'red':   [(0.0, 1, 1), (0.5,  0.8, 0.8), (1.0,  0.6, 0.6)],
         'green': [(0.0,  1, 1), (0.5, 0.8, 0.8), (1.0,  0.6, 0.6)],
         'blue':  [(0.0, 1, 1), (0.5,  0.8, 0.8), (1.0,  .75, .75)]
     }
-dark_blue1 = LinearSegmentedColormap('DarkBlue1', cdict5, N=126)
+cpalette = LinearSegmentedColormap('DarkBlue1', cdict, N=126)
 
 (WIDTH, HEIGHT, RESOLUTION) = (851*4, 315*4, 750)
 ##############################################################################
@@ -41,9 +38,9 @@ artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 ##############################################################################
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-        relative_scaling=.5, min_font_size=15,
+        relative_scaling=.5, min_font_size=5,
         background_color='rgba(0, 0, 0, 1)', mode='RGBA',
-        colormap=dark_blue1, font_path=stp.FONT
+        colormap=cpalette, font_path=stp.FONT
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 # ax1 = plt.axes(frameon=False)
@@ -58,53 +55,3 @@ plt.savefig(
         transparent=False, bbox_inches=None, pad_inches='tight',
         metadata=None
     )
-
-
-##############################################################################
-# Barchart
-##############################################################################
-# artistCount[0:30].plot.bar()
-# plt.xticks(rotation=90)
-# plt.xlabel("")
-# plt.ylabel("Play Count")
-
-# import matplotlib.pyplot as plt
-# from matplotlib import cm
-# from math import log10
-#
-#
-# data = artistCount[:50]
-# labels = list(data.axes[0])
-# #number of data points
-# n = len(data)
-# #find max value for full ring
-# k = 10 ** int(log10(max(data)))
-# m = k * (1 + max(data) // k)
-#
-# #radius of donut chart
-# r = 10
-# #calculate width of each ring
-# w = r / n
-# #create colors along a chosen colormap
-# colors = [cm.terrain(i / n) for i in range(n)]
-# #create figure, axis
-# fig, ax = plt.subplots()
-# ax.axis("equal")
-#
-#
-# #create rings of donut chart
-# for i in range(n):
-#     #hide labels in segments with textprops: alpha = 0 - transparent, alpha = 1 - visible
-#     innerring, _ = ax.pie([m - data[i], data[i]], radius = r - 1 * i * w, startangle = 90, #labels = ["", labels[i]], labeldistance = 1 - 1 / (1.5 * (n - i)),
-#     textprops = {"alpha": 0}, colors = ["white", colors[i]])
-#     plt.setp(innerring, width = w, edgecolor = "white")
-# #plt.figure(figsize=(2*r,2*r), facecolor='k')
-# #plt.legend()
-# #plt.show()
-# plt.savefig(
-#         stp.IMG_PATH + '/artistFrequencies.png',
-#         dpi=  RESOLUTION, facecolor='w', edgecolor='w',
-#         orientation='portrait', papertype=None, format=None,
-#         transparent=False, bbox_inches=None, pad_inches='tight',
-#         metadata=None
-#     )
