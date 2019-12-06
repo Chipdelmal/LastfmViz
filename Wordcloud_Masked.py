@@ -17,7 +17,7 @@ from PIL import Image
 import numpy as np
 from itertools import compress
 
-CTRY_CODE = 'US'
+CTRY_CODE = 'CAN'
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################

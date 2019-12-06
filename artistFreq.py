@@ -29,7 +29,7 @@ wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
         relative_scaling=.5, min_font_size=5, font_path=stp.FONT,
         background_color='rgba(0, 0, 0, 1)', mode='RGBA',
-        colormap='RdPu' # stp.cMap
+        colormap='BuPu' # stp.cMap
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='k')

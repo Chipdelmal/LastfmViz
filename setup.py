@@ -92,9 +92,9 @@ CNTRY_BOX = {
         'CAN': [-141.00686645507812, 41.67692565917997, -52.61888885498027, 70]
     }
 CNTRY_CODE = {
-        'UK': ('United Kingdom', cMapUK, 'Capture_it'),
+        'UK': ('United Kingdom', cMapUK, 'EarthKid'),
         'DNK': 'Danmark',
-        'US': ('United States', cMapUS, 'vtkschalk79'),
-        'CAN': 'Canada',
+        'US': ('United States', cMapUS, 'Howdoyousleep'),
+        'CAN': ('Canada', cMap, 'ABEAKRG'),
         'SWE': 'Sverige'
     }
