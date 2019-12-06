@@ -98,3 +98,4 @@ CNTRY_CODE = {
         'CAN': ('Canada', cMap, 'ABEAKRG'),
         'SWE': 'Sverige'
     }
+    
