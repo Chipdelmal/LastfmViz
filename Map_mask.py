@@ -9,21 +9,14 @@
 # ----------------------------------------------------------------------------
 # Musicbrainz parser for geolocation and genres
 ##############################################################################
-
 import os
 import aux
 import glob
-# import csv
-# import keys
-# from statistics import mean
 import shapefile
 import setup as stp
 import pandas as pd
-# import musicbrainzngs as mb
 import matplotlib.pyplot as plt
-# import matplotlib.patches as mpatches
 from mpl_toolkits.basemap import Basemap
-# %matplotlib inline
 
 
 (CTRY_CODE, AUTO_BBOX) = ('CAN', False)

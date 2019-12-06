@@ -9,7 +9,6 @@
 # ----------------------------------------------------------------------------
 # Artists frequencies routines
 ##############################################################################
-
 import setup as stp
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -18,16 +17,16 @@ from PIL import Image
 import numpy as np
 from itertools import compress
 
+CTRY_CODE = 'US'
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840/2, 2160/2, 500)
-(CTRY_CODE, CTRY_NAME) = ('US', 'United States')
-
+(CTRY_NAME, cmap, font) = stp.CNTRY_CODE[CTRY_CODE]
 ##############################################################################
 # Read artists file
 ##############################################################################
-data = pd.read_csv(stp.DATA_PATH + stp.USR + '_art.csv', parse_dates=[3])
+data = pd.read_csv(stp.DATA_PATH + stp.USR + '_cln.csv', parse_dates=[3])
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 ##############################################################################
@@ -53,9 +52,9 @@ artistCountFinal = dict(compress(pairedCounts, geoFilter))
 mask = np.array(Image.open(stp.GIS_PATH + 'MSK_' + CTRY_CODE + '.png'))
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=5000,
-        relative_scaling=.4, min_font_size=10,
-        background_color='Black', colormap=stp.cMap,
-        font_path=stp.FONT, mask=mask
+        relative_scaling=.4, min_font_size=8,
+        background_color='Black', colormap=cmap,
+        font_path=stp.FONT_PATH + font + '.ttf', mask=mask
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCountFinal)
 ax1 = plt.axes(frameon=False)

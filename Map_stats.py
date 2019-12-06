@@ -19,14 +19,8 @@ import pandas as pd
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_mbz.csv')
 cntryFreq = aux.getCountryFrequencies(data, stp.CNTRY_FIX)
 aux.writeFrequencyDictToCSV(stp.STAT_PATH + 'CTR_FRQ.csv', cntryFreq)
-
 ##############################################################################
 # Explore
 ##############################################################################
-set(cntry)
 filter = (data['Geo_1'] == "Suomi")
 data[filter]
-cntry = [x for x in list(data['MB_Geo1']) if str(x) != 'nan']
-cntryClean = [stp.CNTRY_FIX.get(n, n) for n in cntry]
-set(cntryClean)
-cntryFreq

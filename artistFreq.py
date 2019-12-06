@@ -12,38 +12,24 @@
 # import math
 import setup as stp
 import pandas as pd
-# import matplotlib
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-# import matplotlib.cm as cm
-# %matplotlib inline
-# import matplotlib as mpl
-from matplotlib.colors import LinearSegmentedColormap
-
-
-cdict = {
-        'red':   [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  0.5, 0.5)],
-        'green': [(0.0,  1, 1), (0.5, 0.85, 0.85), (1.0,  0.5, 0.5)],
-        'blue':  [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  .9, .9)]
-    }
-cpalette = LinearSegmentedColormap('WB', cdict, N=256)
 
 (WIDTH, HEIGHT, RESOLUTION) = (851*4, 315*4, 750)
 ##############################################################################
 # Read artists file
 ##############################################################################
-data = pd.read_csv(stp.DATA_PATH + stp.USR + '_art.csv', parse_dates=[3])
+data = pd.read_csv(stp.DATA_PATH + stp.USR + '_cln.csv', parse_dates=[3])
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
-
 ##############################################################################
 # Wordcloud
 ##############################################################################
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-        relative_scaling=.5, min_font_size=5,
+        relative_scaling=.5, min_font_size=5, font_path=stp.FONT,
         background_color='rgba(0, 0, 0, 1)', mode='RGBA',
-        colormap=cpalette, font_path=stp.FONT
+        colormap='RdPu' # stp.cMap
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='k')
