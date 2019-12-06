@@ -9,11 +9,7 @@
 # ----------------------------------------------------------------------------
 # Data cleaning routines
 ##############################################################################
-
-# from pytz import timezone
-# import pytz
-# from datetime import datetime, timedelta
-
+import aux
 import setup as stp
 import pandas as pd
 
@@ -22,30 +18,23 @@ import pandas as pd
 ##############################################################################
 dataRaw = pd.read_csv(
         stp.DATA_PATH + stp.USR + '.csv',
-        header=None, parse_dates=[3],
-        names=['Artist', 'Album', 'Song', 'Date']
+        header=None, names=['Artist', 'Album', 'Song', 'Date'],
+        parse_dates=[3]
     )
 ##############################################################################
 # Process artists: remove artists present in the BAN list
 ##############################################################################
-artistsRaw = sorted(dataRaw.get('Artist').unique())
-data = dataRaw[~dataRaw['Artist'].isin(stp.BAN)]
-fixedTime = pd.to_datetime(
-            data["Date"],
-            unit='ms').dt.tz_localize('UTC').dt.tz_convert(stp.TIMEZONE)
+data = aux.removeBanned(dataRaw)
+timeInfo = pd.to_datetime(data["Date"], unit='ms')
+fixedTime = timeInfo.dt.tz_localize('UTC').dt.tz_convert(stp.TIMEZONE)
 data = data.assign(Date=fixedTime)
-data.to_csv(stp.DATA_PATH + stp.USR + '_art.csv', index=False)
-
+data.to_csv(stp.DATA_PATH + stp.USR + '_cln.csv', index=False)
 ##############################################################################
-# Process artists: Counts Ranking
+# Process artists and songs rankings
 ##############################################################################
-artists = sorted(data.get('Artist').unique())
-artistCount = data.groupby('Artist').size().sort_values(ascending=False)
+(artistCount, songCount) = (
+        aux.getPlaycount(data, label='Artist'),
+        aux.getPlaycount(data, label='Song')
+    )
 artistCount.to_csv(stp.STAT_PATH + '/ART_PLC.csv', header=False)
-
-##############################################################################
-# Process songs: Counts Ranking
-##############################################################################
-songs = sorted(data.get('Song').unique())
-songCount = data.groupby('Song').size().sort_values(ascending=False)
 songCount.to_csv(stp.STAT_PATH + '/SNG_PLC.csv', header=False)

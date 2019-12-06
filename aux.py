@@ -12,6 +12,7 @@
 import keys
 import setup as stp
 import musicbrainzngs as mb
+from collections import Counter
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 from mpl_toolkits.basemap import Basemap
@@ -150,3 +151,19 @@ def writeFrequencyDictToCSV(path, countryDict):
     with open(path, 'w') as f:
         for key in countryDict.keys():
             f.write("%s,%s\n" % (key, countryDict[key]))
+
+
+def getCountryFrequencies(mbzData, countryFix, label='Geo_1'):
+    cntry = [x for x in list(mbzData[label]) if str(x) != 'nan']
+    cntryClean = [countryFix.get(n, n) for n in cntry]
+    cntryFreq = dict(Counter(cntryClean))
+    return cntryFreq
+
+
+def removeBanned(lastfmData, label='Artist'):
+    return lastfmData[~lastfmData[label].isin(stp.BAN)]
+
+
+def getPlaycount(clnData, label='Artist'):
+    artistCount = clnData.groupby(label).size().sort_values(ascending=False)
+    return artistCount
