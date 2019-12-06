@@ -17,7 +17,7 @@ from PIL import Image
 import numpy as np
 from itertools import compress
 
-CTRY_CODE = 'AUS'
+CTRY_CODE = 'US'
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################
@@ -33,7 +33,7 @@ artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 # Read geo file and filter artists by geography
 ##############################################################################
 dataG = pd.read_csv(stp.DATA_PATH + stp.USR + '_mbz.csv')
-filter = (dataG['Geo_1'] == CTRY_NAME)
+filter = dataG['Geo_1'].isin(stp.CNTRY_ALIAS[CTRY_CODE])
 fDataG = dataG[filter]
 artistsG = sorted(fDataG.get('Artist').unique())
 artistsG = fDataG['Artist']

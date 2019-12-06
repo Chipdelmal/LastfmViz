@@ -101,12 +101,17 @@ CNTRY_FIX = {
         'New Zealand': 'Australia',
         'Ireland': 'United Kingdom'
     }
+CNTRY_ALIAS = {
+        'US': {'United States of America', 'United States'},
+        'UK': {'United Kingdom', 'Ireland'},
+        'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa'}
+    }
 CNTRY_BOX = {
         'US': [-126, 24, -65, 50],
         'UK': [-8.6500072, 49.863187, 1.7632199, 58.75],
         'CAN': [-141.00686645507812, 41.67692565917997, -52.62, 70],
-        'AUS': [112.92, -39.2, 155, -9.22]
-
+        'AUS': [112.92, -39.2, 155, -9.22],
+        'NZL': [185, -49, 179.06582641601568, -30]
     }
 CNTRY_CODE = {
         'UK': ('United Kingdom', cMapUK, 'EarthKid.ttf'),
@@ -114,5 +119,6 @@ CNTRY_CODE = {
         'US': ('United States', cMapUS, 'Howdoyousleep.ttf'),
         'CAN': ('Canada', cMapCAN, 'FEENC.ttf'),
         'SWE': 'Sverige',
-        'AUS': ('Australia', cMapAUS, 'URGHTYPEPERSONALUSE.otf')
+        'AUS': ('Australia', cMapAUS, 'danger.otf'),
+        'NZL': ('New Zealand', cMapAUS, 'URGHTYPEPERSONALUSE.otf')
     }

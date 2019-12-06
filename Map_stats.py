@@ -17,6 +17,7 @@ import pandas as pd
 # Export country frequencies
 ##############################################################################
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_mbz.csv')
+print(data['Geo_1'].unique())
 cntryFreq = aux.getCountryFrequencies(data, stp.CNTRY_FIX)
 aux.writeFrequencyDictToCSV(stp.STAT_PATH + 'CTR_FRQ.csv', cntryFreq)
 ##############################################################################
