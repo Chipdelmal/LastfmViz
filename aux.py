@@ -10,6 +10,7 @@
 # Functions definitions
 ##############################################################################
 import keys
+import csv
 import setup as stp
 import musicbrainzngs as mb
 from collections import Counter
@@ -35,7 +36,7 @@ def doGeocode(address):
     """
     try:
         return geolocator.geocode(address)
-    except GeocoderTimedOut:
+    except (GeocoderTimedOut):
         return doGeocode(address)
 
 
@@ -167,3 +168,22 @@ def removeBanned(lastfmData, label='Artist'):
 def getPlaycount(clnData, label='Artist'):
     artistCount = clnData.groupby(label).size().sort_values(ascending=False)
     return artistCount
+
+
+def parseFromMusicbrainz(clnData):
+    artists = clnData['Artist'].unique()
+    artNum = len(artists)
+    # Generate output path
+    FILE_PATH = stp.DATA_PATH + stp.USR + '_mbz.csv'
+    print('Parsing from musicbranz!\n')
+    with open(FILE_PATH, mode='w') as mbFile:
+        mbWriter = csv.writer(mbFile, quoting=csv.QUOTE_MINIMAL)
+        header = generateMBHeader(stp.TOP_GENRES, stp.GEO_SIZE)
+        mbWriter.writerow(header)
+        for (i, art) in enumerate(artists):
+            # Parse musicbranz database
+            info = getArtistInfo(art, topGenres=stp.TOP_GENRES)
+            info = geocodeEntries(info)
+            mbWriter.writerow(info)
+            print('Parsed: {0}/{1}'.format(i+1, artNum))
+    print('\nFinished!')
