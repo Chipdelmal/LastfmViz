@@ -17,7 +17,7 @@ from PIL import Image
 import numpy as np
 from itertools import compress
 
-CTRY_CODE = 'CAN'
+CTRY_CODE = 'AUS'
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################
@@ -54,7 +54,7 @@ wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=5000,
         relative_scaling=.4, min_font_size=8,
         background_color='Black', colormap=cmap,
-        font_path=stp.FONT_PATH + font + '.ttf', mask=mask
+        font_path=stp.FONT_PATH + font, mask=mask
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCountFinal)
 ax1 = plt.axes(frameon=False)

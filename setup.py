@@ -19,14 +19,15 @@ from matplotlib.colors import LinearSegmentedColormap
 ##############################################################################
 USR = 'chipmaligno'
 BASE_PATH = '/Users/sanchez.hmsc/odrive/sanchez.hmsc@berkeley.edu/lastfmViz/'
-(DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH, GIS_PATH) = (
+(DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH, GIS_PATH, MSK_PATH) = (
         BASE_PATH + 'data/',
         BASE_PATH + 'stats/',
         BASE_PATH + 'img/',
         BASE_PATH + 'fonts/',
-        BASE_PATH + 'gis/'
+        BASE_PATH + 'gis/',
+        BASE_PATH + 'msk/'
     )
-FONT = FONT_PATH + 'ARCADE.ttf'
+FONT = FONT_PATH + 'other/EarthKid.ttf'
 (TOP_GENRES, GEO_SIZE, TIMEZONE) = (3, 6, 'US/Pacific')
 ##############################################################################
 # Color palette
@@ -36,11 +37,11 @@ cdict = {
         'green': [(0.0,  1, 1), (0.5, 0.85, 0.85), (1.0,  0.5, 0.5)],
         'blue':  [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  .9, .9)]
     }
-# https://www.schemecolor.com/united-kingdom-uk-flag-colors.php
 cMap = LinearSegmentedColormap('WB', cdict, N=256)
+# https://www.schemecolor.com/united-kingdom-uk-flag-colors.php
 cdict = {
         'red':   [(0.0, .8, .8),    (0.1, .8, .8),     (0.25,  1, 1),    (0.5, 1, 1),   (0.75,  1, 1),   (.9,  0, 0),           (1.0,  0, 0)        ],
-        'green': [(0.0, .08, .08), (0.1,  .08, .08),  (0.25,  1, 1),    (0.5, 1, 1),    (0.75,  1, 1),   (.9,  0.15, 0.15),    (1.0,  0.15, 0.15)  ],
+        'green': [(0.0,  .08, .08), (0.1,  .08, .08),  (0.25,  1, 1),    (0.5, 1, 1),    (0.75,  1, 1),   (.9,  0.15, 0.15),    (1.0,  0.15, 0.15)  ],
         'blue':  [(0.0, .17, .17),  (0.1, .17, .17),   (0.25,  1, 1),    (0.5, 1, 1),   (0.75,  1, 1),   (.9,  .5, .5),         (1.0,  .5, .5)       ]
     }
 cMapUK = LinearSegmentedColormap('WB', cdict, N=256)
@@ -51,8 +52,21 @@ cdict = {
         'blue':  [(0.0, .2, .2),  (0.1, .2, .2),   (0.25,  1, 1),    (0.5,  1, 1),   (0.75,  1, 1),   (.9, .43, .43),   (1.0,  .43, .43)]
     }
 cMapUS = LinearSegmentedColormap('WB', cdict, N=256)
-[i / 256 for i in (0, 36, 125)]
-
+# https://www.schemecolor.com/canada-flag-colors.php
+cdict = {
+        'red':   [(0, 1, 1), (0.425, 1, 1), (0.575,  1, 1), (1,  1, 1)],
+        'green': [(0, 0, 0), (0.425, 0, 0), (0.575,  1, 1), (1,  1, 1)],
+        'blue':  [(0, 0, 0), (0.425, 0, 0), (0.575,  1, 1), (1,  1, 1)]
+    }
+cMapCAN = LinearSegmentedColormap('WB', cdict, N=256)
+# https://www.schemecolor.com/australia-flag-colors.php
+cdict = {
+        'red':   [(0, 1, 1), (0.1, 1, 1), (0.25,  1, 1), (0.5,  1, 1),   (0.75,  1, 1), (.9, 0, 0), (1,  0, 0)],
+        'green': [(0, 0, 0), (0.1, 0, 0), (0.25,  1, 1), (0.5,  1, 1),   (0.75,  1, 1), (.9, 0, 0), (1,  0, 0)],
+        'blue':  [(0, 0, 0), (0.1, 0, 0), (0.25,  1, 1), (0.5,  1, 1),   (0.75,  1, 1), (.9, .54, .54), (1, .54, .54)]
+    }
+cMapAUS = LinearSegmentedColormap('WB', cdict, N=256)
+[i / 256 for i in (0,0,0)]
 ##############################################################################
 # Ban list: Artists excluded from the analyses
 ##############################################################################
@@ -83,19 +97,22 @@ BAN = set([
 ##############################################################################
 CNTRY_FIX = {
         'United States of America': 'United States',
-        'New Zealand / Aotearoa': 'New Zealand',
+        'New Zealand / Aotearoa': 'Australia',
+        'New Zealand': 'Australia',
         'Ireland': 'United Kingdom'
     }
 CNTRY_BOX = {
         'US': [-126, 24, -65, 50],
         'UK': [-8.6500072, 49.863187, 1.7632199, 58.75],
-        'CAN': [-141.00686645507812, 41.67692565917997, -52.61888885498027, 70]
+        'CAN': [-141.00686645507812, 41.67692565917997, -52.62, 70],
+        'AUS': [112.92, -39.2, 155, -9.22]
+
     }
 CNTRY_CODE = {
-        'UK': ('United Kingdom', cMapUK, 'EarthKid'),
+        'UK': ('United Kingdom', cMapUK, 'EarthKid.ttf'),
         'DNK': 'Danmark',
-        'US': ('United States', cMapUS, 'Howdoyousleep'),
-        'CAN': ('Canada', cMap, 'ABEAKRG'),
-        'SWE': 'Sverige'
+        'US': ('United States', cMapUS, 'Howdoyousleep.ttf'),
+        'CAN': ('Canada', cMapCAN, 'FEENC.ttf'),
+        'SWE': 'Sverige',
+        'AUS': ('Australia', cMapAUS, 'URGHTYPEPERSONALUSE.otf')
     }
-    
