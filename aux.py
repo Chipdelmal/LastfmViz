@@ -9,12 +9,13 @@
 # ----------------------------------------------------------------------------
 # Functions definitions
 ##############################################################################
+import keys
 import setup as stp
 import musicbrainzngs as mb
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 from mpl_toolkits.basemap import Basemap
-geolocator = Nominatim(user_agent=stp.GEO_USR)
+geolocator = Nominatim(user_agent=keys.GEO_USR)
 
 
 def doGeocode(address):

@@ -22,7 +22,7 @@ from itertools import compress
 # Aesthetics parameters
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840/2, 2160/2, 500)
-(CTRY_CODE, CTRY_NAME) = ('UK', 'United Kingdom')
+(CTRY_CODE, CTRY_NAME) = ('US', 'United States')
 
 ##############################################################################
 # Read artists file
@@ -30,12 +30,6 @@ from itertools import compress
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_art.csv', parse_dates=[3])
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
-##############################################################################
-# Read artists file
-##############################################################################
-data = pd.read_csv(stp.DATA_PATH + stp.USR + '_art.csv', parse_dates=[3])
-artists = sorted(data.get('Song').unique())
-artistCount = data.groupby('Song').size().sort_values(ascending=False)
 ##############################################################################
 # Read geo file and filter artists by geography
 ##############################################################################
@@ -59,7 +53,7 @@ artistCountFinal = dict(compress(pairedCounts, geoFilter))
 mask = np.array(Image.open(stp.GIS_PATH + 'MSK_' + CTRY_CODE + '.png'))
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=5000,
-        relative_scaling=.5, min_font_size=10,
+        relative_scaling=.4, min_font_size=10,
         background_color='Black', colormap=stp.cMap,
         font_path=stp.FONT, mask=mask
     )
