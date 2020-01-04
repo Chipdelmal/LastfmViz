@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 
 
-(CTRY_CODE, AUTO_BBOX) = ('NZL', True)
+(CTRY_CODE, AUTO_BBOX) = ('UK', True)
 # Setup Style #################################################################
 PAD = 25
 COLORS = [

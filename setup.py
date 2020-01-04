@@ -38,6 +38,12 @@ cdict = {
         'blue':  [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  .9, .9)]
     }
 cMap = LinearSegmentedColormap('WB', cdict, N=256)
+cdict = {
+        'red':   [(0.0, 1, 1), (0.6, .8, .8), (.85, 0.75, 0.75), (1.0,  .50, .50)],
+        'green': [(0.0, 1, 1), (0.6, .8, .8), (.85, 0.450, 0.450), (1.0,  .5, .5)],
+        'blue':  [(0.0, 1, 1), (0.6, .8, .8), (.85, 0.750, 0.750), (1.0,  .80, .80)]
+    }
+cMapW = LinearSegmentedColormap('WB', cdict, N=256)
 # https://www.schemecolor.com/united-kingdom-uk-flag-colors.php
 cdict = {
         'red':   [(0.0, .8, .8),    (0.2, .8, .8),     (0.25,  1, 1),    (0.5, 1, 1),   (0.8,  1, 1),   (.85,  0, 0),           (1.0,  0, 0)],
@@ -90,7 +96,7 @@ BAN = set([
         'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano', 'Ramon Mirabet',
         'Pereza', 'Ana Carolina', 'Seu Jorge', 'Hello Seahorse!',
         'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
-        'Charles Darwin'
+        'Charles Darwin', 'Savage Garden', 'Kakkmaddafakka', 'Bryan Adams'
     ])
 ##############################################################################
 # Countries corrections
@@ -104,7 +110,13 @@ CNTRY_FIX = {
 CNTRY_ALIAS = {
         'US': {'United States of America', 'United States'},
         'UK': {'United Kingdom', 'Ireland'},
-        'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa'}
+        'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa'},
+        'RST': {
+                'Sverige', 'Ísland', 'Australia',
+                'Danmark', 'Canada', 'Deutschland',
+                'Norge', 'New Zealand', 'Argentina', 'New Zealand / Aotearoa',
+                'Suomi', 'Nederland', 'Россия', 'Slovensko'
+            }
     }
 CNTRY_BOX = {
         'US': [-126, 24, -65, 50],
@@ -114,11 +126,12 @@ CNTRY_BOX = {
         'NZL': [185, -49, 179.06582641601568, -30]
     }
 CNTRY_CODE = {
-        'UK': ('United Kingdom', cMapUK, 'Capture_it.ttf'),
+        'UK': ('United Kingdom', cMapUK, 'HACKED.ttf'),
         'DNK': 'Danmark',
         'US': ('United States', cMapUS, 'Howdoyousleep.ttf'),
         'CAN': ('Canada', cMapCAN, 'FEENC.ttf'),
         'SWE': 'Sverige',
         'AUS': ('Australia', cMapAUS, 'danger.otf'),
-        'NZL': ('New Zealand', cMapAUS, 'URGHTYPEPERSONALUSE.otf')
+        'NZL': ('New Zealand', cMapAUS, 'URGHTYPEPERSONALUSE.otf'),
+        'RST': ('World', cMapW, 'Friday Lovers.otf'),
     }

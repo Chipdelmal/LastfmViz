@@ -17,7 +17,7 @@ from PIL import Image
 import numpy as np
 from itertools import compress
 
-CTRY_CODE = 'UK'
+(CTRY_CODE, bkg, transpBG) = ('US', 1, False)
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################
@@ -49,12 +49,16 @@ artistCountFinal = dict(compress(pairedCounts, geoFilter))
 ##############################################################################
 # Wordcloud
 ##############################################################################
+if transpBG:
+    bgCol = "rgba(1, 1, 1, 0)"
+else:
+    bgCol = "Black"
 mask = np.array(Image.open(stp.GIS_PATH + 'MSK_' + CTRY_CODE + '.png'))
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=5000,
-        relative_scaling=.4, min_font_size=8,
-        background_color='Black', colormap=cmap,
-        font_path=stp.FONT_PATH + font, mask=mask
+        relative_scaling=.4, min_font_size=8, prefer_horizontal=.8,
+        background_color=bgCol, mode="RGBA",
+        colormap=cmap, font_path=stp.FONT_PATH + font, mask=mask
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCountFinal)
 ax1 = plt.axes(frameon=False)
@@ -64,9 +68,9 @@ plt.tight_layout(pad=0)
 plt.axis("off")
 plt.savefig(
         stp.IMG_PATH + 'MAP_' + CTRY_CODE + '.png',
-        dpi=RESOLUTION, facecolor='k', edgecolor='w',
-        orientation='portrait', papertype=None, format=None,
-        transparent=False, bbox_inches='tight', pad_inches=.1,
-        metadata=None
+        dpi=RESOLUTION, orientation='portrait', papertype=None, format=None,
+        background_color=bgCol, mode="RGBA", facecolor='k', edgecolor='k',
+        transparent=True,
+        bbox_inches='tight', pad_inches=.1, metadata=None
     )
 plt.close('all')
