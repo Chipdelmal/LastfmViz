@@ -185,5 +185,5 @@ def parseFromMusicbrainz(clnData):
             info = getArtistInfo(art, topGenres=stp.TOP_GENRES)
             info = geocodeEntries(info)
             mbWriter.writerow(info)
-            print('Parsed: {0}/{1}'.format(i+1, artNum))
+            print('Parsed: {0}/{1}'.format(i+1, artNum), end='\r')
     print('\nFinished!')

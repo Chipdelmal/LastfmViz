@@ -18,7 +18,7 @@ from matplotlib.colors import LinearSegmentedColormap
 # Setup PATHs
 ##############################################################################
 USR = 'chipmaligno'
-BASE_PATH = '/Users/sanchez.hmsc/odrive/sanchez.hmsc@berkeley.edu/lastfmViz/'
+BASE_PATH = '/Users/sanchez.hmsc/odrive/berkeley/lastfmViz/'
 (DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH, GIS_PATH, MSK_PATH) = (
         BASE_PATH + 'data/',
         BASE_PATH + 'stats/',
