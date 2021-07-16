@@ -18,7 +18,7 @@ from matplotlib.colors import LinearSegmentedColormap
 # Setup PATHs
 ##############################################################################
 USR = 'chipmaligno'
-BASE_PATH = '/Users/sanchez.hmsc/odrive/berkeley/lastfmViz/'
+BASE_PATH = '/home/chipdelmal/Documents/LastfmViz/'
 (DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH, GIS_PATH, MSK_PATH) = (
         BASE_PATH + 'data/',
         BASE_PATH + 'stats/',
@@ -96,7 +96,8 @@ BAN = set([
         'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano', 'Ramon Mirabet',
         'Pereza', 'Ana Carolina', 'Seu Jorge', 'Hello Seahorse!',
         'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
-        'Charles Darwin', 'Savage Garden', 'Kakkmaddafakka', 'Bryan Adams'
+        'Charles Darwin', 'Savage Garden', 'Kakkmaddafakka', 'Bryan Adams',
+        'El Tri', 'Café Tacvba'
     ])
 ##############################################################################
 # Countries corrections
@@ -112,9 +113,9 @@ CNTRY_ALIAS = {
         'UK': {'United Kingdom', 'Ireland'},
         'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa'},
         'RST': {
-                'Sverige', 'Ísland', 'Australia',
+                'Sverige', 'Ísland',# 'Australia',
                 'Danmark', 'Canada', 'Deutschland',
-                'Norge', 'New Zealand', 'Argentina', 'New Zealand / Aotearoa',
+                'Norge', 'New Zealand', 'Argentina', #'New Zealand / Aotearoa',
                 'Suomi', 'Nederland', 'Россия', 'Slovensko'
             }
     }

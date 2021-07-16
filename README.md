@@ -32,7 +32,7 @@ Inspired by: [Analyzing Last.fm Listening History](https://geoffboeing.com/2016/
 2. Run [MusicBrainz_download](./MusicBrainz_download.py).
 3. Download a country or region's [SHP file](https://gadm.org/download_country_v3.html) and place it in the gis folder.
 3. Run [Map_mask.py](./Map_mask.py) with the country code.
-4. Run [Wordcloud_masked.py](./Wordcloud_masked.py) with the country code.
+4. Run [Wordcloud_Masked.py](./Wordcloud_masked.py) with the country code.
 
 
 ### Artist Masked Wordcloud

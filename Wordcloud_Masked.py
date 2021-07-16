@@ -17,7 +17,7 @@ from PIL import Image
 import numpy as np
 from itertools import compress
 
-(CTRY_CODE, bkg, transpBG) = ('US', 1, False)
+(CTRY_CODE, bkg, transpBG) = ('US', 1, True)
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################
@@ -66,11 +66,21 @@ plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='k')
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.tight_layout(pad=0)
 plt.axis("off")
-plt.savefig(
-        stp.IMG_PATH + 'MAP_' + CTRY_CODE + '.png',
-        dpi=RESOLUTION, orientation='portrait', papertype=None, format=None,
-        background_color=bgCol, mode="RGBA", facecolor='k', edgecolor='k',
-        transparent=True,
-        bbox_inches='tight', pad_inches=.1, metadata=None
-    )
+outPath = stp.IMG_PATH + 'MAP_' + CTRY_CODE + '.png'
+if transpBG:
+    plt.savefig(
+            outPath,
+            dpi=RESOLUTION, orientation='portrait', papertype=None, format=None,
+            transparent=True,
+            bbox_inches='tight', pad_inches=.1, metadata=None
+        )
+else:
+    plt.savefig(
+            outPath,
+            dpi=RESOLUTION, orientation='portrait', papertype=None, format=None,
+            facecolor='k', edgecolor='k',
+            transparent=True,
+            bbox_inches='tight', pad_inches=.1, metadata=None
+        )
 plt.close('all')
+print(outPath)

@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 
 
-(CTRY_CODE, AUTO_BBOX) = ('UK', True)
+(CTRY_CODE, AUTO_BBOX) = ('US', False)
 # Setup Style #################################################################
 PAD = 25
 COLORS = [
@@ -70,9 +70,11 @@ map.drawmapboundary(fill_color=COLORS[3])
 lines = gisData[4]
 lines.set_facecolors('black')
 lines.set_alpha(1)
+outPath = stp.GIS_PATH + 'MSK_' + CTRY_CODE + '.png'
 plt.savefig(
-        stp.GIS_PATH + 'MSK_' + CTRY_CODE + '.png',
+        outPath,
         dpi=1000, bbox_inches='tight', pad_inches=0.0, frameon=None
     )
 plt.close()
+print(outPath)
 print("Finished!")
