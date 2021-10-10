@@ -15,6 +15,7 @@ import setup as stp
 import pandas as pd
 import musicbrainzngs as mb
 
+print('* Downloading data from MusicBrainz')
 # Logging in
 mb.auth(keys.MB_USR, keys.MB_PSW)
 mb.set_useragent(keys.MB_NM, keys.MB_V, keys.MB_URL)

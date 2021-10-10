@@ -175,7 +175,7 @@ def parseFromMusicbrainz(clnData):
     artNum = len(artists)
     # Generate output path
     FILE_PATH = stp.DATA_PATH + stp.USR + '_mbz.csv'
-    print('Parsing from musicbranz!\n')
+    # print('Parsing from musicbranz!\n')
     with open(FILE_PATH, mode='w') as mbFile:
         mbWriter = csv.writer(mbFile, quoting=csv.QUOTE_MINIMAL)
         header = generateMBHeader(stp.TOP_GENRES, stp.GEO_SIZE)
@@ -185,5 +185,5 @@ def parseFromMusicbrainz(clnData):
             info = getArtistInfo(art, topGenres=stp.TOP_GENRES)
             info = geocodeEntries(info)
             mbWriter.writerow(info)
-            print('Parsed: {0}/{1}'.format(i+1, artNum), end='\r')
-    print('\nFinished!')
+            print('\t- Parsed: {0}/{1}'.format(i+1, artNum), end='\r')
+    # print('Finished!                      ')
