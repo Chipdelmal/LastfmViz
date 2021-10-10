@@ -16,8 +16,10 @@ from wordcloud import WordCloud
 from PIL import Image
 import numpy as np
 from itertools import compress
+from sys import argv
 
-(CTRY_CODE, bkg, transpBG) = ('US', 1, True)
+(CTRY_CODE, bkg, transpBG) = (argv[1], 1, True)
+print('* Masking {}'.format(CTRY_CODE))
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################

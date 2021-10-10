@@ -117,6 +117,12 @@ CNTRY_ALIAS = {
                 'Danmark', 'Canada', 'Deutschland',
                 'Norge', 'New Zealand', 'Argentina', #'New Zealand / Aotearoa',
                 'Suomi', 'Nederland', 'Россия', 'Slovensko'
+            },
+        'WLD': {
+                'Sverige', 'Ísland', 'Australia',
+                'Danmark', 'Canada', 'Deutschland',
+                'Norge', 'New Zealand', 'Argentina', 'New Zealand / Aotearoa',
+                'Suomi', 'Nederland', 'Россия', 'Slovensko'
             }
     }
 CNTRY_BOX = {
@@ -135,4 +141,5 @@ CNTRY_CODE = {
         'AUS': ('Australia', cMapAUS, 'danger.otf'),
         'NZL': ('New Zealand', cMapAUS, 'URGHTYPEPERSONALUSE.otf'),
         'RST': ('World', cMapW, 'Friday Lovers.otf'),
+        'WLD': ('World', cMapW, 'Friday Lovers.otf')
     }
