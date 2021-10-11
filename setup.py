@@ -109,9 +109,9 @@ CNTRY_FIX = {
         'Ireland': 'United Kingdom'
     }
 CNTRY_ALIAS = {
-        'US': {'United States of America', 'United States'},
-        'UK': {'United Kingdom', 'Ireland'},
-        'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa'},
+        'US': {'United States of America', 'United States', 'US'},
+        'UK': {'United Kingdom', 'Ireland', 'UK'},
+        'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa', 'AU'},
         'RST': {
                 'Sverige', 'Ísland',# 'Australia',
                 'Danmark', 'Canada', 'Deutschland',
