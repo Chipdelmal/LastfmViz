@@ -22,6 +22,7 @@ dataRaw = pd.read_csv(
         header=None, names=['Artist', 'Album', 'Song', 'Date'],
         parse_dates=[3]
     )
+dataRaw = dataRaw.drop_duplicates()
 ##############################################################################
 # Process artists: remove artists present in the BAN list
 ##############################################################################

@@ -25,7 +25,7 @@ from matplotlib.pyplot import figure, show, rc
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
 HOURS_OFFSET = 6
-
+(yLo, yHi) = (2013, 2022)
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -33,7 +33,7 @@ data = pd.read_csv(
     stp.DATA_PATH + stp.USR + '_cln.csv',
     parse_dates=[3]
 )
-(yLo, yHi) = (2012, 2022)
+data = data.drop_duplicates()
 msk = [
     ((i.date() >= datetime.date(yLo, 1, 1)) and (i.date() < datetime.date(yHi, 1, 1))) 
     if (type(i) is not float) else (False) for i in data['Date']
@@ -57,9 +57,19 @@ step=  2*np.pi/N
     )
 bars = ax.bar(theta, radii, width=width, bottom=0.0, zorder=10)
 ax.set_theta_zero_location("N")
-ax.set_title(
-    'Total playcount: {}\n[{} to {}]'.format(sum(hoursFreq), yLo, yHi), 
-    pad=35, fontsize=35
+ax.text(
+    0.5, 0.75, '{} - {}'.format(yLo, yHi),
+    horizontalalignment='center',
+    verticalalignment='center',
+    fontsize=50, color='#00000055',
+    transform=ax.transAxes, zorder=15
+)
+ax.text(
+    0.5, 0.68, 'playcount: {}'.format(sum(hoursFreq)),
+    horizontalalignment='center',
+    verticalalignment='center',
+    fontsize=15, color='#00000055',
+    transform=ax.transAxes, zorder=15
 )
 ax.set_ylim(0, maxFreq)
 ax.set_yticks(np.arange(0, maxFreq, maxFreq*.25))
