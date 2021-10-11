@@ -17,15 +17,16 @@ import pandas as pd
 from itertools import groupby
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import matplotlib as mpl
 from matplotlib.pyplot import figure, show, rc
-
+mpl.rcParams['axes.linewidth'] = 1
 
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
 HOURS_OFFSET = 6
-(yLo, yHi) = (2013, 2022)
+(yLo, yHi) = (2012, 2022)
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -35,7 +36,7 @@ data = pd.read_csv(
 )
 data = data.drop_duplicates()
 msk = [
-    ((i.date() >= datetime.date(yLo, 1, 1)) and (i.date() < datetime.date(yHi, 1, 1))) 
+    ((i.date() >= datetime.date(yLo, 5, 1)) and (i.date() < datetime.date(yHi, 5, 1))) 
     if (type(i) is not float) else (False) for i in data['Date']
 ]
 dates = data.loc[msk]["Date"]
@@ -53,7 +54,7 @@ step=  2*np.pi/N
 (theta, radii, width) = (
     np.arange(0.0+step, 2*np.pi+step, step),
     hoursFreq,
-    2*np.pi/24-.01
+    2*np.pi/24# -.01
 )
 bars = ax.bar(
     theta, radii, width=width, bottom=0.0, zorder=10, edgecolor='black'
@@ -68,7 +69,7 @@ ax.bar(
     maxFreq,
     width=2*np.pi/24,
     color=colors, 
-    alpha=0.15, edgecolor="black", ls='-', 
+    alpha=0.2, edgecolor="black", ls='-', lw=.8,
     zorder=-1
 )
 ax.set_theta_zero_location("N")
