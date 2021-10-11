@@ -30,9 +30,9 @@ HOURS_OFFSET = 6
 # Read artists file
 ##############################################################################
 data = pd.read_csv(
-        stp.DATA_PATH + stp.USR + '_art.csv',
-        parse_dates=[3]
-    )
+    stp.DATA_PATH + stp.USR + '_cln.csv',
+    parse_dates=[3]
+)
 msk = [(i.date() > datetime.date(2010, 1, 1)) if (type(i) is not float) else (False) for i in data['Date']]
 dates = data.loc[msk]["Date"]
 hoursPlays = sorted([i.hour for i in data["Date"] if (type(i) is not float)], reverse=True)
@@ -42,6 +42,7 @@ hoursFreq = [len(list(group)) for key, group in groupby(hoursPlays)]
 # Polar
 #############################################################################
 N = 24
+(minFreq, maxFreq) = (min(hoursFreq), max(hoursFreq))
 fig = figure(figsize=(8, 8), dpi=RESOLUTION)
 ax = fig.add_axes([0.2, 0.1, 0.8, 0.8], polar=True)
 (theta, radii, width) = (
@@ -49,12 +50,17 @@ ax = fig.add_axes([0.2, 0.1, 0.8, 0.8], polar=True)
         hoursFreq,
         2 * np.pi/24 - .01
     )
-bars = ax.bar(theta, radii, width=width, bottom=0.0)
+bars = ax.bar(theta, radii, width=width, bottom=0.0, zorder=10)
 ax.set_theta_zero_location("N")
 # ax.set_yticks(np.arange(0, np.max(hoursFreq), 100000))
-ax.set_yticks([])
+ax.set_ylim(0, maxFreq)
+ax.set_yticks(np.arange(0, maxFreq, maxFreq*.25))
+ax.set_yticklabels([])
 ax.set_xticks(np.arange(np.pi * 2, 0, - np.pi * 2 / 24))
 ax.set_xticklabels(np.arange(0, 24, 1))
+ax.grid(which='major', color='#000000', alpha=.35, lw=0.8, ls='--')
+ax.tick_params(direction='out', pad=15)
+ax.tick_params(axis="x", labelsize=18) 
 for r, bar in zip(radii, bars):
     bar.set_facecolor(cm.RdPu(r/np.max(hoursFreq)))
     bar.set_alpha(0.75)
@@ -66,24 +72,24 @@ fig.savefig(
         metadata=None
     )
 
-#############################################################################
-# Histogram
-#############################################################################
-fig, axs = plt.subplots(1, sharey=True, tight_layout=True)
-axs.hist(hoursPlays, bins=24)
+# #############################################################################
+# # Histogram
+# #############################################################################
+# fig, axs = plt.subplots(1, sharey=True, tight_layout=True)
+# axs.hist(hoursPlays, bins=24)
 
-##############################################################################
-# Read artists file
-##############################################################################
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
+# ##############################################################################
+# # Read artists file
+# ##############################################################################
+# r = np.arange(0, 2, 0.01)
+# theta = 2 * np.pi * r
 
-ax = plt.subplot(111, projection='polar')
-ax.plot(theta, r)
-ax.set_rmax(2)
-ax.set_rticks([0.5, 1, 1.5, 2])  # less radial ticks
-ax.set_rlabel_position(-22.5)  # get radial labels away from plotted line
-ax.grid(True)
+# ax = plt.subplot(111, projection='polar')
+# ax.plot(theta, r)
+# ax.set_rmax(2)
+# ax.set_rticks([0.5, 1, 1.5, 2])  # less radial ticks
+# ax.set_rlabel_position(-22.5)  # get radial labels away from plotted line
+# ax.grid(True)
 
-ax.set_title("A line plot on a polar axis", va='bottom')
-plt.show()
+# ax.set_title("A line plot on a polar axis", va='bottom')
+# plt.show()
