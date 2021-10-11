@@ -97,7 +97,7 @@ BAN = set([
         'Pereza', 'Ana Carolina', 'Seu Jorge', 'Hello Seahorse!',
         'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
         'Charles Darwin', 'Savage Garden', 'Kakkmaddafakka', 'Bryan Adams',
-        'El Tri', 'Café Tacvba'
+        'El Tri', 'Café Tacvba', 'Caifanes'
     ])
 ##############################################################################
 # Countries corrections

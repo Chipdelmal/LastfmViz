@@ -171,19 +171,26 @@ def getPlaycount(clnData, label='Artist'):
 
 
 def parseFromMusicbrainz(clnData):
-    artists = clnData['Artist'].unique()
+    artists = sorted(clnData['Artist'].unique())
     artNum = len(artists)
     # Generate output path
-    FILE_PATH = stp.DATA_PATH + stp.USR + '_mbz.csv'
+    FILE_PATH = stp.DATA_PATH + stp.USR
     # print('Parsing from musicbranz!\n')
-    with open(FILE_PATH, mode='w') as mbFile:
+    with open(FILE_PATH + '_mbz.csv', mode='w') as mbFile:
         mbWriter = csv.writer(mbFile, quoting=csv.QUOTE_MINIMAL)
         header = generateMBHeader(stp.TOP_GENRES, stp.GEO_SIZE)
         mbWriter.writerow(header)
-        for (i, art) in enumerate(artists):
-            # Parse musicbranz database
-            info = getArtistInfo(art, topGenres=stp.TOP_GENRES)
-            info = geocodeEntries(info)
-            mbWriter.writerow(info)
-            print('\t- Parsed: {0}/{1}'.format(i+1, artNum), end='\r')
+        with open(FILE_PATH + '_dbg.txt', 'w') as out:
+            for (i, art) in enumerate(artists):
+                # Parse musicbranz database
+                info = getArtistInfo(art, topGenres=stp.TOP_GENRES)
+                txt = '\t Parsed: {}/{}: {} [{} - {}]'.format(
+                    str(i+1).zfill(3), str(artNum).zfill(3), 
+                    art, info[0], info[1]
+                )
+                print(txt)
+                info = geocodeEntries(info)
+                mbWriter.writerow(info)
+                out.write(txt + '\n')
+            # print('\t- Parsed: {0}/{1}'.format(i+1, artNum), end='\r')
     # print('Finished!                      ')

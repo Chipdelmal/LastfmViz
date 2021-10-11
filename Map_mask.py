@@ -17,9 +17,10 @@ import setup as stp
 import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
+from sys import argv
 
 
-(CTRY_CODE, AUTO_BBOX) = ('US', False)
+(CTRY_CODE, AUTO_BBOX) = (argv[1], False)
 # Setup Style #################################################################
 PAD = 25
 COLORS = [
