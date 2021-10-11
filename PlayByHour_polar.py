@@ -33,9 +33,13 @@ data = pd.read_csv(
     stp.DATA_PATH + stp.USR + '_cln.csv',
     parse_dates=[3]
 )
-msk = [(i.date() > datetime.date(2010, 1, 1)) if (type(i) is not float) else (False) for i in data['Date']]
+(yLo, yHi) = (2012, 2022)
+msk = [
+    ((i.date() >= datetime.date(yLo, 1, 1)) and (i.date() < datetime.date(yHi, 1, 1))) 
+    if (type(i) is not float) else (False) for i in data['Date']
+]
 dates = data.loc[msk]["Date"]
-hoursPlays = sorted([i.hour for i in data["Date"] if (type(i) is not float)], reverse=True)
+hoursPlays = sorted([i.hour for i in dates if (type(i) is not float)], reverse=True)
 hoursFreq = [len(list(group)) for key, group in groupby(hoursPlays)]
 
 #############################################################################
@@ -45,32 +49,36 @@ N = 24
 (minFreq, maxFreq) = (min(hoursFreq), max(hoursFreq))
 fig = figure(figsize=(8, 8), dpi=RESOLUTION)
 ax = fig.add_axes([0.2, 0.1, 0.8, 0.8], polar=True)
+step=  2*np.pi/N
 (theta, radii, width) = (
-        np.arange(0.0, 2*np.pi, 2*np.pi/N),
+        np.arange(0.0+step, 2*np.pi+step, step),
         hoursFreq,
-        2 * np.pi/24 - .01
+        2*np.pi/24-.01
     )
 bars = ax.bar(theta, radii, width=width, bottom=0.0, zorder=10)
 ax.set_theta_zero_location("N")
-# ax.set_yticks(np.arange(0, np.max(hoursFreq), 100000))
+ax.set_title(
+    'Total playcount: {}\n[{} to {}]'.format(sum(hoursFreq), yLo, yHi), 
+    pad=35, fontsize=35
+)
 ax.set_ylim(0, maxFreq)
 ax.set_yticks(np.arange(0, maxFreq, maxFreq*.25))
 ax.set_yticklabels([])
-ax.set_xticks(np.arange(np.pi * 2, 0, - np.pi * 2 / 24))
+ax.set_xticks(np.arange(np.pi*2, 0, -np.pi*2/24))
 ax.set_xticklabels(np.arange(0, 24, 1))
 ax.grid(which='major', color='#000000', alpha=.35, lw=0.8, ls='--')
-ax.tick_params(direction='out', pad=15)
+ax.tick_params(direction='out', pad=7.5)
 ax.tick_params(axis="x", labelsize=18) 
 for r, bar in zip(radii, bars):
     bar.set_facecolor(cm.RdPu(r/np.max(hoursFreq)))
     bar.set_alpha(0.75)
 fig.savefig(
-        stp.IMG_PATH + '/PLC_HRL.png',
-        dpi=RESOLUTION, facecolor='White', edgecolor='w',
-        orientation='portrait', papertype=None, format=None,
-        transparent=False, bbox_inches='tight', pad_inches=.5,
-        metadata=None
-    )
+    stp.IMG_PATH + '/PLC_HRL-{}_{}.png'.format(yLo, yHi),
+    dpi=RESOLUTION, facecolor='White', edgecolor='w',
+    orientation='portrait', papertype=None, format=None,
+    transparent=False, bbox_inches='tight', pad_inches=.5,
+    metadata=None
+)
 
 # #############################################################################
 # # Histogram

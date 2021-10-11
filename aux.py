@@ -190,7 +190,7 @@ def parseFromMusicbrainz(clnData):
                 )
                 print(txt)
                 info = geocodeEntries(info)
-                mbWriter.writerow(info)
+                mbWriter.writerow('{}, {}, {}'.format(art, info[0], info[1]))
                 out.write(txt + '\n')
             # print('\t- Parsed: {0}/{1}'.format(i+1, artNum), end='\r')
     # print('Finished!                      ')
