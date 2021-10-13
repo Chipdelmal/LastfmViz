@@ -27,7 +27,7 @@ mpl.rcParams['axes.linewidth'] = 1
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
 HOURS_OFFSET = 6
-(yLo, yHi) = (2012, 2017)
+(yLo, yHi) = (2017, 2022)
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -66,12 +66,12 @@ rvb = aux.colorPaletteFromHexList(
 )
 for r, bar in zip(radii, bars):
     bar.set_facecolor(rvb(r/(np.max(hoursFreq)*1)))
-    # bar.set_facecolor(cm.winter_r(r/np.max(hoursFreq)))
+    # bar.set_facecolor(cm.BuPu(r/(np.max(hoursFreq)*1.1)))
     bar.set_alpha(0.75)
 # Shading -------------------------------------------------------------------
 shades = 60
 rvb = aux.colorPaletteFromHexList(
-    ['#03071e', '#001233', '#001d3d','#3d5a80', '#ffb703', '#ffd60a', '#ffd60a', '#ffd60a']
+    ['#03071e', '#001233', '#001d3d','#3d5a80', '#ffb703', '#ffd60a', '#ffd60a', '#ffe66d']
 )
 colors = list(rvb(np.linspace(0, 1, shades)))
 colors.extend(reversed(colors))
@@ -81,7 +81,7 @@ ax.bar(
     1.15*maxFreq,
     width=2*np.pi/(2*shades),
     color=colors, #'white', #colors, 
-    alpha=0.2, edgecolor="black", ls='-', lw=0,
+    alpha=0.16, edgecolor="black", ls='-', lw=0,
     zorder=-1
 )
 ax.set_theta_zero_location("N")
@@ -89,24 +89,24 @@ ax.text(
     0.5, 0.75, '{} - {}'.format(yLo, yHi),
     horizontalalignment='center',
     verticalalignment='center',
-    fontsize=50, color='#00000066',
+    fontsize=50, color='#000000DD',
     transform=ax.transAxes, zorder=15
 )
 ax.text(
     0.5, 0.68, 'playcount: {}'.format(sum(hoursFreq)),
     horizontalalignment='center',
     verticalalignment='center',
-    fontsize=12.5, color='#00000055',
+    fontsize=12.5, color='#000000DD',
     transform=ax.transAxes, zorder=15
 )
 fig.patch.set_facecolor('#fff')
 ax.set_ylim(0, maxFreq*1.0035)
-ax.set_yticks(np.arange(0, maxFreq*1.25, maxFreq*.25))
+ax.set_yticks(np.arange(0, maxFreq, maxFreq*.25))
 ax.set_yticklabels([])
 ax.set_xticks(np.arange(np.pi*2, 0, -np.pi*2/24))
 ax.set_xticklabels(np.arange(0, 24, 1))
-ax.grid(which='major', axis='x', color='#000000', alpha=.2, lw=1, ls=':', zorder=20)
-ax.grid(which='major', axis='y', color='#000000', alpha=.2, lw=1, ls=':', zorder=20)
+ax.grid(which='major', axis='x', color='#000000', alpha=0.15, lw=.5, ls='--', zorder=15)
+ax.grid(which='major', axis='y', color='#000000', alpha=0.15, lw=.5, ls='--', zorder=15)
 ax.tick_params(direction='in', pad=10)
 ax.tick_params(axis="x", labelsize=15, colors='#000000ff')
 for spine in ax.spines.values():
