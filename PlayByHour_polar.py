@@ -71,7 +71,7 @@ for r, bar in zip(radii, bars):
 # Shading -------------------------------------------------------------------
 shades = 256
 rvb = aux.colorPaletteFromHexList(
-    ['#03071e', '#001233', '#001d3d', '#ffffff', '#ffffff', '#ffffff']
+    ['#03071e', '#001233', '#001d3d', '#001d3d','#ffffff', '#ffffff', '#ffffff', '#ffffff']
 )
 colors = list(rvb(np.linspace(0, 1, shades)))
 colors.extend(reversed(colors))
