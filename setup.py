@@ -27,7 +27,7 @@ BASE_PATH = '/home/chipdelmal/Documents/LastfmViz/'
         BASE_PATH + 'gis/',
         BASE_PATH + 'msk/'
     )
-FONT = FONT_PATH + 'other/EarthKid.ttf'
+FONT = FONT_PATH + 'Prompt-Thin.ttf'
 (TOP_GENRES, GEO_SIZE, TIMEZONE) = (3, 6, 'US/Pacific')
 ##############################################################################
 # Color palette

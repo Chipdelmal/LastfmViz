@@ -11,6 +11,7 @@
 ##############################################################################
 
 import datetime
+import aux as aux
 import setup as stp
 import numpy as np
 import pandas as pd
@@ -26,7 +27,7 @@ mpl.rcParams['axes.linewidth'] = 1
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
 HOURS_OFFSET = 6
-(yLo, yHi) = (2012, 2022)
+(yLo, yHi) = (2012, 2017)
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -54,22 +55,33 @@ step=  2*np.pi/N
 (theta, radii, width) = (
     np.arange(0.0+step, 2*np.pi+step, step),
     hoursFreq,
-    2*np.pi/24# -.01
+    2*np.pi/24 -.001
 )
 bars = ax.bar(
-    theta, radii, width=width, bottom=0.0, zorder=10, edgecolor='black'
+    theta, radii, width=width, 
+    bottom=0.0, zorder=25, edgecolor='#ffffff77', lw=.5
 )
+rvb = aux.colorPaletteFromHexList(
+    ['#bbdefb', '#64b5f6', '#2196f3', '#1976d2', '#0d47a1', '#001d5d']
+)
+for r, bar in zip(radii, bars):
+    bar.set_facecolor(rvb(r/(np.max(hoursFreq)*1)))
+    # bar.set_facecolor(cm.winter_r(r/np.max(hoursFreq)))
+    bar.set_alpha(0.75)
 # Shading -------------------------------------------------------------------
-rvb = colorPaletteFromHexList(
-    ['#001d3d', '#001d3d', '#ffd60a', '#ffd60a', '#001d3d', '#001d3d']
+shades = 60
+rvb = aux.colorPaletteFromHexList(
+    ['#03071e', '#001233', '#001d3d','#3d5a80', '#ffb703', '#ffd60a', '#ffd60a', '#ffd60a']
 )
-colors = rvb(np.linspace(0, 1, 24))
+colors = list(rvb(np.linspace(0, 1, shades)))
+colors.extend(reversed(colors))
+step=  2*np.pi/(2*shades)
 ax.bar(
     np.arange(0.0+step, 2*np.pi+step, step), 
-    maxFreq,
-    width=2*np.pi/24,
-    color=colors, 
-    alpha=0.2, edgecolor="black", ls='-', lw=.8,
+    1.15*maxFreq,
+    width=2*np.pi/(2*shades),
+    color=colors, #'white', #colors, 
+    alpha=0.2, edgecolor="black", ls='-', lw=0,
     zorder=-1
 )
 ax.set_theta_zero_location("N")
@@ -77,56 +89,32 @@ ax.text(
     0.5, 0.75, '{} - {}'.format(yLo, yHi),
     horizontalalignment='center',
     verticalalignment='center',
-    fontsize=50, color='#00000055',
+    fontsize=50, color='#00000066',
     transform=ax.transAxes, zorder=15
 )
 ax.text(
     0.5, 0.68, 'playcount: {}'.format(sum(hoursFreq)),
     horizontalalignment='center',
     verticalalignment='center',
-    fontsize=15, color='#00000055',
+    fontsize=12.5, color='#00000055',
     transform=ax.transAxes, zorder=15
 )
-ax.set_ylim(0, maxFreq)
-ax.set_yticks(np.arange(0, maxFreq, maxFreq*.25))
+fig.patch.set_facecolor('#fff')
+ax.set_ylim(0, maxFreq*1.0035)
+ax.set_yticks(np.arange(0, maxFreq*1.25, maxFreq*.25))
 ax.set_yticklabels([])
 ax.set_xticks(np.arange(np.pi*2, 0, -np.pi*2/24))
 ax.set_xticklabels(np.arange(0, 24, 1))
-ax.grid(which='major', axis='x', color='#000000', alpha=.0, lw=1, ls='-')
-ax.grid(which='major', axis='y', color='#000000', alpha=.2, lw=1, ls='-')
-ax.tick_params(direction='out', pad=7.5)
-ax.tick_params(axis="x", labelsize=18) 
-for r, bar in zip(radii, bars):
-    bar.set_facecolor(cm.RdPu(r/np.max(hoursFreq)))
-    bar.set_alpha(0.75)
+ax.grid(which='major', axis='x', color='#000000', alpha=.2, lw=1, ls=':', zorder=20)
+ax.grid(which='major', axis='y', color='#000000', alpha=.2, lw=1, ls=':', zorder=20)
+ax.tick_params(direction='in', pad=10)
+ax.tick_params(axis="x", labelsize=15, colors='#000000ff')
+for spine in ax.spines.values():
+    spine.set_edgewidth=2
 fig.savefig(
     stp.IMG_PATH + '/PLC_HRL-{}_{}.png'.format(yLo, yHi),
     dpi=RESOLUTION, facecolor='White', edgecolor='w',
     orientation='portrait', papertype=None, format=None,
-    transparent=False, bbox_inches='tight', pad_inches=.5,
+    transparent=False, bbox_inches='tight', pad_inches=.1,
     metadata=None
 )
-
-
-
-# #############################################################################
-# # Histogram
-# #############################################################################
-# fig, axs = plt.subplots(1, sharey=True, tight_layout=True)
-# axs.hist(hoursPlays, bins=24)
-
-# ##############################################################################
-# # Read artists file
-# ##############################################################################
-# r = np.arange(0, 2, 0.01)
-# theta = 2 * np.pi * r
-
-# ax = plt.subplot(111, projection='polar')
-# ax.plot(theta, r)
-# ax.set_rmax(2)
-# ax.set_rticks([0.5, 1, 1.5, 2])  # less radial ticks
-# ax.set_rlabel_position(-22.5)  # get radial labels away from plotted line
-# ax.grid(True)
-
-# ax.set_title("A line plot on a polar axis", va='bottom')
-# plt.show()
