@@ -16,7 +16,7 @@ import musicbrainzngs as mb
 from collections import Counter
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
-from mpl_toolkits.basemap import Basemap
+# from mpl_toolkits.basemap import Basemap
 geolocator = Nominatim(user_agent=keys.GEO_USR)
 import matplotlib.colors as mcolors
 from matplotlib.colors import LinearSegmentedColormap

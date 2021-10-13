@@ -27,7 +27,7 @@ mpl.rcParams['axes.linewidth'] = 1
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
 HOURS_OFFSET = 6
-(yLo, yHi) = (2017, 2022)
+(yLo, yHi) = (2012, 2017)
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -69,9 +69,9 @@ for r, bar in zip(radii, bars):
     # bar.set_facecolor(cm.BuPu(r/(np.max(hoursFreq)*1.1)))
     bar.set_alpha(0.75)
 # Shading -------------------------------------------------------------------
-shades = 60
+shades = 256
 rvb = aux.colorPaletteFromHexList(
-    ['#03071e', '#001233', '#001d3d','#3d5a80', '#ffb703', '#ffd60a', '#ffd60a', '#ffe66d']
+    ['#03071e', '#001233', '#001d3d', '#ffffff', '#ffffff', '#ffffff']
 )
 colors = list(rvb(np.linspace(0, 1, shades)))
 colors.extend(reversed(colors))
@@ -81,7 +81,7 @@ ax.bar(
     1.15*maxFreq,
     width=2*np.pi/(2*shades),
     color=colors, #'white', #colors, 
-    alpha=0.16, edgecolor="black", ls='-', lw=0,
+    alpha=.25, edgecolor="black", ls='-', lw=0,
     zorder=-1
 )
 ax.set_theta_zero_location("N")
@@ -99,7 +99,7 @@ ax.text(
     fontsize=12.5, color='#000000DD',
     transform=ax.transAxes, zorder=15
 )
-fig.patch.set_facecolor('#fff')
+fig.patch.set_facecolor('#ffffff')
 ax.set_ylim(0, maxFreq*1.0035)
 ax.set_yticks(np.arange(0, maxFreq, maxFreq*.25))
 ax.set_yticklabels([])
