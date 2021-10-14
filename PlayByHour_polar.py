@@ -27,7 +27,7 @@ mpl.rcParams['axes.linewidth'] = 1
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
 HOURS_OFFSET = 6
-(yLo, yHi) = (2012, 2017)
+(yLo, yHi) = ((2017, 5), (2022, 5))
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -37,7 +37,10 @@ data = pd.read_csv(
 )
 data = data.drop_duplicates()
 msk = [
-    ((i.date() >= datetime.date(yLo, 5, 1)) and (i.date() < datetime.date(yHi, 5, 1))) 
+    (
+        (i.date() >= datetime.date(yLo[0], yLo[1], 1)) and 
+        (i.date() < datetime.date(yHi[0], yHi[1], 1))
+    ) 
     if (type(i) is not float) else (False) for i in data['Date']
 ]
 dates = data.loc[msk]["Date"]
@@ -86,10 +89,12 @@ ax.bar(
 )
 ax.set_theta_zero_location("N")
 ax.text(
-    0.5, 0.75, '{} - {}'.format(yLo, yHi),
+    0.5, 0.75, '{}/{} - {}/{}'.format(
+        yLo[0], str(yLo[1]).zfill(2), yHi[0], str(yHi[1]).zfill(2)
+    ),
     horizontalalignment='center',
     verticalalignment='center',
-    fontsize=50, color='#000000DD',
+    fontsize=30, color='#000000DD',
     transform=ax.transAxes, zorder=15
 )
 ax.text(
@@ -112,7 +117,9 @@ ax.tick_params(axis="x", labelsize=15, colors='#000000ff')
 for spine in ax.spines.values():
     spine.set_edgewidth=2
 fig.savefig(
-    stp.IMG_PATH + '/PLC_HRL-{}_{}.png'.format(yLo, yHi),
+    stp.IMG_PATH + '/PLC_HRL-{}_{}-{}_{}.png'.format(
+        yLo[0], str(yLo[1]).zfill(2), yHi[0], str(yHi[1]).zfill(2)
+    ),
     dpi=RESOLUTION, facecolor='White', edgecolor='w',
     orientation='portrait', papertype=None, format=None,
     transparent=False, bbox_inches='tight', pad_inches=.1,
