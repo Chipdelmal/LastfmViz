@@ -10,6 +10,7 @@
 # Polar plot routines
 ##############################################################################
 
+from sys import argv
 import datetime
 import aux as aux
 import setup as stp
@@ -22,12 +23,22 @@ import matplotlib as mpl
 from matplotlib.pyplot import figure, show, rc
 mpl.rcParams['axes.linewidth'] = 1
 
+# (yLo, yHi) = ((2017, 5), (2022, 5))
+(yLo, yHi) = (
+    (argv[1], argv[2],), 
+    (argv[3], argv[4])
+)
+yOnly = argv[5]
+##############################################################################
+# Process inputs
+##############################################################################
+yLo = [int(i) for i in yLo]
+yHi = [int(i) for i in yHi]
 ##############################################################################
 # Aesthetics parameters
 ##############################################################################
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
 HOURS_OFFSET = 6
-(yLo, yHi) = ((2017, 5), (2022, 5))
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -88,13 +99,22 @@ ax.bar(
     zorder=-1
 )
 ax.set_theta_zero_location("N")
-ax.text(
-    0.5, 0.75, '{}/{} - {}/{}'.format(
+if yOnly == 'False':
+    label = '{}/{} - {}/{}'.format(
         yLo[0], str(yLo[1]).zfill(2), yHi[0], str(yHi[1]).zfill(2)
-    ),
+    )
+    lSize = 30
+else:
+    label = '{} - {}'.format(
+        yLo[0], yHi[0]
+    )
+    lSize = 50
+print('* Processing {}'.format(label))
+ax.text(
+    0.5, 0.75, label,
     horizontalalignment='center',
     verticalalignment='center',
-    fontsize=30, color='#000000DD',
+    fontsize=lSize, color='#000000DD',
     transform=ax.transAxes, zorder=15
 )
 ax.text(
