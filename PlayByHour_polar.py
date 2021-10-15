@@ -23,7 +23,8 @@ import matplotlib as mpl
 from matplotlib.pyplot import figure, show, rc
 mpl.rcParams['axes.linewidth'] = 1
 
-# (yLo, yHi) = ((2017, 5), (2022, 5))
+# (yLo, yHi) = ((2019, 1), (2020, 1))
+# yOnly = 'True'
 (yLo, yHi) = (
     (argv[1], argv[2],), 
     (argv[3], argv[4])
@@ -57,6 +58,7 @@ msk = [
 dates = data.loc[msk]["Date"]
 hoursPlays = sorted([i.hour for i in dates if (type(i) is not float)], reverse=True)
 hoursFreq = [len(list(group)) for key, group in groupby(hoursPlays)]
+hoursFreq = [hoursPlays.count(hD) for hD in list(range(23, -1, -1))]
 
 #############################################################################
 # Polar
@@ -83,9 +85,12 @@ for r, bar in zip(radii, bars):
     # bar.set_facecolor(cm.BuPu(r/(np.max(hoursFreq)*1.1)))
     bar.set_alpha(0.75)
 # Shading -------------------------------------------------------------------
-shades = 256
+shades = 12
+# rvb = aux.colorPaletteFromHexList(
+#     ['#03071e', '#001233', '#001d3d', '#001d3d','#ffffff', '#ffffff', '#ffffff', '#ffffff']
+# )
 rvb = aux.colorPaletteFromHexList(
-    ['#03071e', '#001233', '#001d3d', '#001d3d','#ffffff', '#ffffff', '#ffffff', '#ffffff']
+    ['#ffffff', '#ffffff', '#ffffff', '#ffffff']
 )
 colors = list(rvb(np.linspace(0, 1, shades)))
 colors.extend(reversed(colors))
@@ -95,7 +100,7 @@ ax.bar(
     1.15*maxFreq,
     width=2*np.pi/(2*shades),
     color=colors, #'white', #colors, 
-    alpha=.25, edgecolor="black", ls='-', lw=0,
+    alpha=.15, edgecolor="black", ls='-', lw=.5,
     zorder=-1
 )
 ax.set_theta_zero_location("N")
@@ -130,8 +135,8 @@ ax.set_yticks(np.arange(0, maxFreq, maxFreq*.25))
 ax.set_yticklabels([])
 ax.set_xticks(np.arange(np.pi*2, 0, -np.pi*2/24))
 ax.set_xticklabels(np.arange(0, 24, 1))
-ax.grid(which='major', axis='x', color='#000000', alpha=0.15, lw=.5, ls='--', zorder=15)
-ax.grid(which='major', axis='y', color='#000000', alpha=0.15, lw=.5, ls='--', zorder=15)
+ax.grid(which='major', axis='x', color='#000000', alpha=0.15, lw=0, ls='--', zorder=15)
+ax.grid(which='major', axis='y', color='#000000', alpha=0.15, lw=.5, ls='-', zorder=15)
 ax.tick_params(direction='in', pad=10)
 ax.tick_params(axis="x", labelsize=15, colors='#000000ff')
 for spine in ax.spines.values():
