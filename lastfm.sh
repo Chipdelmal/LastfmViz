@@ -3,7 +3,7 @@
 
 MSK='False'
 # Clean the Lastfm dataset ----------------------------------------------------
-python Lasftm_clean.py
+python Lastftm_clean.py
 # Download geocode data from musicbrainz --------------------------------------
 python MusicBrainz_download.py
 # Generate map masks ----------------------------------------------------------
