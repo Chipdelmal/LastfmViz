@@ -23,8 +23,8 @@ import matplotlib as mpl
 from matplotlib.pyplot import figure, show, rc
 mpl.rcParams['axes.linewidth'] = 1
 
-# (yLo, yHi) = ((2019, 1), (2020, 1))
-# yOnly = 'True'
+(yLo, yHi) = ((2019, 1), (2020, 1))
+yOnly = 'True'
 (yLo, yHi) = (
     (argv[1], argv[2],), 
     (argv[3], argv[4])
@@ -57,7 +57,7 @@ msk = [
 ]
 dates = data.loc[msk]["Date"]
 hoursPlays = sorted([i.hour for i in dates if (type(i) is not float)], reverse=True)
-hoursFreq = [len(list(group)) for key, group in groupby(hoursPlays)]
+# hoursFreq = [len(list(group)) for key, group in groupby(hoursPlays)]
 hoursFreq = [hoursPlays.count(hD) for hD in list(range(23, -1, -1))]
 
 #############################################################################
@@ -86,19 +86,16 @@ for r, bar in zip(radii, bars):
     bar.set_alpha(0.75)
 # Shading -------------------------------------------------------------------
 shades = 12
-# rvb = aux.colorPaletteFromHexList(
-#     ['#03071e', '#001233', '#001d3d', '#001d3d','#ffffff', '#ffffff', '#ffffff', '#ffffff']
-# )
 rvb = aux.colorPaletteFromHexList(
     ['#ffffff00', '#ffffff00', '#ffffff00', '#ffffff00']
 )
 colors = list(rvb(np.linspace(0, 1, shades)))
 colors.extend(reversed(colors))
-step=  2*np.pi/(2*shades)
+step=  np.pi/shades
 ax.bar(
     np.arange(0.0+step, 2*np.pi+step, step), 
     1.15*maxFreq,
-    width=2*np.pi/(2*shades),
+    width=step,
     color=colors, #'white', #colors, 
     alpha=.2, edgecolor="black", ls='-', lw=.5,
     zorder=-1

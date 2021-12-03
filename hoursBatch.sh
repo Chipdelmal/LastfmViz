@@ -14,3 +14,5 @@ python PlayByHour_polar.py 2021 1 2022 1 "True"
 
 python PlayByHour_polar.py 2012 8 2017 5 "False"
 python PlayByHour_polar.py 2017 5 2021 10 "False"
+
+python PlayByHour_polar.py 2012 8 2021 11 "False"
