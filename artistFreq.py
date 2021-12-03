@@ -10,15 +10,17 @@
 # Artists frequencies routines
 ##############################################################################
 # import math
+import cv2
 import aux as aux
 import datetime
 import setup as stp
 import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+from matplotlib import font_manager
 from sys import argv
 
-(WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 750)
+(WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 500)
 (yLo, yHi) = ((2012, 1), (2013, 1))
 (yLo, yHi) = (
     (argv[1], argv[2]), 
@@ -46,28 +48,46 @@ if DATE:
 ##############################################################################
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
-######################################################################
+##############################################################################
 # Wordcloud
 ##############################################################################
-cmap = aux.colorPaletteFromHexList([
-    '#011627', '#004e89', '#011627', '#ff006e'
-])
-########
+cList = [
+    '#ffffff', '#ffffff', '#0466c8', 
+    '#ffffff', '#ffffff', '#ff0a54',
+    '#ffffff', '#ffffff', '#8338ec', 
+    '#ffffff', '#ffffff'
+]
+cmap = aux.colorPaletteFromHexList(cList)
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-        relative_scaling=.5, min_font_size=8, font_path=stp.FONT,
-        background_color='white', #mode='RGBA',
+        relative_scaling=.4, min_font_size=8, font_path=stp.FONT,
+        background_color="rgba(1, 1, 1, 0)", mode='RGBA',
+        # background_color='#000814',
         colormap=cmap # stp.cMap
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
-plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='w')
+##############################################################################
+fig = plt.figure(figsize=(20, 20*(HEIGHT/WIDTH)), facecolor='w')
+ax = fig.add_subplot(111)
+img = cv2.imread("/home/chipdelmal/Documents/LastfmViz/img/raw.jpg")
+ax.imshow(img[:,:,::-1], extent=[0, 1, 0, 1], transform=ax.transAxes, zorder=-10)
 plt.imshow(wordcloud, interpolation='bilinear')
+plt.rcParams["font.family"] = "verdana"
+ax.text(
+    0.5, 0.5, '{}'.format(yLo[0]),
+    horizontalalignment='center',
+    verticalalignment='center',
+    fontsize=450, color='#ffffff15',
+    transform=ax.transAxes, zorder=1,
+    weight='light'
+    # font_properties=font_prop
+)
 plt.tight_layout(pad=0)
 plt.axis("off")
 plt.savefig(
         stp.IMG_PATH + '/ART_WDC-{}_{}.png'.format(yLo[0], yHi[0]),
-        dpi=RESOLUTION, facecolor='white', edgecolor='white',
+        dpi=RESOLUTION, # facecolor='black', edgecolor='black',
         orientation='portrait', papertype=None, format=None,
-        transparent=True, bbox_inches='tight', pad_inches=.1,
+        transparent=True, bbox_inches='tight', pad_inches=.2,
         metadata=None
     )
