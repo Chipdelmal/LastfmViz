@@ -48,19 +48,22 @@ if DATE:
 ##############################################################################
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
+artistCount = artistCount.append(
+    pd.Series([10*max(artistCount.values)], index=[str(yLo[0])])
+)
 ##############################################################################
 # Wordcloud
 ##############################################################################
 cList = [
-    '#ffffff', '#ffffff', '#0466c8', 
-    '#ffffff', '#ffffff', '#ff0a54',
-    '#ffffff', '#ffffff', '#8338ec', 
-    '#ffffff', '#ffffff'
+    '#ffffff', '#ffffff', '#ffffff', '#0466c8', 
+    '#ffffff', '#ffffff', '#ffffff', '#ff0a54',
+    '#ffffff', '#ffffff', '#ffffff', '#8338ec', 
+    '#ffffff', '#ffffff', '#ffffff'
 ]
 cmap = aux.colorPaletteFromHexList(cList)
 wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
-        relative_scaling=.4, min_font_size=8, font_path=stp.FONT,
+        relative_scaling=.5, min_font_size=8, font_path=stp.FONT,
         background_color="rgba(1, 1, 1, 0)", mode='RGBA',
         # background_color='#000814',
         colormap=cmap # stp.cMap
@@ -73,21 +76,21 @@ img = cv2.imread("/home/chipdelmal/Documents/LastfmViz/img/raw.jpg")
 ax.imshow(img[:,:,::-1], extent=[0, 1, 0, 1], transform=ax.transAxes, zorder=-10)
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.rcParams["font.family"] = "verdana"
-ax.text(
-    0.5, 0.5, '{}'.format(yLo[0]),
-    horizontalalignment='center',
-    verticalalignment='center',
-    fontsize=450, color='#ffffff15',
-    transform=ax.transAxes, zorder=1,
-    weight='light'
-    # font_properties=font_prop
-)
+# ax.text(
+#     0.5, 0.5, '{}'.format(yLo[0]),
+#     horizontalalignment='center',
+#     verticalalignment='center',
+#     fontsize=500, color='#ffffff09',
+#     transform=ax.transAxes, zorder=1,
+#     weight='light'
+#     # font_properties=font_prop
+# )
 plt.tight_layout(pad=0)
 plt.axis("off")
 plt.savefig(
         stp.IMG_PATH + '/ART_WDC-{}_{}.png'.format(yLo[0], yHi[0]),
         dpi=RESOLUTION, # facecolor='black', edgecolor='black',
         orientation='portrait', papertype=None, format=None,
-        transparent=True, bbox_inches='tight', pad_inches=.2,
+        transparent=True, bbox_inches='tight', pad_inches=.5,
         metadata=None
     )
