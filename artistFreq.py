@@ -66,7 +66,7 @@ wordcloudDef = WordCloud(
         relative_scaling=.5, min_font_size=8, font_path=stp.FONT,
         background_color="rgba(1, 1, 1, 0)", mode='RGBA',
         # background_color='#000814',
-        colormap=cmap # stp.cMap
+        colormap=cmap
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 ##############################################################################
