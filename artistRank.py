@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import make_interp_spline, BSpline
 
 
-RANKS = 15
+RANKS = 10
 (WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 500)
 (yLo, yHi) = ((2012, 1), (2022, 1))
 # (yLo, yHi) = (
@@ -106,12 +106,12 @@ ax.vlines(
 )
 for (art, pos) in zip(artistsT0, ranksT0):
     ax.text(
-        -1, RANKS-ySpace*(int(pos)-1)-ySpace*.4, art, 
+        -1, RANKS-ySpace*(int(pos)-1)-ySpace*.2, art, 
         ha='right', color='w', fontsize=8
     )
 for (art, pos) in zip(artistsT0, ranksTF):
     ax.text(
-        len(dates)-1+xExtend+1, RANKS-ySpace*(int(pos)-1)-ySpace*.4, art, 
+        len(dates)-1+xExtend+1, RANKS-ySpace*(int(pos)-1)-ySpace*.2, art, 
         ha='left', color='w', fontsize=8
     )
 ax.set_aspect(.2/ax.get_data_ratio(), adjustable='box')
