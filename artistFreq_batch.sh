@@ -9,4 +9,4 @@
 # python artistFreq.py 2018 1 2019 1 
 # python artistFreq.py 2019 1 2020 1 
 # python artistFreq.py 2020 1 2021 1 
-# python artistFreq.py 2021 1 2022 1 
+python artistFreq.py 2021 1 2022 1 

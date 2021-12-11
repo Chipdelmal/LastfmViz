@@ -20,6 +20,12 @@ RANKS = 10
 DATE = True
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
+artistsSet = {
+    'Courteeners', 'The Vaccines', 'The Smashing Pumpkins', 'Interpol',
+    'The National', 'Radiohead', 'Kashmir', 'The Temper Trap',
+    'Nirvana', 'Oasis'
+}
+highlight = {'Nirvana', 'Interpol'}
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -39,7 +45,8 @@ if DATE:
 ##############################################################################
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
-topArtists = list(artistCount.index)[:RANKS]
+# topArtists = list(artistCount.index)[:RANKS]
+topArtists = sorted(list(artistsSet))
 dfFltrd = data[data['Artist'].isin(set(topArtists))]
 ##############################################################################
 # Count and Reshape
@@ -65,13 +72,15 @@ dfRanksR = dfCountsR.rank(ascending=False, method='first', axis=0)
 dates = sorted(list(dfCounts.columns))
 artists = sorted(list(dfCounts.index))
 cmap = aux.colorPaletteFromHexList([
-    '#461177', '#bde0fe', '#f0a6ca', '#ff0054', '#5465ff', '#ff499e'
+    '#ffffff', '#bde0fe', '#f0a6ca', '#ff0054', 
+    '#33a1fd', '#5465ff', '#ff499e', '#b79ced'
 ])
+(hiCol, loCol) = (.9, .25)
 (ySpace, colors) = (1, cmap(np.linspace(0, 1, len(artists))))
-xExtend = 2
+xExtend = 4
 # Stats -----------------------------------------------------------------------
 artistsT0 = list(dfRanksR.index)
-ranksDate = list(dfRanksR.columns)[WIN_M-1]
+ranksDate = list(dfRanksR.columns)[WIN_M]
 ranksT0 = list(dfRanksR[ranksDate])
 ranksDateF = list(dfRanksR.columns)[-1]
 ranksTF = list(dfRanksR[ranksDateF])
@@ -79,6 +88,7 @@ ranksTF = list(dfRanksR[ranksDateF])
 t = list(range(0, len(dates)+xExtend, 1))
 xnew = np.linspace(0, max(t), 500)
 yearTicks = [i for i, s in enumerate(dates) if '/01' in s]
+years = np.arange(yearTicks[0], yearTicks[-1]+12, 12)
 dteTicks = [item[:4] for item in dates if '/01' in item]
 (fig, ax) = plt.subplots(1, 1, figsize=(15, 3.5))
 for i in range(len(artists)):
@@ -87,20 +97,23 @@ for i in range(len(artists)):
     # power_smooth = spl(xnew)
     y[np.isnan(y)]=y[WIN_M]
     z = np.append(y, [y[-1]]*xExtend)
+    colors[i][-1] = loCol
+    if artists[i] in highlight:
+        colors[i][-1] = hiCol
     plt.plot(
         t, z,
-        lw=2, alpha=.75, color=colors[i],
+        lw=3, color=colors[i],
         marker='.', markersize=0,
         solid_joinstyle='round',
         solid_capstyle='butt'
     )
 ax.vlines(
-    yearTicks, 0, 1, 
+    years, 0, 1, 
     lw=.5, ls=':', transform=ax.get_xaxis_transform(),
     color='w'
 )
 ax.vlines(
-    [i-6 for i in yearTicks], 0, 1, 
+    [i-6 for i in years[1:]], 0, 1, 
     lw=.25, ls=':', transform=ax.get_xaxis_transform(),
     color='w'
 )
@@ -119,10 +132,11 @@ ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 ax.spines['bottom'].set_visible(False)
 ax.spines['left'].set_visible(False)
-ax.get_xaxis().set_ticks(yearTicks)
+ax.get_xaxis().set_ticks(years)
 a = ax.get_xticks().tolist()
+years = np.arange(int(dteTicks[0]), int(dteTicks[-1])+1, 1)
 for i in range(len(a)):
-    a[i] = dteTicks[i]
+    a[i] = years[i]
 ax.get_xaxis().set_ticklabels(a)
 ax.get_yaxis().set_ticks([])
 ax.spines['bottom'].set_color('white')
