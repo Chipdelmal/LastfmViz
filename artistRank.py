@@ -1,5 +1,6 @@
 
 # import math
+import random
 import aux as aux
 import datetime
 import setup as stp
@@ -10,13 +11,10 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import make_interp_spline, BSpline
 
 
-RANKS = 10
+RANKS = 20
 (WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 500)
 (yLo, yHi) = ((2012, 1), (2022, 1))
-# (yLo, yHi) = (
-#     (argv[1], argv[2]), 
-#     (argv[3], argv[4])
-# )
+artistsSetBool = False
 DATE = True
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
@@ -25,7 +23,7 @@ artistsSet = {
     'The National', 'Radiohead', 'Kashmir', 'The Temper Trap',
     'Nirvana', 'Oasis'
 }
-highlight = {'Nirvana', 'Interpol'}
+highlight = {'The Temper Trap', }
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -45,8 +43,10 @@ if DATE:
 ##############################################################################
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
-# topArtists = list(artistCount.index)[:RANKS]
-topArtists = sorted(list(artistsSet))
+if artistsSetBool:
+    topArtists = sorted(list(artistsSet))
+else:
+    topArtists = list(artistCount.index)[:RANKS]
 dfFltrd = data[data['Artist'].isin(set(topArtists))]
 ##############################################################################
 # Count and Reshape
@@ -72,11 +72,14 @@ dfRanksR = dfCountsR.rank(ascending=False, method='first', axis=0)
 dates = sorted(list(dfCounts.columns))
 artists = sorted(list(dfCounts.index))
 cmap = aux.colorPaletteFromHexList([
-    '#ffffff', '#bde0fe', '#f0a6ca', '#ff0054', 
-    '#33a1fd', '#5465ff', '#ff499e', '#b79ced'
+    '#bde0fe', '#ff0054', '#0a369d',
+    '#33a1fd', '#5465ff', '#f0a6ca', '#ff499e', 
+    '#b79ced', '#aaf683', '#ffffff'
 ])
-(hiCol, loCol) = (.9, .25)
+(aspect, fontSize, lw) = (.3, 7.5, 1.5)
+(hiCol, loCol) = (.8, .15)
 (ySpace, colors) = (1, cmap(np.linspace(0, 1, len(artists))))
+# random.shuffle(colors)
 xExtend = 4
 # Stats -----------------------------------------------------------------------
 artistsT0 = list(dfRanksR.index)
@@ -93,8 +96,6 @@ dteTicks = [item[:4] for item in dates if '/01' in item]
 (fig, ax) = plt.subplots(1, 1, figsize=(15, 3.5))
 for i in range(len(artists)):
     y = RANKS-(np.asarray(dfRanksR.iloc[i])-1)*ySpace
-    # spl = make_interp_spline(t, y, k=0)
-    # power_smooth = spl(xnew)
     y[np.isnan(y)]=y[WIN_M]
     z = np.append(y, [y[-1]]*xExtend)
     colors[i][-1] = loCol
@@ -102,7 +103,7 @@ for i in range(len(artists)):
         colors[i][-1] = hiCol
     plt.plot(
         t, z,
-        lw=3, color=colors[i],
+        lw=lw, color=colors[i],
         marker='.', markersize=0,
         solid_joinstyle='round',
         solid_capstyle='butt'
@@ -120,14 +121,14 @@ ax.vlines(
 for (art, pos) in zip(artistsT0, ranksT0):
     ax.text(
         -1, RANKS-ySpace*(int(pos)-1)-ySpace*.2, art, 
-        ha='right', color='w', fontsize=8
+        ha='right', color='w', fontsize=fontSize
     )
 for (art, pos) in zip(artistsT0, ranksTF):
     ax.text(
         len(dates)-1+xExtend+1, RANKS-ySpace*(int(pos)-1)-ySpace*.2, art, 
-        ha='left', color='w', fontsize=8
+        ha='left', color='w', fontsize=fontSize
     )
-ax.set_aspect(.2/ax.get_data_ratio(), adjustable='box')
+ax.set_aspect(aspect/ax.get_data_ratio(), adjustable='box')
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 ax.spines['bottom'].set_visible(False)
