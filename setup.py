@@ -104,7 +104,7 @@ BAN = set([
         'Duncan Dhu',
         'Chicago Public Media', 'throughlinegroup.com', 'undefinedRadiohead',
         'throughlinegroup.com', 'moviepilot', 'Mario Galaxy Orchestra', 
-        'Moviepilot Supernews'
+        'Moviepilot Supernews', 'Miguel Mateos'
     ])
 ##############################################################################
 # Countries corrections

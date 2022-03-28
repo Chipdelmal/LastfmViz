@@ -39,6 +39,23 @@ dataG = pd.read_csv(stp.DATA_PATH + stp.USR + '_mbz.csv')
 artistsDB = dataG[['Artist', 'MB_Geo1']]
 cntryRaw = list(artistsDB['MB_Geo1'].unique())
 cntry = sorted([x for x in cntryRaw if isinstance(x, str)])
-
+# Artists frequencies --------------------------------------------------------
 artistsPlayed = dataF['Artist'].unique()
-artistCounts = dataF.groupby('Artist').size()
+artistCounts = dataF.groupby('Artist').size().reset_index(name='Frequency')
+##############################################################################
+# Compile data
+##############################################################################
+cix = cntry[1]
+df = pd.DataFrame(columns=['Country', 'Frequency', 'Artists'])
+for cix in cntry:
+    artsInCountry = artistsDB[artistsDB['MB_Geo1'] == cix]
+    arts = set(artsInCountry['Artist'])
+    artsWithFreq = artistCounts[artistCounts['Artist'].isin(arts)]
+    freqByCountry = sum(artsWithFreq['Frequency'])
+    df = df.append({
+        'Country': cix, 
+        'Frequency': freqByCountry,
+        'Artists': len(arts)
+    }, ignore_index=True)
+#     ctryDict[cix] = freqByCountry
+# ctryDict
