@@ -61,7 +61,7 @@ for cix in cntry:
         'Ratio': freqByCountry/len(arts)
     }, ignore_index=True)
 ##############################################################################
-# Plot data
+# Waffle Plots
 ##############################################################################
 fig = plt.figure(
     FigureClass = Waffle,
@@ -79,13 +79,32 @@ fig = plt.figure(
     }
 )
 fig.set_size_inches(20, 20)
-
-cat = 'Frequency'
-dfSub = df[df[cat] > 1000]
-squarify.plot(dfSub[cat], label=dfSub['Country'], pad=True)
+##############################################################################
+# Tree Map
+##############################################################################
+# https://matplotlib.org/3.5.1/api/_as_gen/matplotlib.axes.Axes.text.html
+# https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.bar.html
+font = {'color': (1, 1, 1)}
+bar = {'edgecolor': (0, 0, 0), 'linewidth': 2}
+# Frequency ------------------------------------------------------------------
+(cat, ths) = ('Frequency', 1000)
+(fig, ax) = plt.subplots(1, 1, figsize=(10,10))
+dfSub = df[df[cat] > ths]
+squarify.plot(
+    dfSub[cat], 
+    label=dfSub['Country'], pad=True, text_kwargs=font, bar_kwargs=bar
+)
+ax.set_aspect(1)
+plt.axis('off')
 plt.show()
-
-cat = 'Ratio'
-dfSub = df[df[cat] > 25]
-squarify.plot(dfSub[cat], label=dfSub['Country'], pad=True)
+# Ratio ----------------------------------------------------------------------
+(cat, ths) = ('Ratio', 25)
+(fig, ax) = plt.subplots(1, 1, figsize=(10,10))
+dfSub = df[df[cat] > ths]
+squarify.plot(
+    dfSub[cat], 
+    label=dfSub['Country'], pad=True, text_kwargs=font, bar_kwargs=bar
+)
+ax.set_aspect(1)
+plt.axis('off')
 plt.show()
