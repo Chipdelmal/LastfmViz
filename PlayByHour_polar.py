@@ -59,7 +59,6 @@ dates = data.loc[msk]["Date"]
 hoursPlays = sorted([i.hour for i in dates if (type(i) is not float)], reverse=True)
 # hoursFreq = [len(list(group)) for key, group in groupby(hoursPlays)]
 hoursFreq = [hoursPlays.count(hD) for hD in list(range(23, -1, -1))]
-
 #############################################################################
 # Polar
 #############################################################################

@@ -11,8 +11,9 @@ python PlayByHour_polar.py 2018 1 2019 1 "True"
 python PlayByHour_polar.py 2019 1 2020 1 "True"
 python PlayByHour_polar.py 2020 1 2021 1 "True"
 python PlayByHour_polar.py 2021 1 2022 1 "True"
+python PlayByHour_polar.py 2022 1 2023 1 "True"
 
 python PlayByHour_polar.py 2012 8 2017 5 "False"
-python PlayByHour_polar.py 2017 5 2021 10 "False"
+python PlayByHour_polar.py 2017 5 2023 10 "False"
 
-python PlayByHour_polar.py 2012 8 2021 11 "False"
+python PlayByHour_polar.py 2012 8 2023 11 "False"

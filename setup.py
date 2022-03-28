@@ -97,11 +97,14 @@ BAN = set([
         'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano', 'Ramon Mirabet',
         'Pereza', 'Ana Carolina', 'Seu Jorge', 'Hello Seahorse!',
         'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
-        'Charles Darwin', 'Savage Garden', 'Kakkmaddafakka', 'Bryan Adams',
+        'Charles Darwin', 'Savage Garden',
         'El Tri', 'Café Tacvba', 'Caifanes', 'Nacha Pop', 
         'Maldita Vecindad Y Los Hijos Del Quinto Patio', 'Enanitos Verdes',
-        'Soda Stereo',
-        'Los Prisioneros', 'Bacilos', 'Alaska y Dinarama', 'Duncan Dhu'
+        'Soda Stereo', 'Los Prisioneros', 'Bacilos', 'Alaska y Dinarama', 
+        'Duncan Dhu',
+        'Chicago Public Media', 'throughlinegroup.com', 'undefinedRadiohead',
+        'throughlinegroup.com', 'moviepilot', 'Mario Galaxy Orchestra', 
+        'Moviepilot Supernews'
     ])
 ##############################################################################
 # Countries corrections

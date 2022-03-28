@@ -21,6 +21,7 @@ from matplotlib import font_manager
 from sys import argv
 
 (WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 500)
+# (WIDTH, HEIGHT, RESOLUTION) = (1920, 1080, 500)
 (yLo, yHi) = ((2012, 1), (2013, 1))
 (yLo, yHi) = (
     (argv[1], argv[2]), 
@@ -91,6 +92,6 @@ plt.savefig(
         stp.IMG_PATH + '/ART_WDC-{}_{}.png'.format(yLo[0], yHi[0]),
         dpi=RESOLUTION, # facecolor='black', edgecolor='black',
         orientation='portrait', papertype=None, format=None,
-        transparent=True, bbox_inches='tight', pad_inches=.5,
+        transparent=True, bbox_inches='tight', pad_inches=0.0,
         metadata=None
     )
