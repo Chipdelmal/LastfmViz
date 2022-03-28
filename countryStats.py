@@ -1,6 +1,7 @@
 import math
 from sys import argv
 import datetime
+import squarify
 import aux as aux
 import setup as stp
 import numpy as np
@@ -78,3 +79,13 @@ fig = plt.figure(
     }
 )
 fig.set_size_inches(20, 20)
+
+cat = 'Frequency'
+dfSub = df[df[cat] > 1000]
+squarify.plot(dfSub[cat], label=dfSub['Country'], pad=True)
+plt.show()
+
+cat = 'Ratio'
+dfSub = df[df[cat] > 25]
+squarify.plot(dfSub[cat], label=dfSub['Country'], pad=True)
+plt.show()
