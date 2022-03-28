@@ -9,6 +9,7 @@ from itertools import groupby
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib as mpl
+from pywaffle import Waffle
 from matplotlib.pyplot import figure, show, rc
 mpl.rcParams['axes.linewidth'] = 1
 
@@ -46,7 +47,7 @@ artistCounts = dataF.groupby('Artist').size().reset_index(name='Frequency')
 # Compile data
 ##############################################################################
 cix = cntry[1]
-df = pd.DataFrame(columns=['Country', 'Frequency', 'Artists'])
+df = pd.DataFrame(columns=['Country', 'Frequency', 'Artists', 'Ratio'])
 for cix in cntry:
     artsInCountry = artistsDB[artistsDB['MB_Geo1'] == cix]
     arts = set(artsInCountry['Artist'])
@@ -55,7 +56,25 @@ for cix in cntry:
     df = df.append({
         'Country': cix, 
         'Frequency': freqByCountry,
-        'Artists': len(arts)
+        'Artists': len(arts),
+        'Ratio': freqByCountry/len(arts)
     }, ignore_index=True)
-#     ctryDict[cix] = freqByCountry
-# ctryDict
+##############################################################################
+# Plot data
+##############################################################################
+fig = plt.figure(
+    FigureClass = Waffle,
+    rows = 50, columns = 200,
+    values = df.Ratio,
+    labels = list(df.Country),
+    interval_ratio_x=.5, interval_ratio_y=.5,
+    legend={
+        # 'labels': [f"{k} ({v}%)" for k, v in data.items()],  # lebels could also be under legend instead
+        'loc': 'lower left',
+        'bbox_to_anchor': (0, -0.25),
+        'ncol': 10,
+        'framealpha': 0,
+        'fontsize': 12
+    }
+)
+fig.set_size_inches(20, 20)
