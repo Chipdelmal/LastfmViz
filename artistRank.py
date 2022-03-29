@@ -13,7 +13,7 @@ from scipy.interpolate import make_interp_spline, BSpline
 
 RANKS = 20
 (WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 500)
-(yLo, yHi) = ((2012, 1), (2022, 1))
+(yLo, yHi) = ((2012, 1), (2022, 12))
 artistsSetBool = False
 DATE = True
 yLo = [int(i) for i in yLo]

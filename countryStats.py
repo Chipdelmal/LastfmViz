@@ -9,7 +9,10 @@ import pandas as pd
 from itertools import groupby
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+from matplotlib.transforms import Affine2D
 import matplotlib as mpl
+import matplotlib.cm
+import random
 from pywaffle import Waffle
 from matplotlib.pyplot import figure, show, rc
 mpl.rcParams['axes.linewidth'] = 1
@@ -84,27 +87,45 @@ fig.set_size_inches(20, 20)
 ##############################################################################
 # https://matplotlib.org/3.5.1/api/_as_gen/matplotlib.axes.Axes.text.html
 # https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.bar.html
-font = {'color': (1, 1, 1)}
+font = {'color': (1, 1, 1), 'weight': 'bold', 'rotation': 90, 'fontsize': 17.5}
 bar = {'edgecolor': (0, 0, 0), 'linewidth': 2}
 # Frequency ------------------------------------------------------------------
 (cat, ths) = ('Frequency', 1000)
-(fig, ax) = plt.subplots(1, 1, figsize=(10,10))
+(fig, ax) = plt.subplots(1, 1, figsize=(15, 15))
 dfSub = df[df[cat] > ths]
+# cmap = matplotlib.cm.get_cmap("plasma")
+# color = [cmap(random.random()) for i in range(dfSub.shape[0])]
 squarify.plot(
     dfSub[cat], 
-    label=dfSub['Country'], pad=True, text_kwargs=font, bar_kwargs=bar
+    label=dfSub['Country'], pad=True, 
+    text_kwargs=font, bar_kwargs=bar
 )
 ax.set_aspect(1)
 plt.axis('off')
-plt.show()
+# plt.show()
+fig.savefig(
+    stp.IMG_PATH + 'countryFrequency.png',
+    dpi=RESOLUTION, orientation='portrait', papertype=None, format=None,
+    facecolor='w', edgecolor='w',
+    transparent=False,
+    bbox_inches='tight', pad_inches=0, metadata=None
+)
 # Ratio ----------------------------------------------------------------------
 (cat, ths) = ('Ratio', 25)
-(fig, ax) = plt.subplots(1, 1, figsize=(10,10))
+(fig, ax) = plt.subplots(1, 1, figsize=(15, 15))
 dfSub = df[df[cat] > ths]
 squarify.plot(
     dfSub[cat], 
-    label=dfSub['Country'], pad=True, text_kwargs=font, bar_kwargs=bar
+    label=dfSub['Country'], pad=True, 
+    text_kwargs=font, bar_kwargs=bar
 )
 ax.set_aspect(1)
 plt.axis('off')
-plt.show()
+# plt.show()
+fig.savefig(
+    stp.IMG_PATH + 'countryRatio.png',
+    dpi=RESOLUTION, orientation='portrait', papertype=None, format=None,
+    facecolor='w', edgecolor='w',
+    transparent=False,
+    bbox_inches='tight', pad_inches=0, metadata=None
+)

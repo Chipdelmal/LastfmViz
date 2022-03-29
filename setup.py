@@ -122,9 +122,9 @@ BAN = set([
         'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
         'Desiree Schell & K.O. Myers', 'Rebecca Watson',
         'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
-        'Starcraft', 'Rock En Tu Idioma',
+        'Starcraft', 'Rock En Tu Idioma', 'Science of Sleep'
         'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
-        'Charles Darwin',
+        'Charles Darwin', 'Robert Schumann',
         'Chicago Public Media', 'throughlinegroup.com', 'undefinedRadiohead',
         'throughlinegroup.com', 'moviepilot', 'Mario Galaxy Orchestra', 
         'Moviepilot Supernews'
