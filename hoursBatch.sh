@@ -1,5 +1,7 @@
 #!/bin/bash
 
+python Lastfm_clean.py
+python MusicBrainz_download.py
 
 python PlayByHour_polar.py 2012 1 2013 1 "True"
 python PlayByHour_polar.py 2013 1 2014 1 "True"
