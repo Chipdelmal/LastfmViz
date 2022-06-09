@@ -1,7 +1,7 @@
 #!/bin/bash
 
-python Lastfm_clean.py
-python MusicBrainz_download.py
+# python Lastfm_clean.py
+# python MusicBrainz_download.py
 
 python artistFreq.py 2012 1 2013 1
 python artistFreq.py 2013 1 2014 1

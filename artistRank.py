@@ -8,22 +8,22 @@ import pandas as pd
 import numpy as np
 import matplotlib.pylab as ply
 import matplotlib.pyplot as plt
-from scipy.interpolate import make_interp_spline, BSpline
 
 
-RANKS = 20
-(WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 500)
-(yLo, yHi) = ((2012, 1), (2022, 12))
+RANKS = 10
 artistsSetBool = False
+
+(WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 500)
+(yLo, yHi) = ((2012, 1), (2023, 12))
 DATE = True
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
 artistsSet = {
-    'Courteeners', 'The Vaccines', 'The Smashing Pumpkins', 'Interpol',
+    'Caamp', 'Courteeners', 'The Vaccines', 'The Smashing Pumpkins', 'Interpol',
     'The National', 'Radiohead', 'Kashmir', 'The Temper Trap',
-    'Nirvana', 'Oasis'
+    'Nirvana', 'Oasis', 'Band of Horses', 
 }
-highlight = {'The Temper Trap', }
+highlight = {'Camera Obscura', }
 ##############################################################################
 # Read artists file
 ##############################################################################

@@ -77,58 +77,37 @@ cMapAUS = LinearSegmentedColormap('WB', cdict, N=256)
 ##############################################################################
 # Ban list: Artists excluded from the analyses
 ##############################################################################
-# BAN = set([
-#         'Aperture Science Psychoacoustics Laboratory',
-#         'Band Of Horses?i', "Chip's iTouch", 'Chïp',
-#         'Crossroads Guitar Festival', 'Douglas Adams',
-#         'Dr. Steven Novella', 'El Explicador', 'El Explicador - XEITE',
-#         'El trío de tres', 'Enrique Ganem y María de los Ángeles Aranda',
-#         'Franco De Vita', 'Fuster', 'G3', 'Hombres G Con Ha-ash',
-#         'Howstuffworks.com', 'Live Aid', 'Love Album', 'Abril',
-#         'Koji Kondo/Mahito Yokota/Toru Minegishi/Yasuaki Iwata',
-#         'Mass Effect', 'Michael Bublé', 'Nature Publishing Group',
-#         'Rock En Tu Idioma', 'SGU Productions', 'Startalk radio',
-#         "The Skeptics' Guide to the Universe", '[unknown]', 'chipdelmal',
-#         'dawsons creek', 'iHeartRadio & HowStuffWorks', 'XTC',
-#         'Fraser Cain & Dr. Pamela Gay', 'Mychael Danna & Rob Simonsen'
-#         'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
-#         'Desiree Schell & K.O. Myers', 'Rebecca Watson', 'Mägo de Oz',
-#         'David Summers', 'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
-#         'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano', 'Ramon Mirabet',
-#         'Pereza', 'Ana Carolina', 'Seu Jorge', 'Hello Seahorse!',
-#         'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
-#         'Charles Darwin',
-#         'El Tri', 'Café Tacvba', 'Caifanes', 'Nacha Pop', 
-#         'Maldita Vecindad Y Los Hijos Del Quinto Patio', 'Enanitos Verdes',
-#         'Soda Stereo', 'Los Prisioneros', 'Bacilos', 'Alaska y Dinarama', 
-#         'Duncan Dhu',
-#         'Chicago Public Media', 'throughlinegroup.com', 'undefinedRadiohead',
-#         'throughlinegroup.com', 'moviepilot', 'Mario Galaxy Orchestra', 
-#         'Moviepilot Supernews', 'Miguel Mateos'
-#     ])
 BAN = set([
         'Aperture Science Psychoacoustics Laboratory',
         'Band Of Horses?i', "Chip's iTouch", 'Chïp',
         'Crossroads Guitar Festival', 'Douglas Adams',
         'Dr. Steven Novella', 'El Explicador', 'El Explicador - XEITE',
         'El trío de tres', 'Enrique Ganem y María de los Ángeles Aranda',
+        'Franco De Vita', 'Fuster', 'G3', 'Hombres G Con Ha-ash',
         'Howstuffworks.com', 'Live Aid', 'Love Album', 'Abril',
         'Koji Kondo/Mahito Yokota/Toru Minegishi/Yasuaki Iwata',
-        'Mass Effect', 'Nature Publishing Group',
-        'SGU Productions', 'Startalk radio',
+        'Mass Effect', 'Michael Bublé', 'Nature Publishing Group',
+        'Rock En Tu Idioma', 'SGU Productions', 'Startalk radio',
         "The Skeptics' Guide to the Universe", '[unknown]', 'chipdelmal',
-        'iHeartRadio & HowStuffWorks', 'XTC',
+        'dawsons creek', 'iHeartRadio & HowStuffWorks', 'XTC',
         'Fraser Cain & Dr. Pamela Gay', 'Mychael Danna & Rob Simonsen'
         'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
-        'Desiree Schell & K.O. Myers', 'Rebecca Watson',
-        'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
-        'Starcraft', 'Rock En Tu Idioma', 'Science of Sleep'
+        'Desiree Schell & K.O. Myers', 'Rebecca Watson', 'Mägo de Oz',
+        'David Summers', 'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
+        'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano', 'Ramon Mirabet',
+        'Pereza', 'Ana Carolina', 'Seu Jorge', 'Hello Seahorse!',
         'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
-        'Charles Darwin', 'Robert Schumann',
+        'Charles Darwin',
+        'El Tri', 'Café Tacvba', 'Caifanes', 'Nacha Pop', 
+        'Maldita Vecindad Y Los Hijos Del Quinto Patio', 'Enanitos Verdes',
+        'Soda Stereo', 'Los Prisioneros', 'Bacilos', 'Alaska y Dinarama', 
+        'Duncan Dhu',
         'Chicago Public Media', 'throughlinegroup.com', 'undefinedRadiohead',
         'throughlinegroup.com', 'moviepilot', 'Mario Galaxy Orchestra', 
-        'Moviepilot Supernews'
-])
+        'Moviepilot Supernews', 'Miguel Mateos',
+        'Elliott Smith', 
+        'undefinedPixies', 'undefinedRyan Adams', 'undefinedWilco'
+    ])
 ##############################################################################
 # Countries corrections
 ##############################################################################
@@ -139,6 +118,7 @@ CNTRY_FIX = {
         'Ireland': 'United Kingdom'
     }
 CNTRY_ALIAS = {
+        'CAN': {'Canada', 'CA'},
         'US': {'United States of America', 'United States', 'US'},
         'UK': {'United Kingdom', 'Ireland', 'UK'},
         'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa', 'AU'},
