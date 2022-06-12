@@ -106,7 +106,8 @@ BAN = set([
         'throughlinegroup.com', 'moviepilot', 'Mario Galaxy Orchestra', 
         'Moviepilot Supernews', 'Miguel Mateos',
         'Elliott Smith', 
-        'undefinedPixies', 'undefinedRyan Adams', 'undefinedWilco'
+        'undefinedPixies', 'undefinedRyan Adams', 'undefinedWilco',
+        'Los Enanitos Verdes'
     ])
 ##############################################################################
 # Countries corrections

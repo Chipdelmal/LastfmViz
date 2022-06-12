@@ -10,7 +10,7 @@ import matplotlib.pylab as ply
 import matplotlib.pyplot as plt
 
 
-RANKS = 10
+RANKS = 20
 artistsSetBool = False
 
 (WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 500)
@@ -77,7 +77,7 @@ cmap = aux.colorPaletteFromHexList([
     '#b79ced', '#aaf683', '#ffffff'
 ])
 (aspect, fontSize, lw) = (.3, 7.5, 1.5)
-(hiCol, loCol) = (.8, .15)
+(hiCol, loCol) = (.85, .125)
 (ySpace, colors) = (1, cmap(np.linspace(0, 1, len(artists))))
 # random.shuffle(colors)
 xExtend = 4
