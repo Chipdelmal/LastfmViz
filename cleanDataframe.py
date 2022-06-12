@@ -8,7 +8,7 @@ from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
 import setup as stp
 
-(TOP, T_THRESHOLD, P_THRESHOLD) = (150, timedelta(minutes=30), 200)
+(T_THRESHOLD, P_THRESHOLD) = (timedelta(minutes=30), 100)
 (yLo, yHi) = ((1969, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
@@ -27,13 +27,17 @@ msk = [
     if (type(i) is not float) else (False) for i in DTA_CLN['Date']
 ]
 DTA_CLN = DTA_CLN.loc[msk]
+arts = sorted(list(DTA_CLN['Artist'].unique()))
 ###############################################################################
 # Check for Inflated Counts
 ###############################################################################
-probe = DTA_CLN[DTA_CLN['Artist'] == 'Band of Horses']
-probe['Date'] = pd.to_datetime(probe['Date'], errors='coerce', utc=True)
-probe['Interval'] = probe['Date'].dt.to_period('D')
-probe.groupby('Interval').size().sort_values(ascending=False)
-
-
-DTA_CLN['Date'].unique()
+banDict = {}
+for artist in arts:
+    probe = DTA_CLN[DTA_CLN['Artist'] == artist].copy()
+    probe['Date'] = pd.to_datetime(probe['Date'], errors='coerce', utc=True)
+    probe['Interval'] = probe['Date'].dt.tz_localize(None).dt.to_period('D')
+    counts = probe.groupby('Interval').size().sort_values(ascending=False)
+    dayObjs = list(counts[counts > P_THRESHOLD].index)
+    banDates = [date(i.year, i.month, i.day) for i in dayObjs]
+    if len(banDates) > 0:
+        banDict[artist] = banDates

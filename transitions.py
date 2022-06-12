@@ -8,7 +8,7 @@ from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
 import setup as stp
 
-(TOP, T_THRESHOLD, P_THRESHOLD) = (100, timedelta(minutes=30), 200)
+(TOP, T_THRESHOLD, P_THRESHOLD) = (50, timedelta(minutes=30), 200)
 (yLo, yHi) = ((1950, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
@@ -69,13 +69,13 @@ chord_diagram(
     tMat[:sub,:sub], names=artsTop, 
     alpha=.65, pad=.5, gap=0.05, 
     use_gradient=True,
-    sorts='size', #'distance', #'size'
+    sorts='distance', #'size'
     chordwidth=.7,
     width=0.1, 
     rotate_names=[True]*TOP,
     fontsize=2,
-    extent=180
-    # directed=False
+    extent=360,
+    # directed=True
 )
 plt.savefig(
     path.join(stp.IMG_PATH, 'artChord.png'),
