@@ -7,6 +7,7 @@ from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
 import setup as stp
 
+TOP = 200
 ###############################################################################
 # Read Data
 ###############################################################################
@@ -17,18 +18,26 @@ fNames = ('chipmaligno_cln.csv', 'chipmaligno_mbz.csv')
 ###############################################################################
 arts = sorted(list(DTA_CLN['Artist'].unique()))
 (artsNum, playNum) = (len(arts), DTA_CLN.shape[0])
+artsCount = DTA_CLN.groupby('Artist').size().sort_values(ascending=False)
 tMat = np.zeros((artsNum, artsNum), dtype=np.int_)
 ###############################################################################
-# Iterate Through Plays
+# Filter Top
+###############################################################################
+artsTop = list(artsCount.index)[:TOP]
+artsTopSet = set(artsTop)
+###############################################################################
+# Iterate Through Plays (Generate Transitions Matrix)
 ###############################################################################
 ix = 0
 for ix in range(playNum-1):
     # pl0 is newer than pl1 ---------------------------------------------------
     (pl0, pl1) = [DTA_CLN.iloc[i] for i in (ix, ix+1)]
     (pa0, pa1) = [play['Artist'] for play in (pl0, pl1)]
+    # if (pa0 in artsTop) and (pa1 in artsTop):
     (px0, px1) = [arts.index(artName) for artName in (pa0, pa1)]
     tMat[px0, px1] = (tMat[px0, px1] + 1)
     print(f'Processing: {ix}/{playNum}', end='\r')
+np.fill_diagonal(tMat, 0)
 # np.sum(tMat, axis=1)
 ###############################################################################
 # Plot
@@ -56,9 +65,44 @@ plt.close('all')
 ###############################################################################
 g = Graph(directed=True)
 g.add_edge_list(np.transpose(tMat.nonzero()))
+v_prop = g.new_vertex_property("string")
+for (i, v) in enumerate(g.vertices()):
+    v_prop[v] = arts[i]
 # state = minimize_blockmodel_dl(g)
 state = minimize_nested_blockmodel_dl(g)
-state.draw()
-
+state.draw(
+    vertex_text=v_prop, 
+    output=path.join(stp.IMG_PATH, 'arcs.png'), 
+    output_size=(2000, 2000)
+)
+# text
+# Simple layout ---------------------------------------------------------------
 pos = sfdp_layout(g)
 graph_draw(g, pos, output_size=(1000, 1000))
+# MCMC ------------------------------------------------------------------------
+state = NestedBlockState(g)
+dS, nmoves = 0, 0
+for i in range(100):
+    ret = state.multiflip_mcmc_sweep(niter=10)
+    dS += ret[0]
+    nmoves += ret[1]
+    
+# We will first equilibrate the Markov chain
+mcmc_equilibrate(state, wait=1000, mcmc_args=dict(niter=10))
+
+# collect nested partitions
+bs = []
+def collect_partitions(s):
+   global bs
+   bs.append(s.get_bs())
+# Now we collect the marginals for exactly 100,000 sweeps
+mcmc_equilibrate(state, force_niter=10000, mcmc_args=dict(niter=10),
+                    callback=collect_partitions)
+# Disambiguate partitions and obtain marginals
+pmode = PartitionModeState(bs, nested=True, converge=True)
+pv = pmode.get_marginal(g)
+# Get consensus estimate
+bs = pmode.get_max_nested()
+state = state.copy(bs=bs)
+# We can visualize the marginals as pie charts on the nodes:
+state.draw(vertex_shape="pie", vertex_pie_fractions=pv)
