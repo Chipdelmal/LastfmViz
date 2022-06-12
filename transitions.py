@@ -7,7 +7,7 @@ from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
 import setup as stp
 
-TOP = 200
+TOP = 100
 ###############################################################################
 # Read Data
 ###############################################################################
@@ -19,7 +19,6 @@ fNames = ('chipmaligno_cln.csv', 'chipmaligno_mbz.csv')
 arts = sorted(list(DTA_CLN['Artist'].unique()))
 (artsNum, playNum) = (len(arts), DTA_CLN.shape[0])
 artsCount = DTA_CLN.groupby('Artist').size().sort_values(ascending=False)
-tMat = np.zeros((artsNum, artsNum), dtype=np.int_)
 ###############################################################################
 # Filter Top
 ###############################################################################
@@ -29,35 +28,38 @@ artsTopSet = set(artsTop)
 # Iterate Through Plays (Generate Transitions Matrix)
 ###############################################################################
 ix = 0
+tMat = np.zeros((TOP, TOP), dtype=np.int_)
 for ix in range(playNum-1):
     # pl0 is newer than pl1 ---------------------------------------------------
     (pl0, pl1) = [DTA_CLN.iloc[i] for i in (ix, ix+1)]
     (pa0, pa1) = [play['Artist'] for play in (pl0, pl1)]
-    # if (pa0 in artsTop) and (pa1 in artsTop):
-    (px0, px1) = [arts.index(artName) for artName in (pa0, pa1)]
-    tMat[px0, px1] = (tMat[px0, px1] + 1)
+    if (pa0 in artsTop) and (pa1 in artsTop):
+        (px0, px1) = [artsTop.index(artName) for artName in (pa0, pa1)]
+        tMat[px0, px1] = (tMat[px0, px1] + 1)
     print(f'Processing: {ix}/{playNum}', end='\r')
 np.fill_diagonal(tMat, 0)
 # np.sum(tMat, axis=1)
 ###############################################################################
 # Plot
 ###############################################################################
-# plt.imshow(tMat, vmin=0, vmax=10)
-# plt.show()
+plt.imshow(tMat, vmin=0, vmax=10)
+plt.show()
+# Chord -----------------------------------------------------------------------
 sub = len(arts)
 chord_diagram(
-    tMat[:sub,:sub], # names=arts[:sub], 
+    tMat[:sub,:sub], names=artsTop, 
     alpha=.65, pad=.5, gap=0.05, 
-    # use_gradient=True,
+    use_gradient=True,
     sorts='size', #'distance',
     chordwidth=.7,
     width=0.1, 
+    rotate_names=[True]*TOP,
+    fontsize=5
     # directed=False
-    # order=[NAMES.index(i) for i in NAMES]
 )
 plt.savefig(
     path.join(stp.IMG_PATH, 'artChord.png'),
-    dpi=500, bbox_inches='tight', facecolor='w'
+    dpi=500, facecolor='w'
 )
 plt.close('all')
 ###############################################################################
@@ -72,7 +74,7 @@ for (i, v) in enumerate(g.vertices()):
 state = minimize_nested_blockmodel_dl(g)
 state.draw(
     vertex_text=v_prop, 
-    output=path.join(stp.IMG_PATH, 'arcs.png'), 
+    output=path.join(stp.IMG_PATH, 'NSBM.png'), 
     output_size=(2000, 2000)
 )
 # text
