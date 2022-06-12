@@ -8,16 +8,15 @@ from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
 import setup as stp
 
-(TOP, T_THRESHOLD) = (150, timedelta(minutes=30))
-(yLo, yHi) = ((2018, 1), (2019, 1))
+(TOP, T_THRESHOLD, P_THRESHOLD) = (100, timedelta(minutes=30), 200)
+(yLo, yHi) = ((1950, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
 ###############################################################################
 # Read Data
 ###############################################################################
-fNames = ('chipmaligno_cln.csv', )
-DTA_CLN = pd.read_csv(path.join(stp.DATA_PATH, 'chipmaligno_cln.csv'), parse_dates=[3])
-DTA_MBZ = pd.read_csv(path.join(stp.DATA_PATH, 'chipmaligno_mbz.csv'))
+DTA_CLN = pd.read_csv(path.join(stp.DATA_PATH, stp.USR+'_cln.csv'), parse_dates=[3])
+DTA_MBZ = pd.read_csv(path.join(stp.DATA_PATH, stp.USR+'_mbz.csv'))
 DTA_CLN = DTA_CLN.drop_duplicates()                 
 msk = [
     (
@@ -27,10 +26,6 @@ msk = [
     if (type(i) is not float) else (False) for i in DTA_CLN['Date']
 ]
 DTA_CLN = DTA_CLN.loc[msk]
-# Check for errors ------------------------------------------------------------
-probe = DTA_CLN[DTA_CLN['Artist'] == 'The Fratellis']
-probe['Date'] = pd.to_datetime(probe['Date'], errors='coerce', utc=True)
-probe['Date'].dt.to_period('M')
 ###############################################################################
 # Setup Structures
 ###############################################################################
@@ -78,7 +73,8 @@ chord_diagram(
     chordwidth=.7,
     width=0.1, 
     rotate_names=[True]*TOP,
-    fontsize=2
+    fontsize=2,
+    extent=180
     # directed=False
 )
 plt.savefig(
@@ -94,15 +90,25 @@ g.add_edge_list(np.transpose(pMat.nonzero()))
 v_prop = g.new_vertex_property("string")
 for (i, v) in enumerate(g.vertices()):
     v_prop[v] = artsTop[i]
+e_prop = g.new_edge_property("string")
+e_size = g.new_edge_property("float")
+for (i, v) in enumerate(g.edges()):
+    e_prop[v] = 'none'
+    e_size = 0.1
 # state = minimize_blockmodel_dl(g)
 # state.draw()
 state = minimize_nested_blockmodel_dl(g)
 state.draw(
-    # vertex_text=v_prop, font_size=2,
+    vertex_text=v_prop, 
+    vertex_font_size=3,
+    ink_scale=1,
+    edge_pen_width=.2,
+    edge_marker_size=0.1,
+    # edge_marker_size=e_size,
     output=path.join(stp.IMG_PATH, 'NSBM.png'), 
-    output_size=(2000, 2000)
+    output_size=(1000, 1000)
 )
-# # Simple layout ---------------------------------------------------------------
+# Simple layout ---------------------------------------------------------------
 pos = sfdp_layout(g)
 # pos = radial_tree_layout(g, g.vertex(0))
 graph_draw(
@@ -136,4 +142,13 @@ pv = pmode.get_marginal(g)
 bs = pmode.get_max_nested()
 state = state.copy(bs=bs)
 # We can visualize the marginals as pie charts on the nodes:
-state.draw(vertex_shape="pie", vertex_pie_fractions=pv)
+state.draw(
+    vertex_shape="pie",
+    layout="radial",
+    ink_scale=1,
+    edge_pen_width=.2,
+    edge_marker_size=0.1,
+    vertex_pie_fractions=pv,
+    output=path.join(stp.IMG_PATH, 'PRTC.png'), 
+    output_size=(2000, 2000)
+)
