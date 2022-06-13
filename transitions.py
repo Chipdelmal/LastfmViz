@@ -8,7 +8,7 @@ from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
 import setup as stp
 
-(TOP, T_THRESHOLD, P_THRESHOLD) = (100, timedelta(minutes=30), 200)
+(TOP, T_THRESHOLD, P_THRESHOLD) = (75, timedelta(minutes=30), 200)
 (yLo, yHi) = ((1950, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
@@ -54,7 +54,7 @@ for ix in range(playNum-1):
         tMat[px0, px1] = (tMat[px0, px1] + 1)
     print(f'Processing: {ix}/{playNum}', end='\r')
 # Delete self-loops and normalize ---------------------------------------------
-np.fill_diagonal(tMat, 0)
+# np.fill_diagonal(tMat, 0)
 pMat = tMat.copy()
 row_sums = pMat.sum(axis=1)
 pMat = pMat/row_sums[:, np.newaxis]
@@ -65,12 +65,12 @@ plt.imshow(tMat, vmin=0, vmax=10)
 plt.show()
 # Chord -----------------------------------------------------------------------
 sub = len(arts)
-(nme, mat, start) = ('p', pMat, 180)
+(nme, mat, start) = ('p', pMat*100, 180)
 its = [
-    ('p', pMat, 180, range(len(artsTop))), 
-    ('t', tMat, 0, list(reversed(range(len(artsTop)))))
+    ('p', pMat*1000, 180, range(len(artsTop)), 'turbo_r'), 
+    ('t', tMat, 0, list(reversed(range(len(artsTop)))), 'turbo')
 ]
-for (nme, mat, start, order) in its:
+for (nme, mat, start, order, cmap) in its:
     chord_diagram(
         mat[:sub,:sub], 
         names=artsTop,
@@ -79,18 +79,19 @@ for (nme, mat, start, order) in its:
         pad=.5, gap=0.05, 
         use_gradient=True,
         sorts='size', # 'distance', 
+        fontcolor='w',
         chordwidth=.7,
         width=0.1, 
         rotate_names=[True]*TOP,
-        fontsize=2,
+        fontsize=2.6,
         extent=180,
-        cmap='turbo',
+        cmap=cmap,
         start_at=start
         # directed=True
     )
     plt.savefig(
         path.join(stp.IMG_PATH, nme+'_artChord.png'),
-        dpi=750, facecolor='w'
+        dpi=1000, transparent=True #facecolor='w'
     )
     plt.close('all')
 ###############################################################################
