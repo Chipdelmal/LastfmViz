@@ -65,11 +65,16 @@ plt.imshow(tMat, vmin=0, vmax=10)
 plt.show()
 # Chord -----------------------------------------------------------------------
 sub = len(arts)
-(nme, mat) = ('p', pMat)
-for (nme, mat) in [('p', pMat), ('t', tMat)]:
+(nme, mat, start) = ('p', pMat, 180)
+its = [
+    ('p', pMat, 180, range(len(artsTop))), 
+    ('t', tMat, 0, list(reversed(range(len(artsTop)))))
+]
+for (nme, mat, start, order) in its:
     chord_diagram(
         mat[:sub,:sub], 
-        names=artsTop, 
+        names=artsTop,
+        order=order,
         alpha=.65, 
         pad=.5, gap=0.05, 
         use_gradient=True,
@@ -78,8 +83,9 @@ for (nme, mat) in [('p', pMat), ('t', tMat)]:
         width=0.1, 
         rotate_names=[True]*TOP,
         fontsize=2,
-        extent=360,
-        cmap='turbo'
+        extent=180,
+        cmap='turbo',
+        start_at=start
         # directed=True
     )
     plt.savefig(
