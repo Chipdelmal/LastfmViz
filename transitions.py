@@ -8,7 +8,7 @@ from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
 import setup as stp
 
-(TOP, T_THRESHOLD, P_THRESHOLD) = (50, timedelta(minutes=30), 200)
+(TOP, T_THRESHOLD, P_THRESHOLD) = (100, timedelta(minutes=30), 200)
 (yLo, yHi) = ((1950, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
@@ -65,25 +65,30 @@ plt.imshow(tMat, vmin=0, vmax=10)
 plt.show()
 # Chord -----------------------------------------------------------------------
 sub = len(arts)
-chord_diagram(
-    tMat[:sub,:sub], names=artsTop, 
-    alpha=.65, pad=.5, gap=0.05, 
-    use_gradient=True,
-    sorts='distance', #'size'
-    chordwidth=.7,
-    width=0.1, 
-    rotate_names=[True]*TOP,
-    fontsize=2,
-    extent=360,
-    # directed=True
-)
-plt.savefig(
-    path.join(stp.IMG_PATH, 'artChord.png'),
-    dpi=750, facecolor='w'
-)
-plt.close('all')
+(nme, mat) = ('p', pMat)
+for (nme, mat) in [('p', pMat), ('t', tMat)]:
+    chord_diagram(
+        mat[:sub,:sub], 
+        names=artsTop, 
+        alpha=.65, 
+        pad=.5, gap=0.05, 
+        use_gradient=True,
+        sorts='size', # 'distance', 
+        chordwidth=.7,
+        width=0.1, 
+        rotate_names=[True]*TOP,
+        fontsize=2,
+        extent=360,
+        cmap='turbo'
+        # directed=True
+    )
+    plt.savefig(
+        path.join(stp.IMG_PATH, nme+'_artChord.png'),
+        dpi=750, facecolor='w'
+    )
+    plt.close('all')
 ###############################################################################
-# Graph Tools
+# Nested Block Model
 ###############################################################################
 g = Graph(directed=True)
 g.add_edge_list(np.transpose(pMat.nonzero()))
@@ -98,9 +103,14 @@ for (i, v) in enumerate(g.edges()):
 # state = minimize_blockmodel_dl(g)
 # state.draw()
 state = minimize_nested_blockmodel_dl(g)
+mcmc_anneal(
+    state, 
+    beta_range=(1, 10), niter=1000, mcmc_equilibrate_args=dict(force_niter=10),
+    verbose=True
+)
 state.draw(
-    vertex_text=v_prop, 
-    vertex_font_size=3,
+    # vertex_text=v_prop, 
+    # vertex_font_size=3,
     ink_scale=1,
     edge_pen_width=.2,
     edge_marker_size=0.1,
@@ -108,15 +118,9 @@ state.draw(
     output=path.join(stp.IMG_PATH, 'NSBM.png'), 
     output_size=(1000, 1000)
 )
-# Simple layout ---------------------------------------------------------------
-pos = sfdp_layout(g)
-# pos = radial_tree_layout(g, g.vertex(0))
-graph_draw(
-    g, pos, 
-    #vertex_text=v_prop, font_size=2,
-    output_size=(1000, 1000)
-)
-# MCMC ------------------------------------------------------------------------
+###############################################################################
+# MCMC Posterior Distribution
+###############################################################################
 state = NestedBlockState(g)
 dS, nmoves = 0, 0
 for i in range(100):
@@ -151,4 +155,14 @@ state.draw(
     vertex_pie_fractions=pv,
     output=path.join(stp.IMG_PATH, 'PRTC.png'), 
     output_size=(2000, 2000)
+)
+###############################################################################
+# Layout Tests
+###############################################################################
+pos = sfdp_layout(g)
+# pos = radial_tree_layout(g, g.vertex(0))
+graph_draw(
+    g, pos, 
+    #vertex_text=v_prop, font_size=2,
+    output_size=(1000, 1000)
 )

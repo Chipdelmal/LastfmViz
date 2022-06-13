@@ -18,12 +18,17 @@ yHi = [int(i) for i in yHi]
 pBase = path.join(stp.DATA_PATH, stp.USR)
 DTA_CLN = pd.read_csv(pBase+'_cln.csv', parse_dates=[3])
 DTA_MBZ = pd.read_csv(pBase+'_mbz.csv')
-DTA_CLN = DTA_CLN.drop_duplicates()               
+# Add Interval Column ---------------------------------------------------------
+dteCpy = DTA_CLN['Date'].copy()
+DTA_CLN['Interval'] = pd.to_datetime(dteCpy, errors='coerce', utc=True)
+DTA_CLN['Interval'] = DTA_CLN['Interval'].dt.tz_localize(None).dt.to_period('D')
+###############################################################################
+# Read Data
+###############################################################################
+DTA_CLN = DTA_CLN.drop_duplicates()
+(dLo, dHi) = (date(yLo[0], yLo[1], 1), date(yHi[0], yHi[1], 1))
 msk = [
-    (
-        (i.date() >= date(yLo[0], yLo[1], 1)) and 
-        (i.date() < date(yHi[0], yHi[1], 1))
-    ) 
+    ((i.date()>=dLo) and (i.date()<dHi)) 
     if (type(i) is not float) else (False) for i in DTA_CLN['Date']
 ]
 DTA_CLN = DTA_CLN.loc[msk]
@@ -41,3 +46,10 @@ for artist in arts:
     banDates = [date(i.year, i.month, i.day) for i in dayObjs]
     if len(banDates) > 0:
         banDict[artist] = banDates
+###############################################################################
+# Remove Bans
+###############################################################################
+DTA_CLN['Interval'] = pd.to_datetime(
+    DTA_CLN['Date'].copy(), errors='coerce', utc=True
+)
+DTA_CLN['Interval'] = DTA_CLN['Interval'].dt.tz_localize(None).dt.to_period('D')
