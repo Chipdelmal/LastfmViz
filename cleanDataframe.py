@@ -42,7 +42,6 @@ artsNum = len(arts)
 ###############################################################################
 # Check for Inflated Counts
 ###############################################################################
-artist = 'The Fratellis'
 banDict = OrderedDict()
 for artist in arts:
     probe = DTA_CLN[DTA_CLN['Artist'] == artist].copy()
@@ -54,13 +53,15 @@ for artist in arts:
     if len(dayObjs) > 0:
         banDict[artist] = dayObjs
 # Remove Bans -----------------------------------------------------------------
+DTA_CLN.shape
 (art, dates) = list(banDict.items())[0]
-
-DTA_CLN['Artist']==art
-DTA_CLN['Interval'].isin(set(dates))
-
-DTA_CLN['Interval'].iloc[0]
-
+for (art, dates) in list(banDict.items()):
+    fltr = (
+        DTA_CLN['Artist']==art, 
+        DTA_CLN['Interval'].isin(set(dates))
+    )
+    fullFilter = list(map(all, zip(*fltr)))
+    DTA_CLN.drop(DTA_CLN[fullFilter].index, inplace=True)
 ###############################################################################
 # Remove Words
 ###############################################################################
