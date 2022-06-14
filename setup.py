@@ -31,7 +31,7 @@ BASE_PATH = '/Users/sanchez.hmsc/odrive/Mega/LastfmViz/'
 FONT = FONT_PATH + 'Prompt-Thin.ttf'
 (TOP_GENRES, GEO_SIZE, TIMEZONE) = (3, 6, 'US/Pacific')
 ##############################################################################
-# Color palette
+# Color palette 
 ##############################################################################
 cdict = {
         'red':   [(0.0, 1, 1), (0.5,  0.85, 0.85), (1.0,  0.5, 0.5)],
