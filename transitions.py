@@ -8,7 +8,7 @@ from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
 import setup as stp
 
-(TOP, T_THRESHOLD, P_THRESHOLD) = (75, timedelta(minutes=30), 200)
+(TOP, T_THRESHOLD, P_THRESHOLD) = (100, timedelta(minutes=30), 200)
 (yLo, yHi) = ((1950, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
@@ -91,6 +91,36 @@ for (nme, mat, start, order, cmap) in its:
     )
     plt.savefig(
         path.join(stp.IMG_PATH, nme+'_artChord.png'),
+        dpi=1000, transparent=True #facecolor='w'
+    )
+    plt.close('all')
+# Chord -----------------------------------------------------------------------
+sub = len(arts)
+its = [
+    ('t', tMat, 0, range(len(artsTop)), 'turbo_r'),
+    ('p', pMat, 0, range(len(artsTop)), 'turbo_r')
+]    
+for (nme, mat, start, order, cmap) in its:
+    chord_diagram(
+        mat[:sub,:sub], 
+        names=artsTop,
+        order=order,
+        alpha=.65, 
+        pad=.5, gap=0.05, 
+        use_gradient=True,
+        sorts='size', # 'distance', 
+        fontcolor='w',
+        chordwidth=.7,
+        width=0.1, 
+        rotate_names=[True]*TOP,
+        fontsize=2.6,
+        extent=360,
+        cmap=cmap,
+        start_at=start
+        # directed=True
+    )
+    plt.savefig(
+        path.join(stp.IMG_PATH, nme+'_artChord_r.png'),
         dpi=1000, transparent=True #facecolor='w'
     )
     plt.close('all')

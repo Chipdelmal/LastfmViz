@@ -102,7 +102,7 @@ BAN = set([
     
     'Mägo de Oz', 'David Summers', 
     'Rata Blanca',  'Hombres G', 'Mecano', 'Ramon Mirabet',
-    'Pereza', 'Franco De Vita', 
+    'Pereza', 'Franco De Vita', 'La Unión',
     'El Tri', 'Café Tacvba', 'Caifanes', 'Nacha Pop', 
     'Maldita Vecindad Y Los Hijos Del Quinto Patio', 'Enanitos Verdes',
     'Soda Stereo', 'Los Prisioneros', 'Bacilos', 'Alaska y Dinarama', 
@@ -125,17 +125,17 @@ CNTRY_ALIAS = {
     'UK': {'United Kingdom', 'Ireland', 'UK'},
     'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa', 'AU'},
     'RST': {
-            'Sverige', 'Ísland',# 'Australia',
-            'Danmark', 'Canada', 'Deutschland',
-            'Norge', 'New Zealand', 'Argentina', #'New Zealand / Aotearoa',
-            'Suomi', 'Nederland', 'Россия', 'Slovensko'
-        },
+        'Sverige', 'Ísland',# 'Australia',
+        'Danmark', 'Canada', 'Deutschland',
+        'Norge', 'New Zealand', 'Argentina', #'New Zealand / Aotearoa',
+        'Suomi', 'Nederland', 'Россия', 'Slovensko'
+    },
     'WLD': {
-            'Sverige', 'Ísland', 'Australia',
-            'Danmark', 'Canada', 'Deutschland',
-            'Norge', 'New Zealand', 'Argentina', 'New Zealand / Aotearoa',
-            'Suomi', 'Nederland', 'Россия', 'Slovensko'
-        }
+        'Sverige', 'Ísland', 'Australia',
+        'Danmark', 'Canada', 'Deutschland',
+        'Norge', 'New Zealand', 'Argentina', 'New Zealand / Aotearoa',
+        'Suomi', 'Nederland', 'Россия', 'Slovensko'
+    }
 }
 CNTRY_BOX = {
     'US': [-126, 24, -65, 50],
