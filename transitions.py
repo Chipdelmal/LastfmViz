@@ -54,7 +54,7 @@ for ix in range(playNum-1):
         tMat[px0, px1] = (tMat[px0, px1] + 1)
     print(f'Processing: {ix}/{playNum}', end='\r')
 # Delete self-loops and normalize ---------------------------------------------
-# np.fill_diagonal(tMat, 0)
+np.fill_diagonal(tMat, 0)
 pMat = tMat.copy()
 row_sums = pMat.sum(axis=1)
 pMat = pMat/row_sums[:, np.newaxis]
@@ -65,11 +65,11 @@ plt.imshow(tMat, vmin=0, vmax=10)
 plt.show()
 # Chord -----------------------------------------------------------------------
 sub = len(arts)
-(nme, mat, start) = ('p', pMat*100, 180)
 its = [
     ('p', pMat*1000, 180, range(len(artsTop)), 'turbo_r'), 
-    ('t', tMat, 0, list(reversed(range(len(artsTop)))), 'turbo')
+    ('t', tMat, 0, list(reversed(range(len(artsTop)))), 'turbo_r')
 ]
+(nme, mat, start, order, cmap) = its[0]
 for (nme, mat, start, order, cmap) in its:
     chord_diagram(
         mat[:sub,:sub], 
@@ -109,7 +109,9 @@ for (i, v) in enumerate(g.edges()):
     e_size = 0.1
 # state = minimize_blockmodel_dl(g)
 # state.draw()
-state = minimize_nested_blockmodel_dl(g)
+state = minimize_nested_blockmodel_dl(
+    g, state_args=dict(recs=[g.ep.weight], rec_types=["real-exponential"])
+)
 mcmc_anneal(
     state, 
     beta_range=(1, 10), niter=1000, mcmc_equilibrate_args=dict(force_niter=10),
