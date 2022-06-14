@@ -18,8 +18,8 @@ from matplotlib.colors import LinearSegmentedColormap
 # Setup PATHs
 ##############################################################################
 USR = 'chipmaligno'
-# BASE_PATH = '/home/chipdelmal/Documents/LastfmViz/'
-BASE_PATH = '/Users/sanchez.hmsc/odrive/Mega/LastfmViz/'
+BASE_PATH = '/home/chipdelmal/Documents/LastfmViz/'
+# BASE_PATH = '/Users/sanchez.hmsc/odrive/Mega/LastfmViz/'
 (DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH, GIS_PATH, MSK_PATH) = (
         BASE_PATH + 'data/',
         BASE_PATH + 'stats/',
@@ -78,69 +78,80 @@ cMapAUS = LinearSegmentedColormap('WB', cdict, N=256)
 # Ban list: Artists excluded from the analyses
 ##############################################################################
 BAN = set([
-        'Aperture Science Psychoacoustics Laboratory',
-        'Band Of Horses?i', "Chip's iTouch", 'Chïp',
-        'Crossroads Guitar Festival', 'Douglas Adams',
-        'Dr. Steven Novella', 'El Explicador', 'El Explicador - XEITE',
-        'El trío de tres', 'Enrique Ganem y María de los Ángeles Aranda',
-        'Franco De Vita', 'Fuster', 'G3', 'Hombres G Con Ha-ash',
-        'Howstuffworks.com', 'Live Aid', 'Love Album', 'Abril',
-        'Koji Kondo/Mahito Yokota/Toru Minegishi/Yasuaki Iwata',
-        'Mass Effect', 'Michael Bublé', 'Nature Publishing Group',
-        'Rock En Tu Idioma', 'SGU Productions', 'Startalk radio',
-        "The Skeptics' Guide to the Universe", '[unknown]', 'chipdelmal',
-        'dawsons creek', 'iHeartRadio & HowStuffWorks', 'XTC',
-        'Fraser Cain & Dr. Pamela Gay', 'Mychael Danna & Rob Simonsen'
-        'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
-        'Desiree Schell & K.O. Myers', 'Rebecca Watson', 'Mägo de Oz',
-        'David Summers', 'Stanislaw Lem', 'MishCatt', 'NPR', 'Portal',
-        'Rata Blanca', 'Starcraft', 'Hombres G', 'Mecano', 'Ramon Mirabet',
-        'Pereza', 'Ana Carolina', 'Seu Jorge', 'Hello Seahorse!',
-        'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
-        'Charles Darwin', 'Savage Garden', 'Kakkmaddafakka', 'Bryan Adams',
-        'El Tri', 'Café Tacvba', 'Caifanes'
-    ])
+    'Aperture Science Psychoacoustics Laboratory',
+    'Band Of Horses?i', "Chip's iTouch", 'Chïp',
+    'Crossroads Guitar Festival', 'Douglas Adams',
+    'Dr. Steven Novella', 'El Explicador', 'El Explicador - XEITE',
+    'El trío de tres', 'Enrique Ganem y María de los Ángeles Aranda',
+    'Fuster', 'G3', 'Hombres G Con Ha-ash',
+    'Howstuffworks.com', 'Live Aid', 'Love Album', 'Abril',
+    'Koji Kondo/Mahito Yokota/Toru Minegishi/Yasuaki Iwata',
+    'Mass Effect', 'Michael Bublé', 'Nature Publishing Group',
+    'Rock En Tu Idioma', 'SGU Productions', 'Startalk radio',
+    "The Skeptics' Guide to the Universe", '[unknown]', 'chipdelmal',
+    'dawsons creek', 'iHeartRadio & HowStuffWorks', 'XTC',
+    'Fraser Cain & Dr. Pamela Gay', 'Mychael Danna & Rob Simonsen'
+    'Chicago Public Media', 'Rebecca Watson of Curiosity Aroused',
+    'Desiree Schell & K.O. Myers', 'Rebecca Watson', 'Starcraft',
+    'Chicago Public Media', 'throughlinegroup.com', 'undefinedRadiohead',
+    'throughlinegroup.com', 'moviepilot', 'Mario Galaxy Orchestra', 
+    'NPR', 'Portal', 'Seu Jorge', 'Ana Carolina', 'MishCatt', 
+    'Alexandre Desplat', 'Science of Sleep', 'Robert Schumann',
+    'Charles Darwin', 'Stanislaw Lem', 'Moviepilot Supernews',
+    'undefinedPixies', 'undefinedRyan Adams', 'undefinedWilco',
+    
+    'Mägo de Oz', 'David Summers', 
+    'Rata Blanca',  'Hombres G', 'Mecano', 'Ramon Mirabet',
+    'Pereza', 'Franco De Vita', 'La Unión',
+    'El Tri', 'Café Tacvba', 'Caifanes', 'Nacha Pop', 
+    'Maldita Vecindad Y Los Hijos Del Quinto Patio', 'Enanitos Verdes',
+    'Soda Stereo', 'Los Prisioneros', 'Bacilos', 'Alaska y Dinarama', 
+    'Duncan Dhu', 'Miguel Mateos', 'Los Enanitos Verdes'
+
+    # 'Elliott Smith', 'Hello Seahorse!'
+])
 ##############################################################################
 # Countries corrections
 ##############################################################################
 CNTRY_FIX = {
-        'United States of America': 'United States',
-        'New Zealand / Aotearoa': 'Australia',
-        'New Zealand': 'Australia',
-        'Ireland': 'United Kingdom'
-    }
+    'United States of America': 'United States',
+    'New Zealand / Aotearoa': 'Australia',
+    'New Zealand': 'Australia',
+    'Ireland': 'United Kingdom'
+}
 CNTRY_ALIAS = {
-        'US': {'United States of America', 'United States', 'US'},
-        'UK': {'United Kingdom', 'Ireland', 'UK'},
-        'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa', 'AU'},
-        'RST': {
-                'Sverige', 'Ísland',# 'Australia',
-                'Danmark', 'Canada', 'Deutschland',
-                'Norge', 'New Zealand', 'Argentina', #'New Zealand / Aotearoa',
-                'Suomi', 'Nederland', 'Россия', 'Slovensko'
-            },
-        'WLD': {
-                'Sverige', 'Ísland', 'Australia',
-                'Danmark', 'Canada', 'Deutschland',
-                'Norge', 'New Zealand', 'Argentina', 'New Zealand / Aotearoa',
-                'Suomi', 'Nederland', 'Россия', 'Slovensko'
-            }
+    'CAN': {'Canada', 'CA'},
+    'US': {'United States of America', 'United States', 'US'},
+    'UK': {'United Kingdom', 'Ireland', 'UK'},
+    'AUS': {'Australia', 'New Zealand', 'New Zealand / Aotearoa', 'AU'},
+    'RST': {
+        'Sverige', 'Ísland',# 'Australia',
+        'Danmark', 'Canada', 'Deutschland',
+        'Norge', 'New Zealand', 'Argentina', #'New Zealand / Aotearoa',
+        'Suomi', 'Nederland', 'Россия', 'Slovensko'
+    },
+    'WLD': {
+        'Sverige', 'Ísland', 'Australia',
+        'Danmark', 'Canada', 'Deutschland',
+        'Norge', 'New Zealand', 'Argentina', 'New Zealand / Aotearoa',
+        'Suomi', 'Nederland', 'Россия', 'Slovensko'
     }
+}
 CNTRY_BOX = {
-        'US': [-126, 24, -65, 50],
-        'UK': [-8.6500072, 49.863187, 1.7632199, 58.75],
-        'CAN': [-141.00686645507812, 41.67692565917997, -52.62, 70],
-        'AUS': [112.92, -39.2, 155, -9.22],
-        'NZL': [185, -49, 179.06582641601568, -30]
-    }
+    'US': [-126, 24, -65, 50],
+    'UK': [-8.6500072, 49.863187, 1.7632199, 58.75],
+    'CAN': [-141.00686645507812, 41.67692565917997, -52.62, 70],
+    'AUS': [112.92, -39.2, 155, -9.22],
+    'NZL': [185, -49, 179.06582641601568, -30]
+}
 CNTRY_CODE = {
-        'UK': ('United Kingdom', cMapUK, 'HACKED.ttf'),
-        'DNK': 'Danmark',
-        'US': ('United States', cMapUS, 'Howdoyousleep.ttf'),
-        'CAN': ('Canada', cMapCAN, 'FEENC.ttf'),
-        'SWE': 'Sverige',
-        'AUS': ('Australia', cMapAUS, 'danger.otf'),
-        'NZL': ('New Zealand', cMapAUS, 'URGHTYPEPERSONALUSE.otf'),
-        'RST': ('World', cMapW, 'Friday Lovers.otf'),
-        'WLD': ('World', cMapW, 'Friday Lovers.otf')
-    }
+    'UK': ('United Kingdom', cMapUK, 'HACKED.ttf'),
+    'DNK': 'Danmark',
+    'US': ('United States', cMapUS, 'Howdoyousleep.ttf'),
+    'CAN': ('Canada', cMapCAN, 'FEENC.ttf'),
+    'SWE': 'Sverige',
+    'AUS': ('Australia', cMapAUS, 'danger.otf'),
+    'NZL': ('New Zealand', cMapAUS, 'URGHTYPEPERSONALUSE.otf'),
+    'RST': ('World', cMapW, 'Friday Lovers.otf'),
+    'WLD': ('World', cMapW, 'Friday Lovers.otf')
+}

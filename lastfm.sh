@@ -1,9 +1,9 @@
 #!/bin/bash
 
 
-MSK='False'
+MSK='True'
 # Clean the Lastfm dataset ----------------------------------------------------
-python Lasftm_clean.py
+python Lastfm_clean.py
 # Download geocode data from musicbrainz --------------------------------------
 python MusicBrainz_download.py
 # Generate map masks ----------------------------------------------------------
