@@ -8,7 +8,7 @@ from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
 import setup as stp
 
-(TOP, T_THRESHOLD, P_THRESHOLD) = (100, timedelta(minutes=30), 200)
+(TOP, T_THRESHOLD, P_THRESHOLD) = (650, timedelta(minutes=30), 200)
 (yLo, yHi) = ((1950, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
@@ -127,40 +127,54 @@ for (nme, mat, start, order, cmap) in its:
 ###############################################################################
 # Nested Block Model
 ###############################################################################
+mat = tMat
+# Generate graph --------------------------------------------------------------
 g = Graph(directed=True)
-g.add_edge_list(np.transpose(pMat.nonzero()))
+g.add_edge_list(np.transpose(mat.nonzero()))
+# Add edges weight ------------------------------------------------------------
+weight = g.new_edge_property("double")
+edges = list(g.edges())
+for e in edges:
+   weight[e] = mat[int(e.source()), int(e.target())]
+# Add vertices names ----------------------------------------------------------
 v_prop = g.new_vertex_property("string")
 for (i, v) in enumerate(g.vertices()):
     v_prop[v] = artsTop[i]
+# Add vertices sizes ----------------------------------------------------------
 e_prop = g.new_edge_property("string")
 e_size = g.new_edge_property("float")
 for (i, v) in enumerate(g.edges()):
     e_prop[v] = 'none'
     e_size = 0.1
+# Basic SBM -------------------------------------------------------------------
 # state = minimize_blockmodel_dl(g)
 # state.draw()
+# Nested SBM ------------------------------------------------------------------
 state = minimize_nested_blockmodel_dl(
-    g, state_args=dict(recs=[g.ep.weight], rec_types=["real-exponential"])
+    g, state_args=dict(recs=[weight], rec_types=["real-exponential"])
 )
 mcmc_anneal(
     state, 
-    beta_range=(1, 10), niter=1000, mcmc_equilibrate_args=dict(force_niter=10),
+    beta_range=(1, 10), niter=1000, 
+    mcmc_equilibrate_args=dict(force_niter=10),
     verbose=True
 )
 state.draw(
     # vertex_text=v_prop, 
     # vertex_font_size=3,
     ink_scale=1,
-    edge_pen_width=.2,
+    edge_color=weight,
+    edge_pen_width=prop_to_size(weight, .05, 2, power=1, log=False),
     edge_marker_size=0.1,
     # edge_marker_size=e_size,
     output=path.join(stp.IMG_PATH, 'NSBM.png'), 
     output_size=(1000, 1000)
+    
 )
 ###############################################################################
 # MCMC Posterior Distribution
 ###############################################################################
-state = NestedBlockState(g)
+state = NestedBlockState(g, state_args=dict(recs=[weight], rec_types=["real-exponential"]))
 dS, nmoves = 0, 0
 for i in range(100):
     ret = state.multiflip_mcmc_sweep(niter=10)
@@ -176,8 +190,10 @@ def collect_partitions(s):
    global bs
    bs.append(s.get_bs())
 # Now we collect the marginals for exactly 100,000 sweeps
-mcmc_equilibrate(state, force_niter=10000, mcmc_args=dict(niter=10),
-                    callback=collect_partitions)
+mcmc_equilibrate(
+    state, force_niter=10000, mcmc_args=dict(niter=10),
+    callback=collect_partitions
+)
 # Disambiguate partitions and obtain marginals
 pmode = PartitionModeState(bs, nested=True, converge=True)
 pv = pmode.get_marginal(g)
@@ -189,7 +205,8 @@ state.draw(
     vertex_shape="pie",
     layout="radial",
     ink_scale=1,
-    edge_pen_width=.2,
+    edge_color=weight,
+    edge_pen_width=prop_to_size(weight, .05, 2, power=1, log=False),
     edge_marker_size=0.1,
     vertex_pie_fractions=pv,
     output=path.join(stp.IMG_PATH, 'PRTC.png'), 
@@ -198,10 +215,10 @@ state.draw(
 ###############################################################################
 # Layout Tests
 ###############################################################################
-pos = sfdp_layout(g)
+# pos = sfdp_layout(g)
 # pos = radial_tree_layout(g, g.vertex(0))
-graph_draw(
-    g, pos, 
-    #vertex_text=v_prop, font_size=2,
-    output_size=(1000, 1000)
-)
+# graph_draw(
+#     g, pos, 
+#     #vertex_text=v_prop, font_size=2,
+#     output_size=(1000, 1000)
+# )
