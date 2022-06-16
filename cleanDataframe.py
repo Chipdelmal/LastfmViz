@@ -7,10 +7,12 @@ from datetime import date, timedelta
 from graph_tool.all import *
 from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
+import aux as aux
 import setup as stp
+import amends as amd
 
 (T_THRESHOLD, P_THRESHOLD) = (timedelta(minutes=30), 100)
-(yLo, yHi) = ((1969, 1), (2023, 1))
+(yLo, yHi) = ((2010, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
 ###############################################################################
@@ -63,7 +65,11 @@ for (art, dates) in list(banDict.items()):
     fullFilter = list(map(all, zip(*fltr)))
     DTA_CLN.drop(DTA_CLN[fullFilter].index, inplace=True)
 ###############################################################################
-# Remove Words
+# Amend Artists
 ###############################################################################
-# The, the, feat.
-# The Courteeners, Courteeners
+DTA_CLN = aux.replaceForConsistency(DTA_CLN, amd.SWP_PRE, ('Artist', 'Artist'))
+sum(DTA_CLN['Artist']=='Smashing Pumpkins')
+###############################################################################
+# Export
+###############################################################################
+DTA_CLN.to_csv(stp.DATA_PATH + stp.USR + '_fxd.csv', index=False)

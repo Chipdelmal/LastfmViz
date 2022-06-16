@@ -11,9 +11,11 @@
 ##############################################################################
 import keys
 import csv
+import numpy as np
 import setup as stp
 import musicbrainzngs as mb
 from collections import Counter
+from datetime import date, timedelta
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 # from mpl_toolkits.basemap import Basemap
@@ -206,3 +208,49 @@ def colorPaletteFromHexList(clist):
     clrs = [c(i) for i in clist]
     rvb = mcolors.LinearSegmentedColormap.from_list("", clrs)
     return rvb
+
+
+def replaceForConsistency(dataframe, replacementDict, columnNames):
+    (df, repDict, col) = (dataframe, replacementDict, columnNames)
+    cats = sorted(list(repDict.keys()))
+    for cat in cats:
+        repSet = repDict[cat]
+        df.loc[df[col[0]].isin(repSet), col[1]] = cat
+    return df
+
+
+def calcTransitionsMatrix(
+        inMat, scrobblesDF, artists,
+        window=1, timeThreshold=timedelta(minutes=30), 
+        verbose=False
+    ):
+    playNum = scrobblesDF.shape[0]
+    tMat = inMat.copy()
+    for ix in range(playNum-window):
+        # pl0 is newer than pl1 -----------------------------------------------
+        (pl0, pl1) = [scrobblesDF.iloc[i] for i in (ix, ix+window)]
+        (pa0, pa1) = [play['Artist'] for play in (pl0, pl1)]
+        # Check if both artists are in the top set , and time between is low --
+        pTop = (pa0 in artists) and (pa1 in artists)
+        pTime = (pl0['Date']-pl1['Date']) <= timeThreshold
+        if pTop:
+            (px0, px1) = [artists.index(artName) for artName in (pa0, pa1)]
+            tMat[px0, px1] = (tMat[px0, px1] + 1)
+        if verbose:
+            print(f'Processing: {ix}/{playNum}', end='\r')
+    return tMat
+
+
+def calcWeightedTransitionsMatrix(
+        scrobblesDF, artists,
+        windowRange=(1, 2), timeThreshold=timedelta(minutes=30), 
+        verbose=False
+    ):
+    tMat = np.zeros((len(artists), len(artists)), dtype=np.double)
+    for w in range(*windowRange):
+        tmpMat = calcTransitionsMatrix(
+            tMat, scrobblesDF, artists,
+            window=w, timeThreshold=timeThreshold, verbose=verbose
+        )
+        tMat = tMat + (tmpMat/w)
+    return tMat
