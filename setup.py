@@ -21,13 +21,13 @@ USR = 'chipmaligno'
 # BASE_PATH = '/home/chipdelmal/Documents/LastfmViz/'
 BASE_PATH = '/Users/sanchez.hmsc/odrive/Mega/LastfmViz/'
 (DATA_PATH, STAT_PATH, IMG_PATH, FONT_PATH, GIS_PATH, MSK_PATH) = (
-        BASE_PATH + 'data/',
-        BASE_PATH + 'stats/',
-        BASE_PATH + 'img/',
-        BASE_PATH + 'fonts/',
-        BASE_PATH + 'gis/',
-        BASE_PATH + 'msk/'
-    )
+    BASE_PATH + 'data/',
+    BASE_PATH + 'stats/',
+    BASE_PATH + 'img/',
+    BASE_PATH + 'fonts/',
+    BASE_PATH + 'gis/',
+    BASE_PATH + 'msk/'
+)
 FONT = FONT_PATH + 'Prompt-Thin.ttf'
 (TOP_GENRES, GEO_SIZE, TIMEZONE) = (3, 6, 'US/Pacific')
 ##############################################################################
@@ -107,8 +107,6 @@ BAN = set([
     'Maldita Vecindad Y Los Hijos Del Quinto Patio', 'Enanitos Verdes',
     'Soda Stereo', 'Los Prisioneros', 'Bacilos', 'Alaska y Dinarama', 
     'Duncan Dhu', 'Miguel Mateos', 'Los Enanitos Verdes'
-
-    # 'Elliott Smith', 'Hello Seahorse!'
 ])
 ##############################################################################
 # Countries corrections
