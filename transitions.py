@@ -43,49 +43,22 @@ artsTopSet = set(artsTop)
 # Iterate Through Plays (Generate Transitions Matrix)
 ###############################################################################
 ix = 0
-# tMat = aux.calcWeightedTransitionsMatrix(
-#     DTA_CLN, artsTop,
-#     windowRange=(1, 3), timeThreshold=T_THRESHOLD, verbose=True
-# )
-tMat = np.zeros((TOP, TOP), dtype=np.int_)
-aux.calcTransitionsMatrix(
-    tMat, DTA_CLN, artsTop, 
-    window=2, timeThreshold=T_THRESHOLD, verbose=True
+tMat = aux.calcWeightedTransitionsMatrix(
+    DTA_CLN, artsTop, windowRange=(1, 5), 
+    timeThreshold=T_THRESHOLD, verbose=True
 )
 # Delete self-loops and normalize ---------------------------------------------
 np.fill_diagonal(tMat, 0)
-pMat = tMat.copy()
-row_sums = pMat.sum(axis=1)
-pMat = pMat/row_sums[:, np.newaxis]
+pMat = aux.normalizeMatrix(tMat)
 ###############################################################################
 # Plot
 ###############################################################################
-plt.imshow(tMat, vmin=0, vmax=10)
-plt.show()
-# Chord -----------------------------------------------------------------------
-sub = len(arts)
-its = [
-    ('p', pMat*1000, 180, range(len(artsTop)), 'turbo_r'), 
-    ('t', tMat, 0, list(reversed(range(len(artsTop)))), 'turbo_r')
-]
-(nme, mat, start, order, cmap) = its[0]
-for (nme, mat, start, order, cmap) in its:
-    chord_diagram(
-        mat[:sub,:sub], 
-        names=artsTop, order=order,
-        alpha=.65, pad=.5, gap=0.05, 
-        use_gradient=True,
-        sorts='size', # 'distance', 
-        fontcolor='w', chordwidth=.7, width=0.1, 
-        rotate_names=[True]*TOP,
-        extent=180, fontsize=2.6,
-        cmap=cmap, start_at=start
-    )
-    plt.savefig(
-        path.join(stp.IMG_PATH, nme+'_artChord.png'),
-        dpi=1000, transparent=True #facecolor='w'
-    )
-    plt.close('all')
+plt.imshow(tMat, vmin=0, vmax=150)
+plt.savefig(path.join(stp.IMG_PATH, 't_Matrix.png'), dpi=1000)
+plt.close('all')
+plt.imshow(pMat, vmin=0, vmax=.2)
+plt.savefig(path.join(stp.IMG_PATH, 'p_Matrix.png'), dpi=1000)
+plt.close('all')
 # Chord -----------------------------------------------------------------------
 sub = len(arts)
 its = [
@@ -95,25 +68,19 @@ its = [
 for (nme, mat, start, order, cmap) in its:
     chord_diagram(
         mat[:sub,:sub], 
-        names=artsTop,
-        order=order,
-        alpha=.65, 
-        pad=.5, gap=0.05, 
-        use_gradient=True,
-        sorts='size', # 'distance', 
-        fontcolor='w',
-        chordwidth=.7,
-        width=0.1, 
+        names=artsTop, order=order,
+        alpha=.65, pad=.5, gap=0.05,
+        fontcolor='w', chordwidth=.7, width=0.1, 
         rotate_names=[True]*TOP,
-        fontsize=2.25,
-        extent=360,
-        cmap=cmap,
-        start_at=start
+        extent=360, fontsize=2.25,
+        cmap=cmap, start_at=start,
+        sorts='size', # 'distance', 
+        use_gradient=True
         # directed=True
     )
     plt.savefig(
         path.join(stp.IMG_PATH, nme+'_artChord_r.png'),
-        dpi=1000, transparent=True #facecolor='w'
+        dpi=1000, transparent=False, facecolor='k'
     )
     plt.close('all')
 ###############################################################################

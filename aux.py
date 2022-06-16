@@ -247,10 +247,17 @@ def calcWeightedTransitionsMatrix(
         verbose=False
     ):
     tMat = np.zeros((len(artists), len(artists)), dtype=np.double)
-    for w in range(*windowRange):
+    for w in range(windowRange[0], windowRange[1]+1):
         tmpMat = calcTransitionsMatrix(
             tMat, scrobblesDF, artists,
             window=w, timeThreshold=timeThreshold, verbose=verbose
         )
         tMat = tMat + (tmpMat/w)
     return tMat
+
+
+def normalizeMatrix(matrix):
+    pMat = matrix.copy()
+    row_sums = pMat.sum(axis=1)
+    pMat = pMat/row_sums[:, np.newaxis]
+    return pMat
