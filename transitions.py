@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import aux as aux
 import setup as stp
 
-(TOP, T_THRESHOLD, P_THRESHOLD) = (650, timedelta(minutes=30), 200)
+(TOP, T_THRESHOLD) = (600, timedelta(minutes=30))
 (yLo, yHi) = ((1950, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
@@ -59,6 +59,9 @@ plt.imshow(pMat, vmin=0, vmax=.2)
 plt.savefig(path.join(stp.IMG_PATH, 'p_Matrix.png'), dpi=1000)
 plt.close('all')
 # Chord -----------------------------------------------------------------------
+rvb = aux.colorPaletteFromHexList(
+    ['#ff006e', '#ffffff', '#e0aaff', '#4361ee']
+)
 sub = len(arts)
 its = [
     ('t', tMat, 0, range(len(artsTop)), 'turbo_r'),
@@ -72,7 +75,7 @@ for (nme, mat, start, order, cmap) in its:
         fontcolor='w', chordwidth=.7, width=0.1, 
         rotate_names=[True]*TOP,
         extent=360, fontsize=2.25,
-        cmap=cmap, start_at=start,
+        cmap=rvb, start_at=start,
         sorts='size', # 'distance', 
         use_gradient=True
         # directed=True
@@ -82,6 +85,7 @@ for (nme, mat, start, order, cmap) in its:
         dpi=1000, transparent=False, facecolor='k'
     )
     plt.close('all')
+
 ###############################################################################
 # Nested Block Model
 ###############################################################################
@@ -110,21 +114,22 @@ state = minimize_nested_blockmodel_dl(
 )
 mcmc_anneal(
     state, 
-    beta_range=(1, 2), niter=1000, 
+    beta_range=(1, 5), niter=500, 
     mcmc_equilibrate_args=dict(force_niter=10),
     verbose=True
 )
 # pos = sfdp_layout(g)
 state.draw(
     # pos=pos,
-    vertex_text=v_prop, 
+    # vertex_text=v_prop, 
     vertex_font_size=3,
     ink_scale=1,
     edge_marker_size=0.1,
     edge_pen_width=prop_to_size(weight, 0.075, 1.5, power=1),
     # edge_marker_size=e_size,
     output=path.join(stp.IMG_PATH, 'NSBM.png'), 
-    output_size=(2000, 2000)
+    output_size=(2000, 2000),
+    bg_color='#000000'
 )
 levels = state.get_levels()
 blocks = list(state.get_bs()[0])
@@ -151,7 +156,9 @@ state.print_summary()
 ###############################################################################
 # MCMC Posterior Distribution
 ###############################################################################
-state = NestedBlockState(g, state_args=dict(recs=[weight], rec_types=["real-exponential"]))
+state = NestedBlockState(
+    g, state_args=dict(recs=[weight], rec_types=["real-exponential"])
+)
 dS, nmoves = 0, 0
 for i in range(100):
     ret = state.multiflip_mcmc_sweep(niter=10)
@@ -187,7 +194,8 @@ state.draw(
     edge_marker_size=0.1,
     vertex_pie_fractions=pv,
     output=path.join(stp.IMG_PATH, 'PRTC.png'), 
-    output_size=(2000, 2000)
+    output_size=(2000, 2000),
+    bg_color='#000000'
 )
 ###############################################################################
 # Layout Tests
