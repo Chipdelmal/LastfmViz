@@ -9,8 +9,7 @@ import matplotlib.pyplot as plt
 import aux as aux
 import setup as stp
 
-
-(TOP, T_THRESHOLD, P_THRESHOLD) = (100, timedelta(minutes=30), 200)
+(TOP, T_THRESHOLD) = (600, timedelta(minutes=30))
 (yLo, yHi) = ((1950, 1), (2023, 1))
 yLo = [int(i) for i in yLo]
 yHi = [int(i) for i in yHi]
@@ -60,6 +59,9 @@ plt.imshow(pMat, vmin=0, vmax=.2)
 plt.savefig(path.join(stp.IMG_PATH, 'p_Matrix.png'), dpi=1000)
 plt.close('all')
 # Chord -----------------------------------------------------------------------
+rvb = aux.colorPaletteFromHexList(
+    ['#ff006e', '#ffffff', '#e0aaff', '#4361ee']
+)
 sub = len(arts)
 its = [
     ('t', tMat, 0, range(len(artsTop)), 'turbo_r'),
@@ -73,7 +75,7 @@ for (nme, mat, start, order, cmap) in its:
         fontcolor='w', chordwidth=.7, width=0.1, 
         rotate_names=[True]*TOP,
         extent=360, fontsize=2.25,
-        cmap=cmap, start_at=start,
+        cmap=rvb, start_at=start,
         sorts='size', # 'distance', 
         use_gradient=True
         # directed=True
@@ -83,6 +85,7 @@ for (nme, mat, start, order, cmap) in its:
         dpi=1000, transparent=False, facecolor='k'
     )
     plt.close('all')
+
 ###############################################################################
 # Nested Block Model
 ###############################################################################
@@ -105,12 +108,13 @@ for (i, v) in enumerate(g.vertices()):
 #     e_size = 0.1
 # state = minimize_blockmodel_dl(g)
 # state.draw()
+# Nested SBM ------------------------------------------------------------------
 state = minimize_nested_blockmodel_dl(
     g, state_args=dict(recs=[weight], rec_types=["real-exponential"])
 )
 mcmc_anneal(
     state, 
-    beta_range=(1, 10), niter=1000, 
+    beta_range=(1, 5), niter=500, 
     mcmc_equilibrate_args=dict(force_niter=10),
     verbose=True
 )
@@ -124,7 +128,8 @@ state.draw(
     edge_pen_width=prop_to_size(weight, 0.075, 1.5, power=1),
     # edge_marker_size=e_size,
     output=path.join(stp.IMG_PATH, 'NSBM.png'), 
-    output_size=(2000, 2000)
+    output_size=(2000, 2000),
+    bg_color='#000000'
 )
 levels = state.get_levels()
 blocks = list(state.get_bs()[0])
@@ -151,7 +156,9 @@ state.print_summary()
 ###############################################################################
 # MCMC Posterior Distribution
 ###############################################################################
-state = NestedBlockState(g, state_args=dict(recs=[weight], rec_types=["real-exponential"]))
+state = NestedBlockState(
+    g, state_args=dict(recs=[weight], rec_types=["real-exponential"])
+)
 dS, nmoves = 0, 0
 for i in range(100):
     ret = state.multiflip_mcmc_sweep(niter=10)
@@ -167,8 +174,10 @@ def collect_partitions(s):
    global bs
    bs.append(s.get_bs())
 # Now we collect the marginals for exactly 100,000 sweeps
-mcmc_equilibrate(state, force_niter=10000, mcmc_args=dict(niter=10),
-                    callback=collect_partitions)
+mcmc_equilibrate(
+    state, force_niter=10000, mcmc_args=dict(niter=10),
+    callback=collect_partitions
+)
 # Disambiguate partitions and obtain marginals
 pmode = PartitionModeState(bs, nested=True, converge=True)
 pv = pmode.get_marginal(g)
@@ -180,19 +189,21 @@ state.draw(
     vertex_shape="pie",
     layout="radial",
     ink_scale=1,
-    edge_pen_width=.2,
+    edge_color=weight,
+    edge_pen_width=prop_to_size(weight, .05, 2, power=1, log=False),
     edge_marker_size=0.1,
     vertex_pie_fractions=pv,
     output=path.join(stp.IMG_PATH, 'PRTC.png'), 
-    output_size=(2000, 2000)
+    output_size=(2000, 2000),
+    bg_color='#000000'
 )
 ###############################################################################
 # Layout Tests
 ###############################################################################
-pos = sfdp_layout(g)
+# pos = sfdp_layout(g)
 # pos = radial_tree_layout(g, g.vertex(0))
-graph_draw(
-    g, pos, 
-    #vertex_text=v_prop, font_size=2,
-    output_size=(1000, 1000)
-)
+# graph_draw(
+#     g, pos, 
+#     #vertex_text=v_prop, font_size=2,
+#     output_size=(1000, 1000)
+# )
