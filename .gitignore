@@ -4,6 +4,10 @@
 fonts/*.txt
 fonts/*.pdf
 fonts/other/
+data/
+gis/
+fonts/
+img/
 
 # API Keys
 keys.py
