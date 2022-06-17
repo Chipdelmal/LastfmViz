@@ -110,14 +110,14 @@ state = minimize_nested_blockmodel_dl(
 )
 mcmc_anneal(
     state, 
-    beta_range=(1, 2), niter=1000, 
+    beta_range=(1, 10), niter=1000, 
     mcmc_equilibrate_args=dict(force_niter=10),
     verbose=True
 )
 # pos = sfdp_layout(g)
 state.draw(
     # pos=pos,
-    vertex_text=v_prop, 
+    # vertex_text=v_prop, 
     vertex_font_size=3,
     ink_scale=1,
     edge_marker_size=0.1,
@@ -151,7 +151,7 @@ state.print_summary()
 ###############################################################################
 # MCMC Posterior Distribution
 ###############################################################################
-state = NestedBlockState(g)
+state = NestedBlockState(g, state_args=dict(recs=[weight], rec_types=["real-exponential"]))
 dS, nmoves = 0, 0
 for i in range(100):
     ret = state.multiflip_mcmc_sweep(niter=10)
