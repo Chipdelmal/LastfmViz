@@ -13,7 +13,7 @@ import setup as stp
 if aux.isnotebook():
     (TOP, WRAN) = (100, 1) 
 else:
-    (TOP, WRAN) = argv[1:]
+    (TOP, WRAN) = [int(i) for i in argv[1:]]
 T_THRESHOLD = timedelta(minutes=30)
 ###############################################################################
 # Read Data

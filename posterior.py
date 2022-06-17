@@ -43,7 +43,7 @@ tMat = aux.calcWeightedTransitionsMatrix(
 np.fill_diagonal(tMat, 0)
 pMat = aux.normalizeMatrix(tMat)
 ###############################################################################
-# Nested Block Model
+# MCMC Posterior Distribution
 ###############################################################################
 if ID == 'C':
     mat = tMat
@@ -56,40 +56,7 @@ weight = g.new_edge_property("double")
 edges = list(g.edges())
 for e in edges:
     weight[e] = mat[int(e.source()), int(e.target())]
-# Vertices names --------------------------------------------------------------
-v_prop = g.new_vertex_property("string")
-for (i, v) in enumerate(g.vertices()):
-    v_prop[v] = artsTop[i]
-# Nested SBM ------------------------------------------------------------------
-state = minimize_nested_blockmodel_dl(
-    g, state_args=dict(recs=[weight], rec_types=["real-exponential"])
-)
-mcmc_anneal(
-    state, 
-    beta_range=(1, 10), niter=100, 
-    mcmc_equilibrate_args=dict(force_niter=10),
-    verbose=False
-)
-# pos = sfdp_layout(g)
-fName = 'NSBM{}_{:03d}-{}.png'
-state.draw(
-    # pos=pos,
-    # vertex_text=v_prop, 
-    vertex_font_size=3,
-    ink_scale=1,
-    edge_marker_size=0.1,
-    edge_pen_width=prop_to_size(weight, 0.075, 1.5, power=1),
-    # edge_marker_size=e_size,
-    output=path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)),
-    output_size=(2000, 2000),
-    bg_color='#000000'
-)
-fName = 'NSBM{}_{:03d}-{}.pkl'
-with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
-    pkl.dump(state, handle)
-###############################################################################
-# MCMC Posterior Distribution
-###############################################################################
+# Optimize --------------------------------------------------------------------
 state = NestedBlockState(
     g, state_args=dict(recs=[weight], rec_types=["real-exponential"])
 )
@@ -129,32 +96,3 @@ state.draw(
 fName = 'PRTC{}_{:03d}-{}.pkl'
 with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
     pkl.dump(state, handle)
-###############################################################################
-# Layout Tests and Scrap
-###############################################################################
-# pos = sfdp_layout(g)
-# pos = radial_tree_layout(g, g.vertex(0))
-# graph_draw(
-#     g, pos, 
-#     #vertex_text=v_prop, font_size=2,
-#     output_size=(1000, 1000)
-# )
-#
-# levels = state.get_levels()
-# blocks = list(state.get_bs()[0])
-# # blocks = list(levels[1].get_blocks())
-# mylist = list(zip(artsTop, blocks))
-# values = set(map(lambda x:x[1], mylist))
-# newlist = [[y[0] for y in mylist if y[1]==x] for x in values]
-# newlist
-# state.print_summary()
-# # levels[3].draw(
-# #     # vertex_text=v_prop, 
-# #     # vertex_font_size=3,
-# #     ink_scale=1,
-# #     edge_marker_size=0.1,
-# #     # edge_pen_width=prop_to_size(weight, 0.1, 2, power=1),
-# #     # edge_marker_size=e_size,
-# #     output=path.join(stp.IMG_PATH, 'NSBM.png'), 
-# #     output_size=(1000, 1000)
-# # )
