@@ -7,11 +7,12 @@ from datetime import date, timedelta
 from graph_tool.all import *
 from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
+import seaborn as sns
 import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN) = (100, 1) 
+    (TOP, WRAN) = (100, 5) 
 else:
     (TOP, WRAN) = [int(i) for i in argv[1:]]
 T_THRESHOLD = timedelta(minutes=30)
@@ -25,12 +26,23 @@ DTA_MBZ = pd.read_csv(path.join(stp.DATA_PATH, stp.USR+'_mbz.csv'))
 ###############################################################################
 arts = sorted(list(DTA_CLN['Artist'].unique()))
 (artsNum, playNum) = (len(arts), DTA_CLN.shape[0])
-artsCount = DTA_CLN.groupby('Artist').size().sort_values(ascending=False)
+artsCount = DTA_CLN.groupby('Artist').size().sort_values(ascending=False).to_frame('Count').reset_index()
 ###############################################################################
 # Filter Top
 ###############################################################################
-artsTop = list(artsCount.index)[:TOP]
+artsTop = list(artsCount['Artist'])[:TOP]
 artsTopSet = set(artsTop)
+# Plot Frequency --------------------------------------------------------------
+fName = 'Frequency_{:03d}-{:02d}.png'
+g = sns.catplot(
+    data=artsCount[:TOP], kind="bar",
+    x="Artist", y="Count",
+    height=5, aspect=5, palette="tab20b"
+)
+g.set(yscale="log") 
+g.set_xticklabels(rotation=90, size=5)
+plt.savefig(path.join(stp.IMG_PATH, fName.format(TOP, WRAN)), dpi=1000)
+plt.close()
 ###############################################################################
 # Iterate Through Plays (Generate Transitions Matrix)
 ###############################################################################
@@ -69,7 +81,7 @@ for (nme, mat, start, order, cmap, ids) in its:
         fontcolor='w', chordwidth=.7, width=0.1, 
         rotate_names=[True]*TOP,
         extent=360, fontsize=2.25,
-        cmap=cmap, 
+        cmap=rvb, #cmap, 
         start_at=start,
         sorts='size', # 'distance', 
         use_gradient=True
