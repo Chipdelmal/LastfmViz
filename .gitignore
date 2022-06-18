@@ -8,6 +8,7 @@ data/
 gis/
 fonts/
 img/
+stats/
 
 # API Keys
 keys.py

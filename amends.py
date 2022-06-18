@@ -24,9 +24,10 @@ BAN = set([
     'Charles Darwin', 'Stanislaw Lem', 'Moviepilot Supernews',
     'undefinedPixies', 'undefinedRyan Adams', 'undefinedWilco',
     'The Science of Sleep' 'Fjällräven', 'Hall & Oates', 'Robert L. Forward', 
-    'Stuff You Should Know'
+    'Stuff You Should Know', 'Fjällräven', 
+    'Living Language'
 
-    'Mägo de Oz', 'David Summers',
+    'Mägo de Oz', 'David Summers', 'Los Toreros Muertos', 'Los Enanitos Verdes', 
     'Rata Blanca',  'Hombres G', 'Mecano', 'Ramon Mirabet',
     'Pereza', 'Franco De Vita', 'La Unión',
     'El Tri', 'Café Tacvba', 'Caifanes', 'Nacha Pop',
@@ -42,7 +43,7 @@ SWP_PRE = {
     'Courteeners': {'The Courteeners', 'Courteeners'},
     'Belle & Sebastian': {'Belle & Sebastian', 'Belle and Sebastian'},
     'Ben Folds Five': {'Ben Folds', 'Ben Folds Five'},
-    'Bleachers': {'Bleachers feat. Lucius', 'Bleachers feat. Lucius'},
+    'Bleachers': {'Bleachers feat. Lucius', 'Bleachers feat. Lucius', 'Bleachers feat. Sara Bareilles'},
     'Buddy Holly': {'Buddy Holly & The Crickets'},
     'Caesars': {'Caesars Palace'},
     'Cage the Elephant': {'Cage The Elephant feat. Alison Mosshart'},
@@ -59,6 +60,7 @@ SWP_PRE = {
     'Mystery Jets': {'Mystery Jets feat. Laura Marling'},
     'Passenger': {'Passenger feat. Birdy'},
     'P.J. Olsson': {'PJ Olsson'},
+    'Queen': {'Freddie Mercury'},
     'Ryan Adams': {'Ryan Adams & The Cardinals'},
     'She & Him': {'She & Him feat. the Chapin Sisters'},
     'Sparklehorse': {'Danger Mouse and Sparklehorse feat. Gruff Rhys'},

@@ -68,7 +68,7 @@ for (art, dates) in list(banDict.items()):
 # Amend Artists
 ###############################################################################
 DTA_CLN = aux.replaceForConsistency(DTA_CLN, amd.SWP_PRE, ('Artist', 'Artist'))
-sum(DTA_CLN['Artist']=='Smashing Pumpkins')
+# sum(DTA_CLN['Artist']=='Smashing Pumpkins')
 ###############################################################################
 # Export
 ###############################################################################

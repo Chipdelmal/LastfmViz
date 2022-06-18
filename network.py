@@ -12,10 +12,10 @@ import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (650, 1, 'C') 
+    (TOP, WRAN, ID) = (300, 3, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
-T_THRESHOLD = timedelta(minutes=30)
+T_THRESHOLD = timedelta(minutes=6 0)
 ###############################################################################
 # Read Data
 ###############################################################################
@@ -68,10 +68,10 @@ mcmc_anneal(
     state, 
     beta_range=(1, 10), niter=100, 
     mcmc_equilibrate_args=dict(force_niter=10),
-    verbose=False
+    verbose=True
 )
 # pos = sfdp_layout(g)
-fName = 'NSBM{}_{:03d}-{}.png'
+fName = 'NSBM{}_{:03d}-{:02d}.png'
 state.draw(
     # pos=pos,
     # vertex_text=v_prop, 
@@ -84,51 +84,9 @@ state.draw(
     output_size=(2000, 2000),
     bg_color='#000000'
 )
-fName = 'NSBM{}_{:03d}-{}.pkl'
-with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
-    pkl.dump(state, handle)
-###############################################################################
-# MCMC Posterior Distribution
-###############################################################################
-state = NestedBlockState(
-    g, state_args=dict(recs=[weight], rec_types=["real-exponential"])
-)
-dS, nmoves = 0, 0
-for i in range(100):
-    ret = state.multiflip_mcmc_sweep(niter=10)
-    dS += ret[0]
-    nmoves += ret[1]
-mcmc_equilibrate(state, wait=1000, mcmc_args=dict(niter=10))
-bs = []
-def collect_partitions(s):
-   global bs
-   bs.append(s.get_bs())
-mcmc_equilibrate(
-    state, force_niter=10000, mcmc_args=dict(niter=10),
-    callback=collect_partitions
-)
-pmode = PartitionModeState(bs, nested=True, converge=True)
-pv = pmode.get_marginal(g)
-# Get consensus estimate
-bs = pmode.get_max_nested()
-state = state.copy(bs=bs)
-# We can visualize the marginals as pie charts on the nodes:
-fName = 'PRTC{}_{:03d}-{}.png'
-state.draw(
-    vertex_shape="pie",
-    layout="radial",
-    ink_scale=1,
-    edge_color=weight,
-    edge_pen_width=prop_to_size(weight, .05, 2, power=1, log=False),
-    edge_marker_size=0.1,
-    vertex_pie_fractions=pv,
-    output=path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 
-    output_size=(2000, 2000),
-    bg_color='#000000'
-)
-fName = 'PRTC{}_{:03d}-{}.pkl'
-with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
-    pkl.dump(state, handle)
+# fName = 'NSBM{}_{:03d}-{:02d}.pkl'
+# with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
+#     pkl.dump(state, handle)
 ###############################################################################
 # Layout Tests and Scrap
 ###############################################################################
@@ -141,11 +99,14 @@ with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
 # )
 #
 # levels = state.get_levels()
-# blocks = list(state.get_bs()[0])
-# # blocks = list(levels[1].get_blocks())
-# mylist = list(zip(artsTop, blocks))
-# values = set(map(lambda x:x[1], mylist))
-# newlist = [[y[0] for y in mylist if y[1]==x] for x in values]
+
+blocks = list(state.get_bs()[0])
+mylist = list(zip(artsTop, blocks))
+values = set(map(lambda x:x[1], mylist))
+clusters = [[y[0] for y in mylist if y[1]==x] for x in values]
+clusters
+
+
 # newlist
 # state.print_summary()
 # # levels[3].draw(

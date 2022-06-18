@@ -80,7 +80,7 @@ pv = pmode.get_marginal(g)
 bs = pmode.get_max_nested()
 state = state.copy(bs=bs)
 # We can visualize the marginals as pie charts on the nodes:
-fName = 'PRTC{}_{:03d}-{}.png'
+fName = 'PRTC{}_{:03d}-{:02d}.png'
 state.draw(
     vertex_shape="pie",
     layout="radial",
@@ -93,6 +93,6 @@ state.draw(
     output_size=(2000, 2000),
     bg_color='#000000'
 )
-fName = 'PRTC{}_{:03d}-{}.pkl'
-with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
-    pkl.dump(state, handle)
+# fName = 'PRTC{}_{:03d}-{:02d}.pkl'
+# with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
+#     pkl.dump(state, handle)

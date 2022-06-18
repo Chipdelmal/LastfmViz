@@ -44,7 +44,7 @@ pMat = aux.normalizeMatrix(tMat)
 ###############################################################################
 # Plot
 ###############################################################################
-fName = 'Matrix{}_{:03d}-{}.png'
+fName = 'Matrix{}_{:03d}-{:02d}.png'
 plt.imshow(tMat, vmin=0, vmax=150)
 plt.savefig(path.join(stp.IMG_PATH, fName.format('C', TOP, WRAN)), dpi=1000)
 plt.close('all')
@@ -53,14 +53,14 @@ plt.savefig(path.join(stp.IMG_PATH, fName.format('P', TOP, WRAN)), dpi=1000)
 plt.close('all')
 # Chord -----------------------------------------------------------------------
 rvb = aux.colorPaletteFromHexList(
-    ['#ff006e', '#e0aaff', '#ffffff', '#caffbf', '#4361ee']
+    ['#f72585', '#fdfffc', '#4cc9f0', '#3a0ca3']
 )
 sub = len(arts)
 its = [
     ('t', tMat, 0, range(len(artsTop)), 'turbo_r', 'C'),
     ('p', pMat, 0, range(len(artsTop)), 'turbo_r', 'T')
 ]
-fName = 'Chord{}_{:03d}-{}.png'
+fName = 'Chord{}_{:03d}-{:02d}.png'
 for (nme, mat, start, order, cmap, ids) in its:
     chord_diagram(
         mat[:sub,:sub], 
