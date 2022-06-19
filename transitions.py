@@ -3,10 +3,12 @@ from sys import argv
 from os import path
 import numpy as np
 import pandas as pd
+from math import floor, ceil
 from datetime import date, timedelta
 from graph_tool.all import *
 from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
+from matplotlib import colors
 import seaborn as sns
 import aux as aux
 import setup as stp
@@ -15,7 +17,7 @@ if aux.isnotebook():
     (TOP, WRAN) = (100, 5) 
 else:
     (TOP, WRAN) = [int(i) for i in argv[1:]]
-T_THRESHOLD = timedelta(minutes=30)
+T_THRESHOLD = timedelta(minutes=60)
 ###############################################################################
 # Read Data
 ###############################################################################
@@ -33,15 +35,33 @@ artsCount = DTA_CLN.groupby('Artist').size().sort_values(ascending=False).to_fra
 artsTop = list(artsCount['Artist'])[:TOP]
 artsTopSet = set(artsTop)
 # Plot Frequency --------------------------------------------------------------
-fName = 'Frequency_{:03d}-{:02d}.png'
+fName = 'FrequencyLin_{:03d}-{:02d}.png'
 g = sns.catplot(
     data=artsCount[:TOP], kind="bar",
-    x="Artist", y="Count",
-    height=5, aspect=5, palette="tab20b"
+    x="Artist", y="Count", color='#3a0ca355', dodge=False,
+    height=5, aspect=4, palette="tab20"
 )
+g.set_xticklabels(rotation=90, size=3)
+plt.savefig(
+    path.join(stp.IMG_PATH, fName.format(TOP, WRAN)), 
+    dpi=1000, transparent=False, bbox_inches='tight'
+)
+plt.close()
+# Plot Log-Frequency ----------------------------------------------------------
+fName = 'FrequencyLog_{:03d}-{:02d}.png'
+g = sns.catplot(
+    data=artsCount[:TOP], kind="bar",
+    x="Artist", y="Count", color='#3a0ca355', dodge=False,
+    height=5, aspect=4, palette="tab20"
+)
+# g.set_xlabel("", fontsize=0)
+# g.set_ylabel("Play Count", fontsize=20)
 g.set(yscale="log") 
-g.set_xticklabels(rotation=90, size=5)
-plt.savefig(path.join(stp.IMG_PATH, fName.format(TOP, WRAN)), dpi=1000)
+g.set_xticklabels(rotation=90, size=3)
+plt.savefig(
+    path.join(stp.IMG_PATH, fName.format(TOP, WRAN)), 
+    dpi=1000, transparent=False, bbox_inches='tight'
+)
 plt.close()
 ###############################################################################
 # Iterate Through Plays (Generate Transitions Matrix)
@@ -51,6 +71,7 @@ tMat = aux.calcWeightedTransitionsMatrix(
     timeThreshold=T_THRESHOLD, verbose=True
 )
 # Delete self-loops and normalize ---------------------------------------------
+artDegree = np.sum(tMat, axis=1)+np.sum(tMat, axis=0)
 np.fill_diagonal(tMat, 0)
 pMat = aux.normalizeMatrix(tMat)
 ###############################################################################
@@ -64,9 +85,17 @@ plt.imshow(pMat, vmin=0, vmax=.2)
 plt.savefig(path.join(stp.IMG_PATH, fName.format('P', TOP, WRAN)), dpi=1000)
 plt.close('all')
 # Chord -----------------------------------------------------------------------
-rvb = aux.colorPaletteFromHexList(
-    ['#f72585', '#fdfffc', '#4cc9f0', '#3a0ca3']
+norm = colors.Normalize(
+    vmin=floor(np.min(artDegree)), vmax=ceil(np.max(artDegree)/1.25)
 )
+# rvb = aux.colorPaletteFromHexList(
+#     ['#ff006e', '#fdfffc', '#3a0ca3']
+# )
+rvb = aux.colorPaletteFromHexList(
+    ['#3a0ca3', '#fdfffc']
+)
+cList = [rvb(norm(i)) for i in artDegree]
+
 sub = len(arts)
 its = [
     ('t', tMat, 0, range(len(artsTop)), 'turbo_r', 'C'),
@@ -81,7 +110,8 @@ for (nme, mat, start, order, cmap, ids) in its:
         fontcolor='w', chordwidth=.7, width=0.1, 
         rotate_names=[True]*TOP,
         extent=360, fontsize=2.25,
-        cmap=rvb, #cmap, 
+        colors=cList,
+        # cmap="tab20b", #cmap, 
         start_at=start,
         sorts='size', # 'distance', 
         use_gradient=True
@@ -89,6 +119,6 @@ for (nme, mat, start, order, cmap, ids) in its:
     )
     plt.savefig(
         path.join(stp.IMG_PATH, fName.format(ids, TOP, WRAN)),
-        dpi=1000, transparent=False, facecolor='k'
+        dpi=500, transparent=False, facecolor='k', bbox_inches='tight'
     )
     plt.close('all')
