@@ -91,7 +91,7 @@ state.draw(
     vertex_pie_fractions=pv,
     output=path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 
     output_size=(2000, 2000),
-    bg_color='#000000'
+    bg_color='#ffffff'
 )
 # fName = 'PRTC{}_{:03d}-{:02d}.pkl'
 # with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:

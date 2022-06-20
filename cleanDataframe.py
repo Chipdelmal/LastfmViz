@@ -28,6 +28,10 @@ dteCpy = DTA_CLN['Date'].copy()
 DTA_CLN['Interval'] = pd.to_datetime(dteCpy, errors='coerce', utc=True)
 DTA_CLN['Interval'] = DTA_CLN['Interval'].dt.tz_localize(None).dt.to_period('D')
 ###############################################################################
+# Delete Banned
+###############################################################################
+DTA_CLN = aux.removeBanned(DTA_CLN, label='Artist', bans=amd.BAN)
+###############################################################################
 # Filter by Dates
 ###############################################################################
 (dLo, dHi) = (date(yLo[0], yLo[1], 1), date(yHi[0], yHi[1], 1))
@@ -59,7 +63,7 @@ DTA_CLN.shape
 (art, dates) = list(banDict.items())[0]
 for (art, dates) in list(banDict.items()):
     fltr = (
-        DTA_CLN['Artist']==art, 
+        DTA_CLN['Artist']==art,
         DTA_CLN['Interval'].isin(set(dates))
     )
     fullFilter = list(map(all, zip(*fltr)))

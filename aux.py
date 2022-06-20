@@ -165,8 +165,8 @@ def getCountryFrequencies(mbzData, countryFix, label='Geo_1'):
     return cntryFreq
 
 
-def removeBanned(lastfmData, label='Artist'):
-    return lastfmData[~lastfmData[label].isin(stp.BAN)]
+def removeBanned(lastfmData, label='Artist', bans=stp.BAN):
+    return lastfmData[~lastfmData[label].isin(bans)]
 
 
 def getPlaycount(clnData, label='Artist'):
@@ -274,3 +274,5 @@ def isnotebook():
             return False  # Other type (?)
     except NameError:
         return False      # Probably standard Python interpreter
+
+

@@ -12,10 +12,10 @@ import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (300, 3, 'C') 
+    (TOP, WRAN, ID) = (100, 5, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
-T_THRESHOLD = timedelta(minutes=6 0)
+T_THRESHOLD = timedelta(minutes=60)
 ###############################################################################
 # Read Data
 ###############################################################################
@@ -82,7 +82,7 @@ state.draw(
     # edge_marker_size=e_size,
     output=path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)),
     output_size=(2000, 2000),
-    bg_color='#000000'
+    bg_color='#ffffff'
 )
 # fName = 'NSBM{}_{:03d}-{:02d}.pkl'
 # with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
