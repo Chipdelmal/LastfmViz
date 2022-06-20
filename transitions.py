@@ -7,6 +7,7 @@ from math import floor, ceil, log10
 from datetime import date, timedelta
 from graph_tool.all import *
 from mpl_chord_diagram import chord_diagram
+from discreteMarkovChain import markovChain
 import matplotlib.pyplot as plt
 from matplotlib import colors
 import seaborn as sns
@@ -18,7 +19,7 @@ if aux.isnotebook():
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
-CSCALE = 'Log'
+(CVAR, CSCALE) = ('Self', 'Linear')
 ###############################################################################
 # Read Data
 ###############################################################################
@@ -73,8 +74,11 @@ tMat = aux.calcWeightedTransitionsMatrix(
 )
 # Delete self-loops and normalize ---------------------------------------------
 artDegree = np.sum(tMat, axis=1)+np.sum(tMat, axis=0)
+artDiag = np.diag(tMat, k=0)
 np.fill_diagonal(tMat, 0)
 pMat = aux.normalizeMatrix(tMat)
+
+plt.hist(artDegree)
 ###############################################################################
 # Plot Matrix
 ###############################################################################
@@ -88,22 +92,28 @@ plt.close('all')
 ###############################################################################
 # Chord Diagram
 ###############################################################################
+if CVAR == 'Self':
+    cVar = artDiag
+else:
+    cVar = artDegree
+# Color scale -----------------------------------------------------------------
 if CSCALE == 'Log':
     norm = colors.LogNorm(
-        vmin=floor(np.min(artDegree)), vmax=ceil(np.max(artDegree)/1.25)
+        vmin=floor(np.min(cVar)), vmax=ceil(np.max(cVar))
     )
 else:
     norm = colors.Normalize(
-        vmin=floor(np.min(artDegree)), vmax=ceil(np.max(artDegree)/1.5)
+        vmin=floor(np.min(cVar)), vmax=ceil(np.max(cVar))
     )
+# Colors list -----------------------------------------------------------------
 cList = (
-    ['#04067B', '#cddafd'], 
+    ['#04067B', '#bdedf6'], 
     ['#ff006e', '#fdfffc', '#3a0ca3'], 
     ['#3a0ca3', '#fdfffc']
 )
 rvb = aux.colorPaletteFromHexList(cList[0])
 # Full Plot -------------------------------------------------------------------
-cList = [rvb(norm(i)) for i in artDegree]
+pColors = [rvb(norm(i)) for i in artDiag]
 sub = len(arts)
 fName = 'Chord{}_{:03d}-{:02d}.png'
 if ID == 'C':
@@ -115,19 +125,19 @@ chord_diagram(
     mat[:sub,:sub], 
     names=artsTop, order=order,
     alpha=.65, pad=.5, gap=0.05,
-    fontcolor='w', chordwidth=.7, width=0.1, 
+    fontcolor='k', chordwidth=.7, width=0.1, 
     rotate_names=[True]*TOP,
     extent=360, fontsize=2.25,
-    colors=cList,
-    # cmap="tab20b", #cmap, 
+    colors=pColors,
+    # cmap="tab20b",
     start_at=start,
-    sorts='size', # 'distance', 
+    # sorts='size', # 'distance', 
     use_gradient=True
     # directed=True
 )
 plt.savefig(
     path.join(stp.IMG_PATH, fName.format(ids, TOP, WRAN)),
-    dpi=500, transparent=True, # facecolor='k', 
+    dpi=500, transparent=True, facecolor='w', 
     bbox_inches='tight'
 )
 plt.close('all')
