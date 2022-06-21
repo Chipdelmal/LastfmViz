@@ -9,6 +9,7 @@ gis/
 fonts/
 img/
 stats/
+vid/
 
 # API Keys
 keys.py

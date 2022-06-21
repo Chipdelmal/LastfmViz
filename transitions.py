@@ -13,9 +13,10 @@ from matplotlib import colors
 import seaborn as sns
 import aux as aux
 import setup as stp
+import matplotlib
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (50, 5, 'C') 
+    (TOP, WRAN, ID) = (10, 5, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
