@@ -15,7 +15,7 @@ import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (75, 5, 'C') 
+    (TOP, WRAN, ID) = (50, 5, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
@@ -36,35 +36,26 @@ artsCount = DTA_CLN.groupby('Artist').size().sort_values(ascending=False).to_fra
 ###############################################################################
 artsTop = list(artsCount['Artist'])[:TOP]
 artsTopSet = set(artsTop)
-# Plot Frequency --------------------------------------------------------------
-fName = 'FrequencyLin_{:03d}-{:02d}.png'
-g = sns.catplot(
-    data=artsCount[:TOP], kind="bar",
-    x="Artist", y="Count", color='#3a0ca355', dodge=False,
-    height=5, aspect=4, alpha=.65, # palette="tab20"
+###############################################################################
+# Plot Frequencies
+###############################################################################
+pIts = (
+    ('log', 'FrequencyLog_{:03d}-{:02d}.png'),
+    ('linear', 'FrequencyLin_{:03d}-{:02d}.png')
 )
-g.set_xticklabels(rotation=90, size=3)
-plt.savefig(
-    path.join(stp.IMG_PATH, fName.format(TOP, WRAN)), 
-    dpi=500, transparent=False, bbox_inches='tight'
-)
-plt.close()
-# Plot Log-Frequency ----------------------------------------------------------
-fName = 'FrequencyLog_{:03d}-{:02d}.png'
-g = sns.catplot(
-    data=artsCount[:TOP], kind="bar",
-    x="Artist", y="Count", color='#3a0ca355', dodge=False,
-    height=5, aspect=4, alpha=.65,# palette="tab20"
-)
-# g.set_xlabel("", fontsize=0)
-# g.set_ylabel("Play Count", fontsize=20)
-g.set(yscale="log") 
-g.set_xticklabels(rotation=90, size=3)
-plt.savefig(
-    path.join(stp.IMG_PATH, fName.format(TOP, WRAN)), 
-    dpi=500, transparent=False, bbox_inches='tight'
-)
-plt.close()
+for (yScale, fName) in pIts:
+    g = sns.catplot(
+        data=artsCount[:TOP], kind="bar",
+        x="Artist", y="Count", color='#3a0ca355', dodge=False,
+        height=5, aspect=4, alpha=.65
+    )
+    g.set(yscale=yScale) 
+    g.set_xticklabels(rotation=90, size=3)
+    plt.savefig(
+        path.join(stp.IMG_PATH, fName.format(TOP, WRAN)), 
+        dpi=500, transparent=False, bbox_inches='tight'
+    )
+    plt.close()
 ###############################################################################
 # Iterate Through Plays (Generate Transitions Matrix)
 ###############################################################################
@@ -72,16 +63,17 @@ tMat = aux.calcWeightedTransitionsMatrix(
     DTA_CLN, artsTop, windowRange=(1, WRAN), 
     timeThreshold=T_THRESHOLD, verbose=True
 )
-# Delete self-loops and normalize ---------------------------------------------
+# Get diagonals for colors ----------------------------------------------------
 artDegree = np.sum(tMat, axis=1)+np.sum(tMat, axis=0)
-pMatNZ = np.diag(aux.normalizeMatrix(tMat), k=0)
-artDiag = np.diag(pMatNZ.copy(), k=0)
+artSelfP = np.diag(aux.normalizeMatrix(tMat), k=0)
+artDiag = np.diag(tMat.copy(), k=0)
+# Delete self-loops and normalize ---------------------------------------------
 np.fill_diagonal(tMat, 0)
 pMat = aux.normalizeMatrix(tMat)
 # plt.hist(artDegree)
 # plt.yscale('linear')
 ###############################################################################
-# Plot Matrix
+# Plot Matrices
 ###############################################################################
 fName = 'Matrix{}_{:03d}-{:02d}.png'
 plt.imshow(tMat, vmin=0, vmax=150)
@@ -96,7 +88,7 @@ plt.close('all')
 if CVAR == 'Self':
     cVar = artDiag
 elif CVAR == 'PSelf':
-    cVar = pMatNZ
+    cVar = artSelfP
 else:
     cVar = artDegree
 # Color scale -----------------------------------------------------------------
@@ -132,11 +124,8 @@ chord_diagram(
     rotate_names=[True]*TOP,
     extent=360, fontsize=2.25,
     colors=pColors,
-    # cmap="tab20b",
     start_at=start,
-    # sorts='size', # 'distance', 
     use_gradient=True
-    # directed=True
 )
 plt.savefig(
     path.join(stp.IMG_PATH, fName.format(ids, TOP, WRAN)),
