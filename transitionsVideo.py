@@ -33,28 +33,28 @@ cList = (
 DTA_CLN = pd.read_csv(path.join(stp.DATA_PATH, stp.USR+'_fxd.csv'), parse_dates=[3])
 DTA_MBZ = pd.read_csv(path.join(stp.DATA_PATH, stp.USR+'_mbz.csv'))
 ###############################################################################
-# Setup Structures
-###############################################################################
-arts = sorted(list(DTA_CLN['Artist'].unique()))
-(artsNum, playNum) = (len(arts), DTA_CLN.shape[0])
-artsCount = DTA_CLN.groupby('Artist').size().sort_values(ascending=False).to_frame('Count').reset_index()
-###############################################################################
-# Filter Top
-###############################################################################
-artsTop = list(artsCount['Artist'])[:TOP]
-artsTopSet = set(artsTop)
-###############################################################################
 # Iterate through months
 ###############################################################################
 dteMax = max(DTA_CLN['Date'])
 months = ceil((date(dteMax.year, dteMax.month, 1) - dteLo).days/30)
-m=10
-for m in range(10, months):
+m=24
+for m in range(24, months):
     print('Iter: {:04d}/{:04d}'.format(m+1, months))
+    ###############################################################################
+    # Filter Dates
+    ############################################################################### 
     msk = [((i.date() >= dteLo) and (i.date() <= dteLo+relativedelta(months=m))) 
         if (type(i) is not float) else (False) for i in DTA_CLN['Date']
     ]
     data = DTA_CLN.loc[msk]
+    ###############################################################################
+    # Filter Top
+    ###############################################################################
+    arts = sorted(list(data['Artist'].unique()))
+    (artsNum, playNum) = (len(arts), data.shape[0])
+    artsCount = data.groupby('Artist').size().sort_values(ascending=False).to_frame('Count').reset_index()
+    artsTop = list(artsCount['Artist'])[:TOP]
+    artsTopSet = set(artsTop)
     ###############################################################################
     # Iterate Through Plays (Generate Transitions Matrix)
     ###############################################################################
@@ -96,20 +96,23 @@ for m in range(10, months):
     else:
         its = ('p', pMat, 0, range(len(artsTop)), 'turbo_r', 'T')
     (nme, mat, start, order, cmap, ids) = its
+    # fig, ax = plt.subplots(figsize=(12, 6))
     chord_diagram(
         mat[:sub,:sub], 
         names=artsTop, order=order,
         alpha=.65, pad=.5, gap=0.05,
         fontcolor='k', chordwidth=.7, width=0.1, 
         rotate_names=[True]*TOP,
-        extent=360, fontsize=2.25,
+        extent=360, fontsize=3,
         colors=pColors,
         start_at=start,
         use_gradient=True
     )
+    plt.xlim(-1.5, 1.5)
+    plt.ylim(-1.5, 1.5)
     plt.savefig(
         path.join(stp.VID_PATH, fName.format(ids, TOP, WRAN, m)),
-        dpi=350, transparent=True, facecolor='w', 
-        bbox_inches='tight'
+        dpi=350, transparent=True, facecolor='w', pad_inches=0.25
+        # bbox_inches='tight'
     )
     plt.close('all')
