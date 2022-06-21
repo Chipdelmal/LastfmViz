@@ -15,11 +15,11 @@ import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (50, 5, 'C') 
+    (TOP, WRAN, ID) = (75, 5, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
-(CVAR, CSCALE) = ('Self', 'Log')
+(CVAR, CSCALE) = ('PSelf', 'Linear')
 ###############################################################################
 # Read Data
 ###############################################################################
@@ -74,7 +74,8 @@ tMat = aux.calcWeightedTransitionsMatrix(
 )
 # Delete self-loops and normalize ---------------------------------------------
 artDegree = np.sum(tMat, axis=1)+np.sum(tMat, axis=0)
-artDiag = np.diag(tMat.copy(), k=0)
+pMatNZ = np.diag(aux.normalizeMatrix(tMat), k=0)
+artDiag = np.diag(pMatNZ.copy(), k=0)
 np.fill_diagonal(tMat, 0)
 pMat = aux.normalizeMatrix(tMat)
 # plt.hist(artDegree)
@@ -94,16 +95,18 @@ plt.close('all')
 ###############################################################################
 if CVAR == 'Self':
     cVar = artDiag
+elif CVAR == 'PSelf':
+    cVar = pMatNZ
 else:
     cVar = artDegree
 # Color scale -----------------------------------------------------------------
 if CSCALE == 'Log':
     norm = colors.LogNorm(
-        vmin=floor(np.min(cVar)), vmax=ceil(np.max(cVar))
+        vmin=np.min(cVar), vmax=np.max(cVar)
     )
 else:
     norm = colors.Normalize(
-        vmin=floor(np.min(cVar)), vmax=ceil(np.max(cVar))
+        vmin=np.min(cVar), vmax=np.max(cVar)
     )
 # Colors list -----------------------------------------------------------------
 cList = (
@@ -113,7 +116,7 @@ cList = (
 )
 rvb = aux.colorPaletteFromHexList(cList[0])
 # Full Plot -------------------------------------------------------------------
-pColors = [rvb(norm(i)) for i in artDiag]
+pColors = [rvb(norm(i)) for i in cVar]
 sub = len(arts)
 fName = 'Chord{}_{:03d}-{:02d}.png'
 if ID == 'C':
