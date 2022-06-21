@@ -201,13 +201,13 @@ def chord_modded(mat, names=None, order=None, width=0.1, pad=2., gap=0.03,
                 angle  = np.average(arc[i])
                 rotate = 90
 
-                # if 90 < angle < 180 or 270 < angle:
-                #     rotate = -90
+                if 90 < angle < 180 or 270 < angle:
+                    rotate = -90
 
-                # if 90 < angle < 270:
-                #     pp["ha"] = "right"
-                # else:
-                #     pp["ha"] = "left"
+                if 90 < angle < 270:
+                    pp["ha"] = "right"
+                else:
+                    pp["ha"] = "left"
             elif r:
                 pp["va"] = "top"
             else:

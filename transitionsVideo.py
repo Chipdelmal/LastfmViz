@@ -44,7 +44,8 @@ for m in range(24, months):
     ###############################################################################
     # Filter Dates
     ############################################################################### 
-    msk = [((i.date() >= dteLo) and (i.date() <= dteLo+relativedelta(months=m))) 
+    dteHi = dteLo+relativedelta(months=m)
+    msk = [((i.date() >= dteLo) and (i.date() <= dteHi)) 
         if (type(i) is not float) else (False) for i in DTA_CLN['Date']
     ]
     data = DTA_CLN.loc[msk]
@@ -97,35 +98,30 @@ for m in range(24, months):
     else:
         its = ('p', pMat, 0, range(len(artsTop)), 'turbo_r', 'T')
     (nme, mat, start, order, cmap, ids) = its
-    # fig, ax = plt.subplots(figsize=(12, 6))
-    # chord_diagram(
-    #     mat[:sub,:sub], 
-    #     names=artsTop, order=order,
-    #     alpha=.65, pad=.5, gap=0.05,
-    #     fontcolor='k', chordwidth=.7, width=0.1, 
-    #     rotate_names=[True]*TOP,
-    #     extent=360, fontsize=3,
-    #     colors=pColors,
-    #     start_at=start,
-    #     use_gradient=True
-    # )
     ax = chord_modded(
         mat[:sub,:sub], 
         names=artsTop, order=order,
         alpha=.65, pad=.5, gap=0.05,
         fontcolor='k', chordwidth=.7, width=0.1, 
         rotate_names=[True]*TOP,
-        extent=360, fontsize=3,
+        extent=360, fontsize=2.5,
         colors=pColors,
         start_at=start,
         use_gradient=True
     )
-    ax.set_xlim(-2.75, 2.75)
-    ax.set_ylim(-2.75, 2.75)
-    # ax.axis('on')
+    ax.set_xlim(-2, 2)
+    ax.set_ylim(-2, 2)
+    label = '{:02d}/{:04d}'.format(dteHi.month, dteHi.year)
+    ax.text(
+        0.5, 0.5, label, alpha=.2, fontsize=8, color='#6c757d',
+        horizontalalignment='center', 
+        verticalalignment='center', 
+        transform=ax.transAxes
+    )
+    ax.axis('off')
     plt.savefig(
         path.join(stp.VID_PATH, fName.format(ids, TOP, WRAN, m)),
-        dpi=350, transparent=True, facecolor='w', # pad_inches=0.5,
+        dpi=500, transparent=True, facecolor='w', # pad_inches=0.5,
         bbox_inches='tight'
     )
     plt.close('all')
