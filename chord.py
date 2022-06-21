@@ -1,4 +1,6 @@
 """
+NOT MY CODE!!!!!!!!!
+
 Extended from: https://github.com/tfardet/mpl_chord_diagram/blob/main/chord_diagram.py
 Tools to draw a chord diagram in python
 """
