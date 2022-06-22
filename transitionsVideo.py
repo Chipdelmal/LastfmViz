@@ -37,14 +37,17 @@ DTA_MBZ = pd.read_csv(path.join(stp.DATA_PATH, stp.USR+'_mbz.csv'))
 # Iterate through months
 ###############################################################################
 dteMax = max(DTA_CLN['Date'])
+days = ceil((date(dteMax.year, dteMax.month, 1) - dteLo).days)
 months = ceil((date(dteMax.year, dteMax.month, 1) - dteLo).days/30)
 m=24
-for m in range(24, months):
-    print('Iter: {:04d}/{:04d}'.format(m, months-1))
+#for m in range(24, months):
+for d in range(12*30, days):
+    print('Iter: {:04d}/{:04d}'.format(d, days-1))
     ###############################################################################
     # Filter Dates
     ############################################################################### 
-    dteHi = dteLo+relativedelta(months=m)
+    # dteHi = dteLo+relativedelta(months=m)
+    dteHi = dteLo+relativedelta(days=d)
     msk = [((i.date() >= dteLo) and (i.date() <= dteHi)) 
         if (type(i) is not float) else (False) for i in DTA_CLN['Date']
     ]
@@ -92,7 +95,6 @@ for m in range(24, months):
     # Full Plot -------------------------------------------------------------------
     pColors = [rvb(norm(i)) for i in cVar]
     sub = len(arts)
-    fName = 'Chord{}_{:03d}-{:02d}_{:05d}.png'
     if ID == 'C':
         its = ('t', tMat, 0, range(len(artsTop)), 'turbo_r', 'C')
     else:
@@ -119,8 +121,9 @@ for m in range(24, months):
     #     transform=ax.transAxes, zorder=10
     # )
     ax.axis('off')
+    fName = 'Chord{}_{:03d}-{:02d}_{:06d}.png'
     plt.savefig(
-        path.join(stp.VID_PATH, fName.format(ids, TOP, WRAN, m)),
+        path.join(stp.VID_PATH, fName.format(ids, TOP, WRAN, d)),
         dpi=500, transparent=True, facecolor='w', # pad_inches=0.5,
         bbox_inches='tight'
     )
