@@ -112,12 +112,12 @@ for m in range(24, months):
     ax.set_xlim(-2, 2)
     ax.set_ylim(-2, 2)
     label = '{:02d}/{:04d}'.format(dteHi.month, dteHi.year)
-    ax.text(
-        0.5, 0.5, label, alpha=.2, fontsize=8, color='#6c757d',
-        horizontalalignment='center', 
-        verticalalignment='center', 
-        transform=ax.transAxes
-    )
+    # ax.text(
+    #     0.5, 0.5, label, alpha=.5, fontsize=16, color='#ffffff',
+    #     horizontalalignment='center', 
+    #     verticalalignment='center', 
+    #     transform=ax.transAxes, zorder=10
+    # )
     ax.axis('off')
     plt.savefig(
         path.join(stp.VID_PATH, fName.format(ids, TOP, WRAN, m)),

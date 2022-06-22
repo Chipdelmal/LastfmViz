@@ -13,10 +13,9 @@ from matplotlib import colors
 import seaborn as sns
 import aux as aux
 import setup as stp
-import matplotlib
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (10, 5, 'C') 
+    (TOP, WRAN, ID) = (350, 5, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
@@ -47,8 +46,8 @@ pIts = (
 for (yScale, fName) in pIts:
     g = sns.catplot(
         data=artsCount[:TOP], kind="bar",
-        x="Artist", y="Count", color='#3a0ca355', dodge=False,
-        height=5, aspect=4, alpha=.65
+        x="Artist", y="Count", color='#6C6EE5', dodge=False,
+        height=5, aspect=4, alpha=.35
     )
     g.set(yscale=yScale) 
     g.set_xticklabels(rotation=90, size=3)
