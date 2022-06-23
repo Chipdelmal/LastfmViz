@@ -122,8 +122,3 @@ clusters
 # #     output=path.join(stp.IMG_PATH, 'NSBM.png'), 
 # #     output_size=(1000, 1000)
 # # )
-
-
-mc = MarkovChain(markovMat, state_values=artsTop)
-['{}: {}'.format(a, p) for (a, p) in zip(artsTop, mc.stationary_distributions[0])]
-mc.simulate(ts_length=100, init='The Fratellis')
