@@ -12,7 +12,7 @@ import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (300, 5, 'C') 
+    (TOP, WRAN, ID) = (300, 10, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
@@ -41,13 +41,6 @@ tMat = aux.calcWeightedTransitionsMatrix(
 )
 markovMat = aux.normalizeMatrix(tMat)
 ###############################################################################
-# Markov
-###############################################################################
-mc = MarkovChain(markovMat, state_values=artsTop)
-ss = mc.stationary_distributions[0]
-ssPrint = ['{}: {}'.format(a, p) for (a, p) in zip(artsTop, ss)]
-mc.simulate(ts_length=100, init='Courteeners')
-###############################################################################
 # Get Song Counts
 ###############################################################################
 art = artsTop[0]
@@ -59,5 +52,25 @@ for art in artsTop:
     countsNormalized = counts/sum(counts)
     countsDict = {s:n for (s, n) in zip(list(songCounts.keys()), countsNormalized)}
     artsSongDict[art] = countsDict
+###############################################################################
+# Markov
+###############################################################################
+mc = MarkovChain(markovMat, state_values=artsTop)
+ss = mc.stationary_distributions[0]
+ssPrint = ['{}: {}'.format(a, p) for (a, p) in zip(artsTop, ss)]
+###############################################################################
+# Simulate Trace
+###############################################################################
+songsNumber = 20
+sChain = mc.simulate(ts_length=songsNumber, init='Courteeners')
 
-
+playlist = []
+ca = sChain[0]
+for ca in sChain:
+    (songs, probs) = (
+        list(artsSongDict[ca].keys()), 
+        list(artsSongDict[ca].values())
+    )
+    six = np.random.choice(len(probs), 1, p=probs)[0]
+    playlist.append((ca, songs[six]))
+playlist

@@ -69,7 +69,7 @@ state = minimize_nested_blockmodel_dl(
 )
 mcmc_anneal(
     state, 
-    beta_range=(1, 20), niter=100, 
+    beta_range=(1, 20), niter=200, 
     mcmc_equilibrate_args=dict(force_niter=10),
     verbose=True
 )

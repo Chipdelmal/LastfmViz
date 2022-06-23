@@ -12,7 +12,7 @@ import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (300, 1, 'C') 
+    (TOP, WRAN, ID) = (300, 5, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=30)
