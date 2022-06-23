@@ -8,11 +8,13 @@ from datetime import date, timedelta
 from graph_tool.all import *
 from mpl_chord_diagram import chord_diagram
 import matplotlib.pyplot as plt
+from discreteMarkovChain import markovChain
+from quantecon import MarkovChain
 import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (100, 5, 'C') 
+    (TOP, WRAN, ID) = (300, 5, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
@@ -40,6 +42,7 @@ tMat = aux.calcWeightedTransitionsMatrix(
     timeThreshold=T_THRESHOLD, verbose=True
 )
 # Delete self-loops and normalize ---------------------------------------------
+markovMat = aux.normalizeMatrix(tMat)
 np.fill_diagonal(tMat, 0)
 pMat = aux.normalizeMatrix(tMat)
 ###############################################################################
@@ -66,7 +69,7 @@ state = minimize_nested_blockmodel_dl(
 )
 mcmc_anneal(
     state, 
-    beta_range=(1, 10), niter=100, 
+    beta_range=(1, 20), niter=100, 
     mcmc_equilibrate_args=dict(force_niter=10),
     verbose=True
 )
@@ -82,7 +85,7 @@ state.draw(
     # edge_marker_size=e_size,
     output=path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)),
     output_size=(2000, 2000),
-    bg_color='#ffffff'
+    bg_color='#000000'
 )
 # fName = 'NSBM{}_{:03d}-{:02d}.pkl'
 # with open(path.join(stp.IMG_PATH, fName.format(ID, TOP, WRAN)), 'wb') as handle:
@@ -119,3 +122,8 @@ clusters
 # #     output=path.join(stp.IMG_PATH, 'NSBM.png'), 
 # #     output_size=(1000, 1000)
 # # )
+
+
+mc = MarkovChain(markovMat, state_values=artsTop)
+['{}: {}'.format(a, p) for (a, p) in zip(artsTop, mc.stationary_distributions[0])]
+mc.simulate(ts_length=100, init='The Fratellis')
