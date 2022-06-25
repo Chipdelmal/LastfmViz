@@ -12,7 +12,7 @@ import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (300, 10, 'C') 
+    (TOP, WRAN, ID) = (150, 5, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
@@ -61,9 +61,9 @@ ssPrint = ['{}: {}'.format(a, p) for (a, p) in zip(artsTop, ss)]
 ###############################################################################
 # Simulate Trace
 ###############################################################################
-songsNumber = 20
-sChain = mc.simulate(ts_length=songsNumber, init='Courteeners')
-
+songsNumber = 15
+sChain = mc.simulate(ts_length=songsNumber, init='Caamp')
+# Generate a random playlist --------------------------------------------------
 playlist = []
 ca = sChain[0]
 for ca in sChain:
@@ -71,6 +71,15 @@ for ca in sChain:
         list(artsSongDict[ca].keys()), 
         list(artsSongDict[ca].values())
     )
-    six = np.random.choice(len(probs), 1, p=probs)[0]
-    playlist.append((ca, songs[six]))
+    if len(songs) > 0:
+        six = np.random.choice(len(probs), 1, p=probs)[0]
+        playlist.append((ca, songs[six]))
+        # Remove from the pool for no repetitions -----------------------------
+        songs.pop(six); probs.pop(six)
+        normProbs = np.asarray(probs)/sum(probs)
+        artsSongDict[ca]= {s:p for (s, p) in zip(songs, normProbs)}
 playlist
+
+
+
+

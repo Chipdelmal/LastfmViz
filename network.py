@@ -14,7 +14,7 @@ import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (300, 5, 'C') 
+    (TOP, WRAN, ID) = (350, 5, 'C') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
@@ -69,7 +69,7 @@ state = minimize_nested_blockmodel_dl(
 )
 mcmc_anneal(
     state, 
-    beta_range=(1, 20), niter=200, 
+    beta_range=(1, 30), niter=200, 
     mcmc_equilibrate_args=dict(force_niter=10),
     verbose=True
 )
