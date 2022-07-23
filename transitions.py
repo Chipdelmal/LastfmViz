@@ -15,7 +15,7 @@ import aux as aux
 import setup as stp
 
 if aux.isnotebook():
-    (TOP, WRAN, ID) = (350, 5, 'C') 
+    (TOP, WRAN, ID) = (100, 5, 'T') 
 else:
     (TOP, WRAN, ID) = (int(argv[1]), int(argv[2]), argv[3])
 T_THRESHOLD = timedelta(minutes=60)
@@ -129,7 +129,7 @@ chord_diagram(
 )
 plt.savefig(
     path.join(stp.IMG_PATH, fName.format(ids, TOP, WRAN)),
-    dpi=500, transparent=True, facecolor='w', 
+    dpi=750, transparent=True, facecolor='w', 
     bbox_inches='tight'
 )
 plt.close('all')
