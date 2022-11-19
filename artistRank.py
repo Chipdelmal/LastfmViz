@@ -6,11 +6,12 @@ import datetime
 import setup as stp
 import pandas as pd
 import numpy as np
+from scipy import interpolate
 import matplotlib.pylab as ply
 import matplotlib.pyplot as plt
 
 
-RANKS = 20
+RANKS = 25
 artistsSetBool = False
 
 (WIDTH, HEIGHT, RESOLUTION) = (1920, 1920, 500)
@@ -21,9 +22,11 @@ yHi = [int(i) for i in yHi]
 artistsSet = {
     'Caamp', 'Courteeners', 'The Vaccines', 'The Smashing Pumpkins', 'Interpol',
     'The National', 'Radiohead', 'Kashmir', 'The Temper Trap',
-    'Nirvana', 'Oasis', 'Band of Horses', 
+    'Nirvana', 'Oasis', 'Band of Horses', 'Houndmouth'
 }
-highlight = {'Camera Obscura', }
+highlight = {
+    'Radiohead', 'The Smashing Pumpkins', 'The Cure', 'Nirvana', 'Kashmir'
+}
 ##############################################################################
 # Read artists file
 ##############################################################################
@@ -60,7 +63,10 @@ dfCounts = dfTable.replace(np.nan,0)
 # Rolling
 ##############################################################################
 (WIN_W, WIN_M) = (12, 12)
-dfCountsR = dfCounts.rolling(window=WIN_W, axis=1, min_periods=WIN_M).mean()
+dfCountsR = dfCounts.rolling(
+    window=WIN_W, min_periods=WIN_M,
+    axis=1, # win_type='gaussian',
+).mean() # std=3)
 ##############################################################################
 # Rank
 ##############################################################################
@@ -76,8 +82,8 @@ cmap = aux.colorPaletteFromHexList([
     '#33a1fd', '#5465ff', '#f0a6ca', '#ff499e', 
     '#b79ced', '#aaf683', '#ffffff'
 ])
-(aspect, fontSize, lw) = (.3, 7.5, 1.5)
-(hiCol, loCol) = (.85, .125)
+(aspect, fontSize, lw) = (.2, 5, 1.75)
+(hiCol, loCol) = (.85, .15)
 (ySpace, colors) = (1, cmap(np.linspace(0, 1, len(artists))))
 # random.shuffle(colors)
 xExtend = 4
@@ -101,12 +107,19 @@ for i in range(len(artists)):
     colors[i][-1] = loCol
     if artists[i] in highlight:
         colors[i][-1] = hiCol
+    # plt.plot(
+    #     t, z,
+    #     lw=lw, color=colors[i],
+    #     marker='.', markersize=0,
+    #     solid_joinstyle='round',
+    #     solid_capstyle='butt'
+    # )
+    x = np.arange(y.shape[0])
+    x, y = add_widths(x, y, width=0.1)
+    xs = np.linspace(0, x[-1], num=1024)
     plt.plot(
-        t, z,
-        lw=lw, color=colors[i],
-        marker='.', markersize=0,
-        solid_joinstyle='round',
-        solid_capstyle='butt'
+        xs, interpolate.pchip(x, y)(xs), 
+        lw=lw, color=colors[i]
     )
 ax.vlines(
     years, 0, 1, 
@@ -128,11 +141,11 @@ for (art, pos) in zip(artistsT0, ranksTF):
         len(dates)-1+xExtend+1, RANKS-ySpace*(int(pos)-1)-ySpace*.2, art, 
         ha='left', color='w', fontsize=fontSize
     )
-ax.set_aspect(aspect/ax.get_data_ratio(), adjustable='box')
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 ax.spines['bottom'].set_visible(False)
 ax.spines['left'].set_visible(False)
+ax.set_facecolor('k')
 ax.get_xaxis().set_ticks(years)
 a = ax.get_xticks().tolist()
 years = np.arange(int(dteTicks[0]), int(dteTicks[-1])+1, 1)
@@ -143,11 +156,12 @@ ax.get_yaxis().set_ticks([])
 ax.spines['bottom'].set_color('white')
 ax.tick_params(axis='x', colors='white')
 ax.set_xlim(ax.get_xlim()[0], len(dates)-1+xExtend)
+ax.set_aspect(aspect/ax.get_data_ratio(), adjustable='box')
 plt.savefig(
     stp.IMG_PATH + 'artistsRank.png',
-    dpi=RESOLUTION, orientation='portrait', papertype=None, format=None,
+    dpi=RESOLUTION, orientation='portrait', format=None,
     facecolor='k', edgecolor='w',
     transparent=True,
     bbox_inches='tight', pad_inches=0, metadata=None
 )
-plt.close('all')
+# plt.close('all')
