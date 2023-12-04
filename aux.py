@@ -188,17 +188,25 @@ def parseFromMusicbrainz(clnData):
         mbWriter.writerow(header)
         with open(FILE_PATH + '_dbg.txt', 'w') as out:
             for (i, art) in enumerate(artists):
-                # Parse musicbranz database
-                info = getArtistInfo(art, topGenres=stp.TOP_GENRES)
-                info = geocodeEntries(info)
-                # print(info)
-                mbWriter.writerow(info)
-                txt = '\tParsed: {}/{}: {} [{} - {}]'.format(
-                    str(i+1).zfill(3), str(artNum).zfill(3), 
-                    art, info[0], info[1]
-                )
-                print(txt)
-                out.write(txt + '\n')
+                try:
+                    # Parse musicbranz database
+                    info = getArtistInfo(art, topGenres=stp.TOP_GENRES)
+                    info = geocodeEntries(info)
+                    # print(info)
+                    mbWriter.writerow(info)
+                    txt = '\tParsed: {}/{}: {} [{} - {}]'.format(
+                        str(i+1).zfill(3), str(artNum).zfill(3), 
+                        art, info[0], info[1]
+                    )
+                    print(txt)
+                    out.write(txt + '\n')
+                except:
+                    txt = '\tError: {}/{}: {}'.format(
+                        str(i+1).zfill(3), str(artNum).zfill(3), 
+                        art
+                    )
+                    print(txt)
+                    out.write(txt + '\n')
             # print('\t- Parsed: {0}/{1}'.format(i+1, artNum), end='\r')
     # print('Finished!                      ')
 

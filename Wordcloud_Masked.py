@@ -18,7 +18,7 @@ import numpy as np
 from itertools import compress
 from sys import argv
 
-(CTRY_CODE, bkg, transpBG) = ('CAN', 1, True)
+(CTRY_CODE, bkg, transpBG) = ('US', 1, True)
 # (CTRY_CODE, bkg, transpBG) = (argv[1], 1, True)
 print('* Masking {}'.format(CTRY_CODE))
 ##############################################################################
@@ -73,14 +73,14 @@ outPath = stp.IMG_PATH + 'MAP_' + CTRY_CODE + '.png'
 if transpBG:
     plt.savefig(
             outPath,
-            dpi=RESOLUTION, orientation='portrait', papertype=None, format=None,
+            dpi=RESOLUTION, orientation='portrait', format=None,
             transparent=True,
             bbox_inches='tight', pad_inches=.1, metadata=None
         )
 else:
     plt.savefig(
             outPath,
-            dpi=RESOLUTION, orientation='portrait', papertype=None, format=None,
+            dpi=RESOLUTION, orientation='portrait', format=None,
             facecolor='k', edgecolor='k',
             transparent=True,
             bbox_inches='tight', pad_inches=.1, metadata=None
